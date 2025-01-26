@@ -4,7 +4,7 @@ Bienvenue dans **Slither Link**, un jeu de logique où vous devrez relever des d
 
 ---
 
-# 🎮 Contributors
+# Contributors
 
 Personnes ayant contribuées au projet:
 -François LEPINE (Documentaliste)
@@ -52,6 +52,6 @@ Pour profiter pleinement de l'application, assurez-vous d'avoir :
 ## 🚀 lancement
 
 1. Installez le dépot GITHUB.
-2. Installez le .jar puis le lancer:
+2. Installez le .jar dans le fichier target puis le lancer:
    ```bash
    java -jar SliterLink.jar
