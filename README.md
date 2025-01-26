@@ -7,13 +7,14 @@ Bienvenue dans **Slither Link**, un jeu de logique où vous devrez relever des d
 # Contributors
 
 Personnes ayant contribuées au projet:
--François LEPINE (Documentaliste)
--Lenny BORRY
--Ayoub LAARIBI
--Quentin COMTE
--Dimitri BOUGLE
--Basma CHADLI
--Patrick PASTOURET (Chef de projet)
+
+- François LEPINE (Documentaliste)
+- Lenny BORRY
+- Ayoub LAARIBI
+- Quentin COMTE
+- Dimitri BOUGLE
+- Basma CHADLI
+- Patrick PASTOURET (Chef de projet)
 
 ---
 
