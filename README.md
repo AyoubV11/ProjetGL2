@@ -1,57 +1,57 @@
-# ProjetGL2
+# 🎮 Slither Link - Un jeu de logique captivant
 
-Formation : Licence 3 Informatique, Le Mans Université
+Bienvenue dans **Slither Link**, un jeu de logique où vous devrez relever des défis et résoudre des grilles complexes tout en profitant d’une expérience fluide et intuitive ! Ce projet a été développé dans le cadre du module *Génie Logiciel 2* à **Le Mans Université**.
 
-Le projet CarGame a été developpé dans le cadre de notre module conduite de projet. CarGame est un jeu developpé en C, le but principal du jeu est de parcourir la distance la plus longue tout en  ́evitant les differents obstacles sur la route avec les flèches directionnelles du clavier , plus la distance parcourue augmente plus les obstacles apparaissent plus rapidement. Cependant si la voiture entre en collision avec un obstacle alors la partie est perdue, les joueurs auront l'opportunité de  relancer une partie avec la difficulté de leurs choix, Easy , Medium ou Hard afin d’essayer de faire la plus grande distance possible pour battre leurs meilleurs record et donc augmenter dans la classement général et devenir les meilleurs pilotes du jeu ! Les joueurs devront avoir de très bonne concentration et de bon réflexes pour éviter les différents obstacles.
+---
 
+# 🎮 Contributors
 
-## Authors
+Personnes ayant contribuées au projet:
+-François LEPINE (Documentaliste)
+-Lenny BORRY
+-Ayoub LAARIBI
+-Quentin COMTE
+-Dimitri BOUGLE
+-Basma CHADLI
+-Patrick PASTOURET (Chef de projet)
 
-- [@le](https://github.com/TomMarsura)
-- [@tibogas](https://github.com/tibogas)
-- [@AyoubV11](https://github.com/AyoubV11)
+---
 
+## 📋 Description du projet
 
+**Slither Link** est un jeu où le joueur doit tracer un chemin fermé unique dans une grille contenant des cases numérotées de 0 à 3. Ces numéros indiquent le nombre de segments qui doivent entourer chaque case. Le projet inclut également :
 
-## Documentation
+- Un **système d'aide** qui guide le joueur avec des techniques avancées.
+- Un **mode tâtonnement** pour tester des hypothèses sans affecter la progression.
+- Plusieurs niveaux de difficulté pour s’adapter à tous les joueurs.
+- Un **système de scoring** pour une expérience compétitive.
 
-[Documentation](https://linktodocumentation)
+---
 
+## 🛠️ Fonctionnalités principales
 
-## Prerequisites
+- 🎓 **Tutoriel interactif** pour les nouveaux joueurs.
+- 🔗 **Sauvegarde automatique** : Reprenez votre partie à tout moment.
+- ❓ **Système d'aide** : Recevez des conseils et astuces logiques.
+- 🔄 **Mode tâtonnement** : Testez des solutions temporaires sans risque.
+- 🌟 **Niveaux multiples** : Débloquez des niveaux de difficulté croissante.
+- ⏱️ **Timer** : Suivez le temps écoulé pour ajouter une touche de challenge.
+- 🔧 **Options visuelles** : Activez les aides comme les croix automatiques.
 
-Compilateur C  
-Installation de la bibliothèque SDL
+---
 
-## Installation
+## 📚 Prérequis
 
-Installation des bibilothèques SDL :
+Pour profiter pleinement de l'application, assurez-vous d'avoir :
+- 🖥️ Un écran, une souris ou un pavé tactile.
+- 💻 Une machine avec **Java 16.0.2 ou supérieur** installé.
+- 👀 De bons yeux prêts à résoudre des puzzles logiques.
 
-`sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev`
+---
 
+## 🚀 lancement
 
-Vous venez d'installer la bibilothèques SDL, BRAVO !  
-
-
-
-## Execution
-
-Maintenant vous avez juste a ouvrir votre environnement de de travail favori a vous rendre dans le repertoire se nommant projetl2 et compiler le projet avec cette commande :
-
-`make all`
-
-Lorsque le projet a été compiler avec succés, rendez-vous dans le repertoire bin et exécutez cette commande :
-
-`./main`
-
-Enfin il ne vous reste plus qu'a vous amusez !
-
-## Partie tests
-
-Pour éxecuter les tests il vous suffit de vous rendre dans le repertoire projetl2 et de compiler le test seulement avec la commande :
-
-`make test_profils`
-
-Un exécutable sera placé dans le dossier tests et vous pourrez effectuer les tests disponibles.
-
-❗Le fichier de sauvegarde sera modifié si vous ajoutez un nouveau profil dans le programme de test.
+1. Installez le dépot GITHUB.
+2. Installez le .jar puis le lancer:
+   ```bash
+   java -jar SliterLink.jar
