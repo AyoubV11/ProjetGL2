@@ -1,4 +1,4 @@
-# 🎮 Slither Link - Un jeu de logique captivant
+# 🎮 Slither Link
 
 Bienvenue dans **Slither Link**, un jeu de logique où vous devrez relever des défis et résoudre des grilles complexes tout en profitant d’une expérience fluide et intuitive ! Ce projet a été développé dans le cadre du module *Génie Logiciel 2* à **Le Mans Université**.
 
@@ -52,7 +52,6 @@ Pour profiter pleinement de l'application, assurez-vous d'avoir :
 
 ## 🚀 lancement
 
-1. Installez le dépot GITHUB.
-2. Installez le .jar dans le fichier target puis le lancer:
+1. Installez le .jar dans le fichier target puis le lancer:
    ```bash
    java -jar SliterLink.jar
