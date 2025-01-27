@@ -54,4 +54,4 @@ Pour profiter pleinement de l'application, assurez-vous d'avoir :
 
 1. Installez le .jar dans le fichier target puis le lancer:
    ```bash
-   java -jar SliterLink.jar
+   java -jar Groupe2.jar
