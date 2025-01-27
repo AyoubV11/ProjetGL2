@@ -1,0 +1,31 @@
+package com.menu;
+
+public class Arete extends Case {
+    protected EnumEtat etat;   // Etat de l'arête
+
+    public Arete(int coordX, int coordY, Grille grille, EnumEtat etat) {
+        super(coordX, coordY, grille);
+        this.etat = etat;
+    }
+
+    public EnumEtat getEtat() {
+        return this.etat;
+    }
+
+    public void setCroix() {
+        this.etat = EnumEtat.CROIX;
+    }
+
+    public void setTrait() {
+        this.etat = EnumEtat.TRAIT;
+    }
+
+    public void setVide() {
+        this.etat = EnumEtat.VIDE;
+    }
+
+    public void setEtat(EnumEtat etat){
+        this.etat = etat;
+    }
+    
+}
