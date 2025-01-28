@@ -18,6 +18,31 @@ public class Chiffre extends Case {
         this.chiffre = chiffre;
     }
 
+
+
+
+    /**
+     * Methode qui renvoie le nombre d'aretes autour du chiffre
+     * @return int
+     */
+    public int getChiffreNeighbors(){
+        /* 
+         * FAIRE
+        */
+        return 0;
+    }
+    /**
+     * Methode qui renvoie vrai si le nombre d'arete est egal au chiffre sinon faux
+     * @return boolean
+     */
+    public boolean ChiffreEqualsNeighbors(){
+       
+        /* 
+         * FAIRE
+        */
+        return false;
+    }
+
     public String toString(){
         if(this.chiffre == -1) return "   ";
         else return " " + this.chiffre + " ";

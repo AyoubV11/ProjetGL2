@@ -42,6 +42,23 @@ public class Grille {
         ((Chiffre) this.getCase(ligne*2+1, colonne*2+1)).setChiffre(chiffre);
     }
 
+    /**
+     * Cette methode permet de verifier la reponse de l'utilisateur et renvoie VRAI ou FAUX
+     * @return boolean
+     */
+    public boolean check(){
+        /*Verifier que la grille est bonne
+            COMMENT ?
+
+            SOLUTION
+            - Verifier que chaque points qui est en contact avec une aretes possedent 2 voisins
+            - Verfifier que le nombre d'arrete correspond bien au chiffre d'une case 
+            - La boucle (chemin) doit etre connexe
+            */
+        return false;
+    }
+
+
     public String toString(){
         String chaine = "";
         for(Case[] x : this.cases){
