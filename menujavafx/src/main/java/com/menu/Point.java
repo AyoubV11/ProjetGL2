@@ -6,6 +6,17 @@ public class Point extends Case{
         super(coordX, coordY, grille);
     }
 
+
+    /**
+     * Methode qui renvoie le nombre d'aretes autour du point
+     * @return int
+     */
+    public int getAreteNeighbors(){
+        /* 
+         * FAIRE
+        */
+        return 0;
+    }
     public String toString(){
         return " · ";
     }
