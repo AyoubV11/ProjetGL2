@@ -20,6 +20,14 @@ public class Chiffre extends Case {
 
 
     /**
+     * Methode qui verifie si le nombre d'aretes est bien egal au chiffre
+     * @return
+     */
+    public boolean VerifChiffre(){
+        return this.chiffre==this.getTraitVoisin();
+    }
+
+    /**
      * Methode qui renvoie vrai si le nombre d'arete est egal au chiffre sinon faux
      * @return boolean
      */
