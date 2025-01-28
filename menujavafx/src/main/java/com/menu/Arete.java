@@ -30,7 +30,7 @@ public class Arete extends Case {
     
     public String toString(){
         if(this.etat == EnumEtat.VIDE) return " - ";
-        else if(this.etat == EnumEtat.TRAIT) return " / ";
+        else if(this.etat == EnumEtat.TRAIT) return " | ";
         else return " x ";
     }
 }
