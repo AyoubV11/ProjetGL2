@@ -34,8 +34,8 @@ public class Grille {
         return this.colonne;
     }
 
-    public Case getCase(int ligne, int colonne) {
-        return this.cases[ligne][colonne];
+    public Case getCase(int coordX, int coordY) {
+        return this.cases[coordX][coordY];
     }
 
     public void setChiffre(int ligne, int colonne, int chiffre){
