@@ -17,7 +17,7 @@ public class App {
         int ligne;
         int colonne;
         String symbole = "";
-
+        
         while(!symbole.equals("9")){
             System.out.println(g);
 

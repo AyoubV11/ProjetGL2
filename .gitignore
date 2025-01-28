@@ -1,2 +1,2 @@
 # ignorer tous les fichiers .class dans tous les répertoires
-**/*.class
+*.class
