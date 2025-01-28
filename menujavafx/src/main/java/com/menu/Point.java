@@ -8,15 +8,13 @@ public class Point extends Case{
 
 
     /**
-     * Methode qui renvoie le nombre d'aretes autour du point
-     * @return int
+     * Methode qui verifie si un point a bien deux aretes
+     * @return
      */
-    public int getAreteNeighbors(){
-        /* 
-         * FAIRE
-        */
-        return 0;
+    public boolean VerifPoint(Point p){
+        return p.getTraitVoisin() == 2;
     }
+
     public String toString(){
         return " · ";
     }
