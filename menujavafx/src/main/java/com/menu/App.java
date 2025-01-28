@@ -11,5 +11,6 @@ public class App {
         g.setChiffre(2, 1, 1);
 
         System.out.println(g);
+
     }
 }
