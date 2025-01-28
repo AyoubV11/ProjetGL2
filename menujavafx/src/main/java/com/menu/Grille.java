@@ -42,4 +42,14 @@ public class Grille {
         ((Chiffre) this.getCase(ligne*2+1, colonne*2+1)).setChiffre(chiffre);
     }
 
+    public String toString(){
+        String chaine = "";
+        for(Case[] x : this.cases){
+            for(Case y : x){
+                chaine += y;
+            }
+            chaine += "\n";
+        }
+        return chaine;
+    }
 }

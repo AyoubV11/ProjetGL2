@@ -28,4 +28,7 @@ public class Arete extends Case {
         this.etat = etat;
     }
     
+    public String toString(){
+        return " - ";
+    }
 }

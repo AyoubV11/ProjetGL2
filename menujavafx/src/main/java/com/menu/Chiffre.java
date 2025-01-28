@@ -18,4 +18,9 @@ public class Chiffre extends Case {
         this.chiffre = chiffre;
     }
 
+    public String toString(){
+        if(this.chiffre == -1) return "   ";
+        else return " " + this.chiffre + " ";
+    }
+
 }
