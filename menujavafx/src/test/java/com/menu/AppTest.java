@@ -2,10 +2,10 @@ package com.menu;
 
 import java.util.Scanner;
 
-public class App {
+public class AppTest {
 
     public static void main(String[] args) {
-        Grille g = new Grille("") ;
+        Grille g = new Grille("menujavafx/src/test/ressources/grilleTest.json") ;
 
         Scanner scanner = new Scanner(System.in);
 
