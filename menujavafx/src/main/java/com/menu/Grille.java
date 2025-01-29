@@ -83,7 +83,30 @@ public class Grille {
             - Verfifier que le nombre d'arrete correspond bien au chiffre d'une case 
             - La boucle (chemin) doit etre connexe
             */
-        return false;
+
+
+        for(Case[] x : this.cases){
+            for(Case y : x){
+                // SI la case est un chiffre
+                if(y instanceof Chiffre){
+
+                    if(!((Chiffre)y).VerifChiffre()){
+                        return false;
+                    }
+                    // SI la case est un Point
+                    if(y instanceof Point){
+                            
+                        /**
+                         * A FAIRE
+                         */
+                        return false;
+                        
+                    }
+                }
+            }
+            
+        }
+        return true;
     }
 
 

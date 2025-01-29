@@ -19,4 +19,11 @@ public abstract class Case {
         return this.colonne;
     }
 
+
+    public Grille getGrille(){
+        return this.grille;
+    }
+
+     
+
 }

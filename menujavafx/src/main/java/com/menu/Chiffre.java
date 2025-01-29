@@ -19,28 +19,45 @@ public class Chiffre extends Case {
     }
 
 
-
-
     /**
-     * Methode qui renvoie le nombre d'aretes autour du chiffre
-     * @return int
+     * Methode qui verifie si le nombre d'aretes est bien egal au chiffre
+     * @return
      */
-    public int getChiffreNeighbors(){
-        /* 
-         * FAIRE
-        */
-        return 0;
+    public boolean VerifChiffre(){
+        return this.chiffre==this.getTraitVoisin();
     }
+
     /**
      * Methode qui renvoie vrai si le nombre d'arete est egal au chiffre sinon faux
      * @return boolean
      */
-    public boolean ChiffreEqualsNeighbors(){
-       
-        /* 
-         * FAIRE
-        */
+    public boolean ChiffreEgaleVoisins(){
+        
+        if( this.getChiffre() == this.getTraitVoisin()){
+            return true;
+        }
         return false;
+    }
+
+
+    /**
+     * Methode qui renvoie le nombre d'aretes autour du point
+     * @return int
+     */
+    public int getTraitVoisin(){
+        
+        int x = this.getCoordX();
+        int y = this.getCoordY();
+        int nbArete = 0;
+        
+        // Si les case sont egale a une arete
+
+        if(((Arete)this.getGrille().getCase(x,y-1)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(((Arete)this.getGrille().getCase(x-1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(((Arete)this.getGrille().getCase(x,y+1)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(((Arete)this.getGrille().getCase(x+1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        
+        return nbArete;
     }
 
     public String toString(){
