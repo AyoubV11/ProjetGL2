@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.menu.AppTest" time="0.004" tests="0" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="16"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/test-classes:/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/classes:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-controls/16/javafx-controls-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-controls/16/javafx-controls-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-fxml/16/javafx-fxml-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-fxml/16/javafx-fxml-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-graphics/16/javafx-graphics-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-graphics/16/javafx-graphics-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-base/16/javafx-base-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-base/16/javafx-base-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-web/16/javafx-web-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-web/16/javafx-web-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-media/16/javafx-media-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-media/16/javafx-media-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.2/jackson-databind-2.15.2.jar:/info/etu/l3info/s2201227/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.2/jackson-annotations-2.15.2.jar:/info/etu/l3info/s2201227/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.2/jackson-core-2.15.2.jar:"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="16"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="FR"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/jdk-16.0.2/lib"/>
+    <property name="sun.java.command" value="/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/surefire/surefirebooter-20250129115449233_3.jar /info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/surefire 2025-01-29T11-54-49_172-jvmRun1 surefire-20250129115449233_1tmp surefire_0-20250129115449233_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/test-classes:/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/classes:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-controls/16/javafx-controls-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-controls/16/javafx-controls-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-fxml/16/javafx-fxml-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-fxml/16/javafx-fxml-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-graphics/16/javafx-graphics-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-graphics/16/javafx-graphics-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-base/16/javafx-base-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-base/16/javafx-base-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-web/16/javafx-web-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-web/16/javafx-web-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-media/16/javafx-media-16.jar:/info/etu/l3info/s2201227/.m2/repository/org/openjfx/javafx-media/16/javafx-media-16-linux.jar:/info/etu/l3info/s2201227/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.2/jackson-databind-2.15.2.jar:/info/etu/l3info/s2201227/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.2/jackson-annotations-2.15.2.jar:/info/etu/l3info/s2201227/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.2/jackson-core-2.15.2.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/info/etu/l3info/s2201227"/>
+    <property name="user.language" value="fr"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2021-07-20"/>
+    <property name="java.home" value="/usr/lib/jvm/jdk-16.0.2"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx/target/surefire/surefirebooter-20250129115449233_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="16.0.2+7-67"/>
+    <property name="user.name" value="s2201227"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="5.15.0-124-generic"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="/info/etu/l3info/s2201227/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="16.0.2"/>
+    <property name="user.dir" value="/info/etu/l3info/s2201227/Documents/JAVA/GL/ProjetGL2/menujavafx"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="16.0.2+7-67"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="60.0"/>
+  </properties>
+</testsuite>
