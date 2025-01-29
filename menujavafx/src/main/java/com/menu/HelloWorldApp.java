@@ -2,20 +2,17 @@ package com.menu;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 
 public class HelloWorldApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        SlitherlinkGrid grid = new SlitherlinkGrid(300, 300);
-        StackPane root = new StackPane(grid);
-        Scene scene = new Scene(root, 300, 300);
+       // SlitherlinkGrid grid = new SlitherlinkGrid(300, 300);
+        Parametres root = new Parametres(primaryStage);
 
+        Scene scene = new Scene(root, 400, 400);
         primaryStage.setTitle("JavaFX Slitherlink");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -25,7 +22,7 @@ public class HelloWorldApp extends Application {
         launch(args);
     }
 }
-
+/* 
 class SlitherlinkGrid extends Canvas {
 
     private int rows = 5;
@@ -95,3 +92,4 @@ class SlitherlinkGrid extends Canvas {
         gc.strokeLine(col * cellSize, row * cellSize, (col + 1) * cellSize, row * cellSize);
     }
 }
+*/
