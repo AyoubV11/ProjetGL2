@@ -3,8 +3,8 @@ package com.menu;
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
 
-    public Arete(int coordX, int coordY, Grille grille, EnumEtat etat) {
-        super(coordX, coordY, grille);
+    public Arete(int ligne, int colonne, Grille grille, EnumEtat etat) {
+        super(ligne, colonne, grille);
         this.etat = etat;
     }
 

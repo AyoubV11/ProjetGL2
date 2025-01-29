@@ -2,8 +2,8 @@ package com.menu;
 
 public class Point extends Case{
 
-    public Point(int coordX, int coordY, Grille grille) {
-        super(coordX, coordY, grille);
+    public Point(int ligne, int colonne, Grille grille) {
+        super(ligne, colonne, grille);
     }
 
 

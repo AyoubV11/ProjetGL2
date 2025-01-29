@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Grille {
-    protected int dimX;   // Abscisse de la grille
-    protected int dimY;   // Ordonnée de la grille
+    protected int nbLignes;   // Abscisse de la grille
+    protected int nbColonnes;   // Ordonnée de la grille
     protected Case[][] cases;   // Cases de la grille
     protected Stack<Action> pileUndo;   // Pile des actions effectuées
     protected Stack<Action> pileRedo;   // Pile des actions annulées
@@ -20,15 +20,15 @@ public class Grille {
             GrilleJson grilleJson = objectMapper.readValue(new File(fichier), GrilleJson.class);
 
             // Affectation des dimensions spécifiées à la grille
-            this.dimX = grilleJson.getLigne() * 2 + 1;
-            this.dimY = grilleJson.getColonne() * 2 + 1;
+            this.nbLignes = grilleJson.getLigne() * 2 + 1;
+            this.nbColonnes = grilleJson.getColonne() * 2 + 1;
 
             // Création des cases de la grille
-            this.cases = new Case[this.dimX][this.dimY];
+            this.cases = new Case[this.nbLignes][this.nbColonnes];
 
-            for(int i = 0; i < this.dimX; i++){
-                for(int j = 0; j < this.dimY; j++){
-                    if(i%2 == 0 && j%2 == 0) this.cases[i][j] = new Point(i,j,this);
+            for(int i = 0; i < this.nbLignes; i++){
+                for(int j = 0; j < this.nbColonnes; j++){
+                    if(i%2 == 0 && j%2 == 0) this.cases[i][j] = new Point(i, j, this);
                     else if(i%2 == 0 || (i%2 == 1 && j%2 == 0)) this.cases[i][j] = new Arete(i,j,this,EnumEtat.VIDE);
                     else this.cases[i][j] = new Chiffre(i,j,this,-1);
                 }
@@ -44,20 +44,21 @@ public class Grille {
         }
     }
 
-    public int getDimX() {
-        return this.dimX;
+    public int getNbLignes() {
+        return this.nbLignes;
     }
 
-    public int getDimY() {
-        return this.dimY;
+    public int getNbColonnes() {
+        return this.nbColonnes;
     }
 
-    public Case getCase(int coordX, int coordY) {
-        return this.cases[coordX][coordY];
+    public Case getCase(int ligne, int colonne) throws ArrayIndexOutOfBoundsException {
+        return this.cases[ligne][colonne];
     }
 
-    public void setChiffre(int ligne, int colonne, int chiffre){
-        ((Chiffre) this.getCase(ligne*2+1, colonne*2+1)).setChiffre(chiffre);
+    public void setChiffre(int ligne, int colonne, int chiffre) {
+        Chiffre c = (Chiffre) this.getCase(ligne*2+1, colonne*2+1);
+        c.setChiffre(chiffre);
     }
 
     public void appliquerModifications(List<Modification> modifications) {
