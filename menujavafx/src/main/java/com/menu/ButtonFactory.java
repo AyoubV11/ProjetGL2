@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -16,12 +15,12 @@ public class ButtonFactory {
 
     public static Button createAnimatedButton(String text) {
         Button button = new Button(text);
-        button.setFont(Font.font("Arial", 18));
-        button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 15; -fx-background-radius: 15;");
+        button.setFont(BalooFont.setBalooSized(18));
+        button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
 
         // Animation au survol
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #444444; -fx-text-fill: white;"));
-        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #000000; -fx-text-fill: white;"));
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
 
         // Animation au clic
         button.setOnMousePressed(e -> animateButton(button, 1.1));
@@ -38,7 +37,7 @@ public class ButtonFactory {
         HBox content = new HBox(5);
         content.setAlignment(javafx.geometry.Pos.CENTER);
         Text buttonText = new Text(text);
-        buttonText.setFont(Font.font("Arial", 14));
+        buttonText.setFont(BalooFont.setBalooSized(17));
         
         // Mise en place des crânes dans chaque bouton
         for (int i = 0; i < 3; i++) {
@@ -58,7 +57,7 @@ public class ButtonFactory {
         // Si le niveau est bloqué, ajouter une image de verrouillage
         if (level > unlockedLevel) {
             button.setDisable(true);
-            button.setStyle("-fx-background-color: #CCCCCC; -fx-text-fill: gray; -fx-border-color: gray; -fx-opacity: 0.5;");
+            button.setStyle("-fx-background-color: #CCCCCC; -fx-text-fill: gray; -fx-border-color: gray; -fx-opacity: 0.5; -fx-border-radius: 15; -fx-background-radius: 15;" );
             
             // Ajouter l'image de verrouillage en superposition
             ImageView lockedIcon = new ImageView(lockedImage);
@@ -69,7 +68,7 @@ public class ButtonFactory {
             buttonStack.getChildren().add(lockedIcon);
         } else {
             // Style pour les boutons débloqués
-            button.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: black;");
+            button.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: black; -fx-border-radius: 15; -fx-background-radius: 15;");
         }
 
         button.setGraphic(buttonStack);

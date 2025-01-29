@@ -14,7 +14,13 @@ public class GridComponent {
             int difficulty = (i <= 3) ? 1 : (i <= 6) ? 2 : 3;
             String imagePath = getClass().getResource("/skull.png").toExternalForm();
             String imagePath2 = getClass().getResource("/locked.png").toExternalForm();
-            gridPane.add(ButtonFactory.createSkullButton("Grille " + i, i, difficulty, imagePath,imagePath2), (i - 1) % 2, (i - 1) / 2);
+            if(i>=10){
+                gridPane.add(ButtonFactory.createSkullButton("Grille " + i, i, difficulty, imagePath,imagePath2), (i - 1) % 2, (i - 1) / 2);
+            }
+            else{
+                gridPane.add(ButtonFactory.createSkullButton("Grille   " + i, i, difficulty, imagePath,imagePath2), (i - 1) % 2, (i - 1) / 2);
+            }
+            
         }
 
         return gridPane;
