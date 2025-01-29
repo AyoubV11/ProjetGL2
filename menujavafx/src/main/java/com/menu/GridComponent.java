@@ -13,7 +13,8 @@ public class GridComponent {
         for (int i = 1; i <= 12; i++) {
             int difficulty = (i <= 3) ? 1 : (i <= 6) ? 2 : 3;
             String imagePath = getClass().getResource("/skull.png").toExternalForm();
-            gridPane.add(ButtonFactory.createSkullButton("Grille " + i, i, difficulty, imagePath), (i - 1) % 2, (i - 1) / 2);
+            String imagePath2 = getClass().getResource("/locked.png").toExternalForm();
+            gridPane.add(ButtonFactory.createSkullButton("Grille " + i, i, difficulty, imagePath,imagePath2), (i - 1) % 2, (i - 1) / 2);
         }
 
         return gridPane;

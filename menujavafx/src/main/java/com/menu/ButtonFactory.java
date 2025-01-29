@@ -30,20 +30,16 @@ public class ButtonFactory {
         return button;
     }
 
-    public static Button createSkullButton(String text,int level, int difficulty, String imagePath) {
-        Image skullImage = new Image(imagePath); // Image 
+    public static Button createSkullButton(String text, int level, int difficulty, String imagePath, String lockedImagePath) {
+        Image skullImage = new Image(imagePath);
+        Image lockedImage = new Image(lockedImagePath);
         
-
-        // Créer un StackPane pour superposer l'image de verrouillage sur les têtes de morts
-        StackPane stackPane = new StackPane();
-
         // Contenu du bouton
         HBox content = new HBox(5);
         content.setAlignment(javafx.geometry.Pos.CENTER);
         Text buttonText = new Text(text);
         buttonText.setFont(Font.font("Arial", 14));
         
-
         // Mise en place des crânes dans chaque bouton
         for (int i = 0; i < 3; i++) {
             ImageView skullIcon = new ImageView(skullImage);
@@ -53,23 +49,30 @@ public class ButtonFactory {
             content.getChildren().add(skullIcon);
         }
         content.getChildren().add(0, buttonText);
-
-        // Ajouter le contenu (texte et icônes) au StackPane
-        stackPane.getChildren().add(content);
-
-        // Créer le bouton
-        Button button = new Button();
-        button.setGraphic(content);
         
-        // Si le niveau est bloqué, désactiver le bouton
+        // Créer le bouton avec une StackPane pour superposer les éléments
+        Button button = new Button();
+        StackPane buttonStack = new StackPane();
+        buttonStack.getChildren().add(content);
+        
+        // Si le niveau est bloqué, ajouter une image de verrouillage
         if (level > unlockedLevel) {
-            button.setDisable(true); // Désactive le bouton pour les niveaux non débloqués
-            button.setStyle("-fx-background-color: #CCCCCC; -fx-text-fill: gray; -fx-border-color: gray; -fx-opacity: 0.5;"); // Style pour les boutons bloqués
+            button.setDisable(true);
+            button.setStyle("-fx-background-color: #CCCCCC; -fx-text-fill: gray; -fx-border-color: gray; -fx-opacity: 0.5;");
+            
+            // Ajouter l'image de verrouillage en superposition
+            ImageView lockedIcon = new ImageView(lockedImage);
+            lockedIcon.setPreserveRatio(false);
+            lockedIcon.setFitWidth(125); // Ajuster selon la taille du bouton
+            lockedIcon.setFitHeight(20);
+            lockedIcon.setOpacity(1);
+            buttonStack.getChildren().add(lockedIcon);
         } else {
             // Style pour les boutons débloqués
             button.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: black;");
         }
 
+        button.setGraphic(buttonStack);
 
         // Animation au clic
         button.setOnMousePressed(e -> animateButton(button, 1.1));
