@@ -7,8 +7,9 @@ import javafx.scene.text.Text;
 public class TitleComponent {
 
     public Text getTitle() {
+        Font baloo = Font.loadFont(getClass().getResourceAsStream("/Baloo2-Medium.ttf"), 50);
         Text title = new Text("SLITHER LINK");
-        title.setFont(Font.font("Arial", 40));
+        title.setFont(baloo);
         title.setFill(Color.BLACK);
         return title;
     }
