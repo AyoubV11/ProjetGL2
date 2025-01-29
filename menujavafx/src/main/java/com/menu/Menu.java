@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
-import javafx.scene.text.Font;
 
 public class Menu extends Application {
 
@@ -21,7 +20,6 @@ public class Menu extends Application {
 
         // Agrandir le titre
         Text title = titleComponent.getTitle();
-        title.setFont(new Font(48)); // Augmenter la taille du texte
 
         // Charger l'image de fond
         Image backgroundImage = new Image(getClass().getResource("/slither.png").toExternalForm());
