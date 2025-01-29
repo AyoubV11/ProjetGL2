@@ -57,8 +57,7 @@ public class ButtonFactory {
         // Si le niveau est bloqué, ajouter une image de verrouillage
         if (level > unlockedLevel) {
             button.setDisable(true);
-            button.setStyle("-fx-background-color: #CCCCCC; -fx-text-fill: gray; -fx-border-color: gray; -fx-opacity: 0.5; -fx-border-radius: 15; -fx-background-radius: 15;" );
-            
+            button.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: black; -fx-border-radius: 15; -fx-background-radius: 15;");
             // Ajouter l'image de verrouillage en superposition
             ImageView lockedIcon = new ImageView(lockedImage);
             lockedIcon.setPreserveRatio(false);
