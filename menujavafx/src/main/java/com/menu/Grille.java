@@ -4,6 +4,7 @@ import java.util.Stack;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 public class Grille {
@@ -120,4 +121,65 @@ public class Grille {
         }
         return chaine;
     }
+
+    // voici le code d'un iterateur pour parcourir les chiffres de la grille :
+    public Iterator<Chiffre> iteratorChiffres() { 
+        return new Iterator<Chiffre>() {
+            private int ligne = 1;
+            private int colonne = 1;
+            public boolean hasNext() {
+                return ligne < nbLignes;
+            }
+            public Chiffre next() {
+                Chiffre c = (Chiffre) Grille.this.cases[ligne][colonne];
+                colonne += 2;
+                if (colonne >= nbColonnes) {
+                    colonne = 1;
+                    ligne += 2;
+                }
+                return c;
+            }
+        };
+    }
+    
+
+    public Iterator<Arete> iteratorAretes() { 
+        return new Iterator<Arete>() {
+            private int ligne = 0;
+            private int colonne = 1;
+            public boolean hasNext() {
+                return ligne < nbLignes;
+            }
+            public Arete next() {
+                Arete a = (Arete) Grille.this.cases[ligne][colonne];
+                colonne += 2;
+                if (colonne >= nbColonnes) {
+                    colonne = 1;
+                    ligne += 2;
+                }
+                return a;
+            }
+        };
+    }
+    
+    public Iterator<Point> iteratorPoints() { 
+        return new Iterator<Point>() {
+            private int ligne = 0;
+            private int colonne = 0;
+            public boolean hasNext() {
+                return ligne < nbLignes;
+            }
+            public Point next() {
+                Point p = (Point) Grille.this.cases[ligne][colonne];
+                colonne += 2;
+                if (colonne >= nbColonnes) {
+                    colonne = 0;
+                    ligne += 2;
+                }
+                return p;
+            }
+        };
+    }
+
+    
 }

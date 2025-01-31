@@ -46,8 +46,8 @@ public class Chiffre extends Case {
      */
     public int getTraitVoisin(){
         
-        int x = this.getCoordX();
-        int y = this.getCoordY();
+        int x = this.getLigne();
+        int y = this.getColonne();
         int nbArete = 0;
         
         // Si les case sont egale a une arete

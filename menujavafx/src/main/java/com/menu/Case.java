@@ -11,11 +11,11 @@ public abstract class Case {
         this.grille = grille;
     }
 
-    public int getCoordX() {
+    public int getLigne() {
         return this.ligne;
     }
 
-    public int getCoordY() {
+    public int getColonne() {
         return this.colonne;
     }
 

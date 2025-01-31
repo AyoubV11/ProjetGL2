@@ -1,0 +1,9 @@
+{
+    "ligne": 5,
+    "colonne": 5,
+    "modifications": [
+        {"ligne": 1, "colonne": 1, "chiffre": 3},
+        {"ligne": 0, "colonne": 4, "chiffre": 1},
+        {"ligne": 2, "colonne": 1, "chiffre": 0}
+    ]
+}

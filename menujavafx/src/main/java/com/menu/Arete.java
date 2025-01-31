@@ -30,8 +30,8 @@ public class Arete extends Case {
 
     public boolean check(){
        
-        int ligne = this.getCoordX();
-        int colonne = this.getCoordY();
+        int ligne = this.getLigne();
+        int colonne = this.getColonne();
         
         System.out.println("ligne : "  + ligne);
         System.out.println("Colonne : " +colonne);
