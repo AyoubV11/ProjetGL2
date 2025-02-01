@@ -97,9 +97,7 @@ public class Grille {
                     // SI la case est un Point
                     if(y instanceof Point){
                             
-                        /**
-                         * A FAIRE
-                         */
+                        
                         return false;
                         
                     }
