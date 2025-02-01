@@ -86,7 +86,7 @@ public class Grille {
             */
 
 
-        for(Case[] x : this.cases){
+        /*for(Case[] x : this.cases){
             for(Case y : x){
                 // SI la case est un chiffre
                 if(y instanceof Chiffre){
@@ -106,7 +106,7 @@ public class Grille {
                 }
             }
             
-        }
+        }*/
         return true;
     }
 

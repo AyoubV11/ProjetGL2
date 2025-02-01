@@ -28,6 +28,13 @@ public class Arete extends Case {
         this.etat = etat;
     }
 
+
+    /**
+     * Cette methode permet de verifier si l'utilisateur a le droit de poser l'arete
+     * @return boolean
+     */
+
+     
     public boolean check(){
        
         int ligne = this.getLigne();
@@ -35,20 +42,10 @@ public class Arete extends Case {
         
         System.out.println("ligne : "  + ligne);
         System.out.println("Colonne : " +colonne);
-        // Si ses points ont deux voisins alors c'est impossible de poser l'arete
         
-        // CONDITONS PAS BONNE
-        // Comprendre logique coordonnees
-        
-        /*if(this.getGrille().getCase(ligne-1, colonne).getTraitVoisin() <2 && this.getGrille().getCase(ligne+1, colonne).getTraitVoisin() <2){
-
+        if(this.getGrille().getCase(ligne-1, colonne).getTraitVoisin() < 2 && this.getGrille().getCase(ligne+1, colonne).getTraitVoisin() < 2){
             return true;
-        }*/
-        //throw new IllegalStateException("Error : interdiction de poser l'arete");
-        
-       // System.out.println("Etat :" + this.getEtat());
-       // System.out.println("ligne : "  +this.getCoordX());
-       // System.out.println("Colonne : " +this.getCoordY());
+        }
        return false;
    
 

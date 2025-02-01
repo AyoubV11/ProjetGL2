@@ -40,26 +40,7 @@ public class Chiffre extends Case {
     }
 
 
-    /**
-     * Methode qui renvoie le nombre d'aretes autour du point
-     * @return int
-     */
-    public int getTraitVoisin(){
-        
-        int x = this.getLigne();
-        int y = this.getColonne();
-        int nbArete = 0;
-        
-        // Si les case sont egale a une arete
-
-        if(((Arete)this.getGrille().getCase(x,y-1)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(((Arete)this.getGrille().getCase(x-1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(((Arete)this.getGrille().getCase(x,y+1)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(((Arete)this.getGrille().getCase(x+1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        
-        return nbArete;
-    }
-
+    
     public String toString(){
         if(this.chiffre == -1) return "   ";
         else return " " + this.chiffre + " ";

@@ -19,6 +19,26 @@ public abstract class Case {
         return this.colonne;
     }
 
+    /**
+     * Methode qui renvoie le nombre d'aretes autour de la case
+     * @return int
+     */
+    public int getTraitVoisin(){
+        
+        int x = this.getLigne();
+        int y = this.getColonne();
+        int nbArete = 0;
+        
+        // Si les case sont egale a une arete
+
+        if(((Arete)this.getGrille().getCase(x,y-1)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(((Arete)this.getGrille().getCase(x-1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(((Arete)this.getGrille().getCase(x,y+1)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(((Arete)this.getGrille().getCase(x+1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        
+        return nbArete;
+    }
+
 
     public Grille getGrille(){
         return this.grille;
