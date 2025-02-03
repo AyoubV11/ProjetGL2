@@ -9,8 +9,10 @@ public class AreteView extends Button{
     public AreteView(Arete arete){
         super();
         this.arete = arete;
-        this.setPrefSize(100, 100);
-        this.setStyle("-fx-background-color: #ffffff;");
+        // this.setPrefSize(100, 100);
+        // mettre le boutons à sa taille max
+        this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        this.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 0; -fx-background-radius: 0;");
         this.setOnMouseClicked(e -> {
             if(this.arete.getEtat() == EnumEtat.VIDE){
                 this.arete.setEtat(EnumEtat.TRAIT);

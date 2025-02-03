@@ -12,8 +12,10 @@ public class GrilleController extends GridPane {
 
     private int nbLignes;
     private int nbColonnes;
+    private double largeurInterstice;
+    private double largeurChiffre; 
 
-    public GrilleController(Grille grille, int sizeH){
+    public GrilleController(Grille grille, int sizeH, int sizeV, double proportionInterstice){
         this.grille = grille;
         this.setGridLinesVisible(false);
         
@@ -22,12 +24,12 @@ public class GrilleController extends GridPane {
 
         // je veux que les colonnes et les lignes s'adaptent à la taille de la fenêtre
 
-        int percentInterstice = 2; // pourcentage de l'espace entre les chiffres (points et aretes)
-        int largeurInterstice = sizeH * percentInterstice / 100;
-        int largeurChiffre=  (sizeH - largeurInterstice) / nbColonnes - largeurInterstice;
-        int sizeV = largeurChiffre * nbLignes;
 
-        System.out.println(percentInterstice + "% interstice, largeur interstice : " + largeurInterstice + ", largeur chiffre : " + largeurChiffre + ", taille fenetre : " + sizeH + "x" + sizeV);
+        this.largeurInterstice = 100 * proportionInterstice  / (this.nbColonnes / 2 + 1);
+        this.largeurChiffre = 100 * (1.0 - proportionInterstice) / (this.nbColonnes / 2); 
+
+        System.out.println("largeurInterstice : " + largeurInterstice);
+        System.out.println("largeurChiffre : " + largeurChiffre);
 
         // ajouter sizeH et sizeV à la taille de la fenêtre et empecher de changer la taille de la fenêtre
         this.setPrefSize(sizeH, sizeV);
@@ -36,17 +38,17 @@ public class GrilleController extends GridPane {
 
         for(int i = 0; i < nbColonnes; i++){
             ColumnConstraints column = new ColumnConstraints();
-            column.setHgrow(Priority.ALWAYS);
-            int w = (i % 2 == 0) ? largeurInterstice : largeurChiffre;
-            column.setPrefWidth(w);
+            // column.setHgrow(Priority.ALWAYS);
+            double w = (i % 2 == 0) ? largeurInterstice : largeurChiffre;
+            column.setPercentWidth(w);
             this.getColumnConstraints().add(column);
         }
 
         for(int i = 0; i < nbLignes; i++){
             RowConstraints row = new RowConstraints();
-            row.setVgrow(Priority.ALWAYS);
-            int h = (i % 2 == 0) ? largeurInterstice : largeurChiffre;
-            row.setPrefHeight(h);
+            // row.setVgrow(Priority.ALWAYS);
+            double h = (i % 2 == 0) ? largeurInterstice : largeurChiffre;
+            row.setPercentHeight(h);
             this.getRowConstraints().add(row);
         }
 
@@ -55,7 +57,7 @@ public class GrilleController extends GridPane {
         while(chiffres.hasNext()){
             Chiffre c = chiffres.next();
             ChiffreView cv = new ChiffreView(c);
-            this.add(cv, c.getColonne(), c.getLigne());    
+            this.add(cv, c.getColonne(), c.getLigne());  
         }
 
         // ajouter les arêtes à la grille
@@ -64,15 +66,26 @@ public class GrilleController extends GridPane {
             Arete a = aretes.next();
             AreteView av = new AreteView(a);
             this.add(av, a.getColonne(), a.getLigne());
+            System.out.println("Ajout de l'arete " + a.getLigne() + "x" + a.getColonne());  
         }
 
         // ajouter les points à la grille
         Iterator<Point> points = grille.iteratorPoints();
         while(points.hasNext()){
             Point p = points.next();
-            PointView pv = new PointView(p);
+            PointView pv = new PointView(p, this);
             this.add(pv, p.getColonne(), p.getLigne());
         }
         
     }
+
+    public double getLargeurInterstice(){
+        return this.largeurInterstice;
+    }
+
+    public double getLargeurChiffre(){
+        return this.largeurChiffre;
+    }
+
+
 }

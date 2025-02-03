@@ -16,12 +16,13 @@ public class ChiffreView extends ImageView{
         //taille max imposé par les contraintes de la grille
         this.setFitWidth(10);
         this.setPreserveRatio(true);
+
         // Lier les propriétés de taille de l'ImageView aux propriétés de taille de la cellule
 
         
         // this.fitWidthProperty().bind(((GridPane)this.getParent()).layoutXProperty());
         // this.fitHeightProperty().bind(((GridPane)this.getParent()).layoutYProperty());
-        // ca ne ma
+
 
         this.chiffre = chiffre;
     }

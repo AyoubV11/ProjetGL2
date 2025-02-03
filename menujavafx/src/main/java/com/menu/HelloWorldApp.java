@@ -10,7 +10,7 @@ public class HelloWorldApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Parent root = new GrilleController(new Grille("src/test/ressources/grilleTest.json"), 500);
+        Parent root = new GrilleController(new Grille("src/test/ressources/grilleTest.json"), 500, 500, 1.0/10);
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("JavaFX Slitherlink");
         primaryStage.setScene(scene);

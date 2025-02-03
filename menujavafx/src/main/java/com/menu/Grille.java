@@ -145,6 +145,7 @@ public class Grille {
         return new Iterator<Arete>() {
             private int ligne = 0;
             private int colonne = 1;
+            private EnumTrait etat = EnumTrait.HORIZONTAL;
             public boolean hasNext() {
                 return ligne < nbLignes;
             }
@@ -152,8 +153,14 @@ public class Grille {
                 Arete a = (Arete) Grille.this.cases[ligne][colonne];
                 colonne += 2;
                 if (colonne >= nbColonnes) {
-                    colonne = 1;
-                    ligne += 2;
+                    if (etat == EnumTrait.HORIZONTAL) {
+                        colonne = 0;
+                        etat = EnumTrait.VERTICAL;
+                    } else {
+                        colonne = 1;
+                        etat = EnumTrait.HORIZONTAL;
+                    }
+                    ligne++;
                 }
                 return a;
             }
