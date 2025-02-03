@@ -7,15 +7,17 @@ import javafx.scene.layout.GridPane;
 public class ChiffreView extends ImageView{
     private Chiffre chiffre;
 
-    public ChiffreView(Chiffre chiffre){
+    public ChiffreView(Chiffre chiffre, GrilleController grille){
         super();
         Image image = new Image("file:src/main/ressources/chiffre" + 
         (chiffre.getChiffre() < 0 ? "vide" : chiffre.getChiffre())
          + ".png");
         this.setImage(image);   
         //taille max imposé par les contraintes de la grille
-        this.setFitWidth(10);
-        this.setPreserveRatio(true);
+
+
+        this.fitWidthProperty().bind(grille.widthProperty().multiply(grille.getLargeurChiffre() / 100));
+        this.fitHeightProperty().bind(grille.heightProperty().multiply(grille.getLargeurChiffre() / 100));
 
         // Lier les propriétés de taille de l'ImageView aux propriétés de taille de la cellule
 

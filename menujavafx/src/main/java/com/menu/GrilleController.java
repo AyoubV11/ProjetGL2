@@ -56,8 +56,10 @@ public class GrilleController extends GridPane {
         Iterator<Chiffre> chiffres = grille.iteratorChiffres();
         while(chiffres.hasNext()){
             Chiffre c = chiffres.next();
-            ChiffreView cv = new ChiffreView(c);
+            ChiffreView cv = new ChiffreView(c, this);
             this.add(cv, c.getColonne(), c.getLigne());  
+            GridPane.setHgrow(cv, Priority.ALWAYS);
+            GridPane.setVgrow(cv, Priority.ALWAYS);
         }
 
         // ajouter les arêtes à la grille
