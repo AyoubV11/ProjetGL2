@@ -10,6 +10,7 @@ public class AreteView extends Button{
     public AreteView(Arete arete){
         super();
         this.arete = arete;
+        this.setMinSize(0,0);
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 0; -fx-background-radius: 0;");
         this.setOnMouseClicked(e -> {
@@ -26,7 +27,7 @@ public class AreteView extends Button{
         });
 
         Polygon diamond = new Polygon();
-        double size = 50; // Taille du losange
+        double size = 10; // Taille du losange
         diamond.getPoints().addAll(
             0.0, -size,  // Haut
             size, 0.0,   // Droite
