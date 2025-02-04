@@ -145,23 +145,21 @@ public class Grille {
         return new Iterator<Arete>() {
             private int ligne = 0;
             private int colonne = 1;
-            private EnumTrait etat = EnumTrait.HORIZONTAL;
             public boolean hasNext() {
                 return ligne < nbLignes;
             }
             public Arete next() {
                 Arete a = (Arete) Grille.this.cases[ligne][colonne];
                 colonne += 2;
-                if (colonne >= nbColonnes) {
-                    if (etat == EnumTrait.HORIZONTAL) {
+                if (colonne >= nbColonnes) { // changement de ligne
+                    if (a.getOrientation() == EnumOrientation.HORIZONTAL) {
                         colonne = 0;
-                        etat = EnumTrait.VERTICAL;
                     } else {
                         colonne = 1;
-                        etat = EnumTrait.HORIZONTAL;
                     }
                     ligne++;
                 }
+                
                 return a;
             }
         };

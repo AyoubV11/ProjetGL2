@@ -54,6 +54,14 @@ public class Arete extends Case {
        return false;
     }
 
+    public EnumOrientation getOrientation(){
+        if(this.getLigne() % 2 == 0){
+            return EnumOrientation.HORIZONTAL;
+        } else {
+            return EnumOrientation.VERTICAL;
+        }
+    }
+
 
     /**
      * Cette methode permet de verifier si l'utilisateur a le droit de poser l'arete, si la case est valide et qu'elle respecte la conditions des voisins

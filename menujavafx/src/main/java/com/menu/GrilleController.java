@@ -2,6 +2,7 @@ package com.menu;
 
 import java.util.Iterator;
 
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -21,9 +22,6 @@ public class GrilleController extends GridPane {
         
         this.nbLignes = grille.getNbLignes();
         this.nbColonnes = grille.getNbColonnes();
-
-        // je veux que les colonnes et les lignes s'adaptent à la taille de la fenêtre
-
 
         this.largeurInterstice = 100 * proportionInterstice  / (this.nbColonnes / 2 + 1);
         this.largeurChiffre = 100 * (1.0 - proportionInterstice) / (this.nbColonnes / 2); 
@@ -58,8 +56,6 @@ public class GrilleController extends GridPane {
             Chiffre c = chiffres.next();
             ChiffreView cv = new ChiffreView(c, this);
             this.add(cv, c.getColonne(), c.getLigne());  
-            GridPane.setHgrow(cv, Priority.ALWAYS);
-            GridPane.setVgrow(cv, Priority.ALWAYS);
         }
 
         // ajouter les arêtes à la grille
@@ -68,7 +64,7 @@ public class GrilleController extends GridPane {
             Arete a = aretes.next();
             AreteView av = new AreteView(a);
             this.add(av, a.getColonne(), a.getLigne());
-            System.out.println("Ajout de l'arete " + a.getLigne() + "x" + a.getColonne());  
+            addTriggerAreteView(av);
         }
 
         // ajouter les points à la grille
@@ -78,7 +74,75 @@ public class GrilleController extends GridPane {
             PointView pv = new PointView(p, this);
             this.add(pv, p.getColonne(), p.getLigne());
         }
+
         
+
+        // récuperer les coordonées des points de l'areteview
+
+
+        
+        
+    }
+
+    private void addTriggerAreteView(AreteView av){
+        this.setOnMouseMoved(event -> {
+            double mouseX = event.getSceneX();
+            double mouseY = event.getSceneY();
+            
+            double sommetHautGaucheX = av.localToScene(av.getBoundsInLocal()).getMinX();
+            double sommetBasDroiteX = av.localToScene(av.getBoundsInLocal()).getMaxX();
+            double sommetHautGaucheY = av.localToScene(av.getBoundsInLocal()).getMinY();
+            double sommetBasDroiteY = av.localToScene(av.getBoundsInLocal()).getMaxY();
+
+            //calcul des autres sommets
+            double sommetHautDroitX = sommetBasDroiteX;
+            double sommetHautDroitY = sommetHautGaucheY;
+            double sommetBasGaucheX = sommetHautGaucheX;
+            double sommetBasGaucheY = sommetBasDroiteY;
+
+            double distance1, distance2, distance = 0;
+            if(av.getArete().getOrientation() == EnumOrientation.VERTICAL){
+                // coté gauche
+                distance1 = (sommetHautGaucheX + sommetHautGaucheY) - (mouseX + mouseY) ;
+                distance2 = (sommetBasGaucheX - sommetBasGaucheY) - (mouseX - mouseY) ;
+                double distanceGauche = Math.max(distance1, distance2);
+
+                // coté droit
+                distance1 = (mouseX - mouseY) - (sommetHautDroitX - sommetHautDroitY) ;
+                distance2 = (mouseX + mouseY) - (sommetBasDroiteX + sommetBasDroiteY);
+                double distanceDroit = Math.max(distance1, distance2);
+
+                distance = Math.max(distanceGauche, distanceDroit);
+                
+            }
+            else{
+                System.out.println("test");
+                // coté haut
+                distance1 = (sommetHautGaucheX + sommetHautGaucheY) - (mouseX + mouseY) ;
+                distance2 = (mouseX - mouseY) - (sommetHautDroitX - sommetHautDroitY) ;
+                double distanceHaut = Math.max(distance1, distance2);
+
+                // coté bas
+                distance1 = (sommetBasGaucheX - sommetBasGaucheY) - (mouseX - mouseY);
+                distance2 = (mouseX + mouseY) - (sommetBasDroiteX + sommetBasDroiteY);
+                double distanceBas = Math.max(distance1, distance2);
+
+                distance = Math.max(distanceHaut, distanceBas);
+
+                
+            }
+
+            
+            if (distance < 0) {
+                av.setCurseurProche(true);
+            } else {
+                av.setCurseurProche(false);
+            }
+
+            
+
+
+        });
     }
 
     public double getLargeurInterstice(){

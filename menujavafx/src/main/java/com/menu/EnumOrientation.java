@@ -1,5 +1,5 @@
 package com.menu;
 
-public enum EnumTrait {
+public enum EnumOrientation {
     HORIZONTAL, VERTICAL;
 }

@@ -6,9 +6,11 @@ import javafx.scene.shape.Polygon;
 public class AreteView extends Button{
 
     private Arete arete;
+    private boolean curseurProche; //
 
     public AreteView(Arete arete){
         super();
+        this.curseurProche = false;
         this.arete = arete;
         this.setMinSize(0,0);
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -26,19 +28,19 @@ public class AreteView extends Button{
             }
         });
 
-        Polygon diamond = new Polygon();
-        double size = 10; // Taille du losange
-        diamond.getPoints().addAll(
-            0.0, -size,  // Haut
-            size, 0.0,   // Droite
-            0.0, size,   // Bas
-            -size, 0.0   // Gauche
-        );
-        diamond.getPoints().set(0, null);
+        
     }
 
     public Arete getArete(){
         return this.arete;
+    }
+
+    public boolean getCurseurProche(){
+        return this.curseurProche;
+    }
+
+    public void setCurseurProche(boolean curseurProche){
+        this.curseurProche = curseurProche;
     }
     
 
