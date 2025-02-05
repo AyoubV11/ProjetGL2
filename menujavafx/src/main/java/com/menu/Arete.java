@@ -17,7 +17,12 @@ public class Arete extends Case {
     }
 
     public void setTrait() {
-        if(check()) this.etat = EnumEtat.TRAIT;
+        if(check()){
+            this.etat = EnumEtat.TRAIT;
+        }else{
+
+            this.etat = EnumEtat.CROIX;
+       }
     }
 
     public void setVide() {
@@ -29,29 +34,31 @@ public class Arete extends Case {
     }
 
 
-    /**
-     * Cette methode permet de verifier si la case est valide
-     * @return boolean
-     */
-    public boolean estValide(int ligne, int colonne) {
-        int nbLignes = grille.getNbLignes();
-        int nbColonnes = grille.getNbColonnes();
-    
-        // Vérifier si la position est dans les limites de la grille
-        return (ligne >= 0 && ligne < nbLignes && colonne >= 0 && colonne < nbColonnes);
+    @Override
+    public int getTraitVoisin(){
+      
+        return 0;
     }
-    
+
+
     /**
      * Cette methode permet de verifier si les cases voisines ont un nombre de  voisins inferieur a 2
      * @return boolean
      */
     public boolean estAutoriseAPoserArete(int ligne , int colonne){
         Grille grille =  this.getGrille();
-        if(grille.getCase(ligne-1, colonne).getTraitVoisin() < 2 && grille.getCase(ligne+1, colonne).getTraitVoisin() < 2
-        && grille.getCase(ligne, colonne-1).getTraitVoisin() < 2 && grille.getCase(ligne, colonne+1).getTraitVoisin() < 2){
+        
+        if((ligne % 2 == 0) && (((Point)grille.getCase(ligne, colonne-1)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne, colonne+1)).getTraitVoisin() < 2))
+        {
             return true;
         }
-       return false;
+        else if((ligne % 2 == 1) && (((Point)grille.getCase(ligne-1, colonne)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne+1, colonne)).getTraitVoisin() < 2))
+        {
+            return true;
+        }
+
+        return false;
+        
     }
 
     public EnumOrientation getOrientation(){
@@ -63,19 +70,18 @@ public class Arete extends Case {
     }
 
 
-    /**
-     * Cette methode permet de verifier si l'utilisateur a le droit de poser l'arete, si la case est valide et qu'elle respecte la conditions des voisins
-     * @return boolean
-     */
     public boolean check(){
        
         int ligne = this.getLigne();
         int colonne = this.getColonne();     
         
-        
-        if(this.estValide(ligne, colonne) && this.estAutoriseAPoserArete(ligne,colonne)){
+    
+        if(this.estValide(ligne, colonne) && this.estAutoriseAPoserArete(ligne,colonne) /*Ca respe */){
             return true;
         }
+
+        // Cas si le nb d'arrete autour du chiffre est superieur au chiffre
+        
         return false;
     }
     

@@ -31,12 +31,29 @@ public abstract class Case {
         
         // Si les case sont egale a une arete
 
-        if(((Arete)this.getGrille().getCase(x,y-1)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(((Arete)this.getGrille().getCase(x-1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(((Arete)this.getGrille().getCase(x,y+1)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(((Arete)this.getGrille().getCase(x+1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
+
+        if(estValide(x,y-1) && ((Arete)this.getGrille().getCase(x,y-1)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(estValide(x-1,y) &&((Arete)this.getGrille().getCase(x-1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(estValide(x,y+1) &&((Arete)this.getGrille().getCase(x,y+1)).getEtat() == EnumEtat.TRAIT) nbArete++;
+        if(estValide(x+1,y) &&((Arete)this.getGrille().getCase(x+1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
         
         return nbArete;
+    }
+
+    /**
+     * Cette methode permet de verifier si la case est valide
+     * @return boolean
+     */
+    public boolean estValide(int ligne, int colonne) {
+        int nbLignes = grille.getNbLignes();
+        int nbColonnes = grille.getNbColonnes();
+        System.out.println("nb ligne" + nbLignes);
+        System.out.println("nb Colonne" + nbColonnes);
+        System.out.println("ligne" + ligne);
+        System.out.println("colonne" + colonne);
+    
+        // Vérifier si la position est dans les limites de la grille
+        return (ligne >= 0 && ligne < nbLignes && colonne >= 0 && colonne < nbColonnes);
     }
 
 
