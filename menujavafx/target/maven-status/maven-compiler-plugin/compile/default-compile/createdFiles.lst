@@ -1,5 +1,6 @@
 com/menu/BalooFont.class
 com/menu/MenuBoxComponent$1.class
+com/menu/MenuBoxComponent$2.class
 com/menu/GridComponent.class
 com/menu/TitleComponent.class
 com/menu/ButtonFactory.class

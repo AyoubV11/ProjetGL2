@@ -76,4 +76,9 @@ public class GridComponent {
             gridPane.add(button, (i - 1) % 2, (i - 1) / 2);
         }
     }
+
+
+    public void showSettings() {
+        gridPane.getChildren().clear();
+    }
 }

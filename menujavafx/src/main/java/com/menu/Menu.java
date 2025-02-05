@@ -1,7 +1,10 @@
 package com.menu;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -10,12 +13,14 @@ import javafx.scene.text.Text;
 public class Menu extends Application {
 
     private GridComponent gridComponent;
+    private HBox content;
+    private MenuBoxComponent menuBoxComponent;
     
     @Override
     public void start(Stage primaryStage) {
         // Créer les composants principaux
         TitleComponent titleComponent = new TitleComponent();
-        MenuBoxComponent menuBoxComponent = new MenuBoxComponent(this);
+        menuBoxComponent = new MenuBoxComponent(this);
         gridComponent = new GridComponent();  // Initialiser le GridComponent
 
         // Agrandir le titre
@@ -35,16 +40,16 @@ public class Menu extends Application {
         StackPane root = new StackPane();
         root.setBackground(new Background(background));
 
-        HBox content = new HBox(40, menuBoxComponent.getMenuBox(), gridComponent.getGridPane()); // Espacement entre éléments
+        content = new HBox(40, menuBoxComponent.getMenuBox(), gridComponent.getGridPane()); // Espacement entre éléments
         content.setStyle("-fx-padding: 40;");
-        content.setAlignment(javafx.geometry.Pos.CENTER);
+        content.setAlignment(javafx.geometry.Pos.CENTER);   
 
         VBox mainLayout = new VBox(20, title, content);
         mainLayout.setAlignment(javafx.geometry.Pos.CENTER);
 
         root.getChildren().add(mainLayout);
 
-        // Afficher la scène
+        // Afficher la scène    
         Scene scene = new Scene(root, 1006, 595);
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
@@ -76,8 +81,40 @@ public class Menu extends Application {
     }
 
     public void showSettings() {
-        // Logique pour afficher les paramètres
         System.out.println("Affichage des paramètres");
-        // Modifier le layout pour afficher les paramètres
+        gridComponent.showSettings();
+    
+        // Vider le contenu actuel
+        content.getChildren().clear();
+    
+        // Créer une nouvelle VBox pour les paramètres
+        VBox settingsBox = new VBox(15);
+        settingsBox.setAlignment(javafx.geometry.Pos.CENTER);
+        settingsBox.setStyle("-fx-background-color: #D3D3D3; -fx-padding: 20; -fx-border-radius: 15; -fx-background-radius: 15;");
+    
+        // Ajouter des boutons de paramètres
+        Button retourButton = ButtonFactory.createAnimatedButton("RETOUR");
+        Button volumeButton = ButtonFactory.createAnimatedButton("VOLUME");
+        Button themeButton = ButtonFactory.createAnimatedButton("THEME");
+    
+        retourButton.setPrefWidth(200);
+        volumeButton.setPrefWidth(200);
+        themeButton.setPrefWidth(200);
+    
+        // Action pour revenir au menu principal
+        retourButton.setOnAction(e -> showMainMenu());
+    
+        settingsBox.getChildren().addAll(volumeButton, themeButton, retourButton);
+    
+        // Ajouter la boîte des paramètres et la grille vide pour garder la structure
+        content.getChildren().addAll(settingsBox, gridComponent.getGridPane());
     }
+
+
+    public void showMainMenu() {
+        System.out.println("Retour au menu principal");
+        content.getChildren().clear();
+        content.getChildren().addAll(menuBoxComponent.getMenuBox(), gridComponent.getGridPane());
+    }
+
 }
