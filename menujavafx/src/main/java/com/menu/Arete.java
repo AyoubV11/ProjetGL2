@@ -48,11 +48,11 @@ public class Arete extends Case {
     public boolean estAutoriseAPoserArete(int ligne , int colonne){
         Grille grille =  this.getGrille();
         
-        if((ligne % 2 == 0) && (((Point)grille.getCase(ligne, colonne-1)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne, colonne+1)).getTraitVoisin() < 2))
+        if((this.getOrientation() == EnumOrientation.HORIZONTAL) && (((Point)grille.getCase(ligne, colonne-1)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne, colonne+1)).getTraitVoisin() < 2))
         {
             return true;
         }
-        else if((ligne % 2 == 1) && (((Point)grille.getCase(ligne-1, colonne)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne+1, colonne)).getTraitVoisin() < 2))
+        else if((this.getOrientation() == EnumOrientation.VERTICAL) && (((Point)grille.getCase(ligne-1, colonne)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne+1, colonne)).getTraitVoisin() < 2))
         {
             return true;
         }
