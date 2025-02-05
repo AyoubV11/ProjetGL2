@@ -11,7 +11,7 @@ public class PointView extends Rectangle{
     public PointView(Point point, GrilleController grille){
         super();
         this.point = point;
-        this.setFill(Color.BLUE);
+        this.setFill(Color.BLACK);
         // Permettre au rectangle de s'étendre
         
         this.widthProperty().bind(grille.widthProperty().multiply(grille.getLargeurInterstice() / 100));

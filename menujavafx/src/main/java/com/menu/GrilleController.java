@@ -1,6 +1,8 @@
 package com.menu;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
@@ -10,6 +12,7 @@ import javafx.scene.layout.RowConstraints;
 
 public class GrilleController extends GridPane {
     private Grille grille;
+    private List<AreteView> listAreteView;
 
     private int nbLignes;
     private int nbColonnes;
@@ -18,6 +21,7 @@ public class GrilleController extends GridPane {
 
     public GrilleController(Grille grille, int sizeH, int sizeV, double proportionInterstice){
         this.grille = grille;
+        this.listAreteView = new ArrayList<AreteView>();
         this.setGridLinesVisible(false);
         
         this.nbLignes = grille.getNbLignes();
@@ -64,7 +68,7 @@ public class GrilleController extends GridPane {
             Arete a = aretes.next();
             AreteView av = new AreteView(a);
             this.add(av, a.getColonne(), a.getLigne());
-            addTriggerAreteView(av);
+            this.listAreteView.add(av);
         }
 
         // ajouter les points à la grille
@@ -75,7 +79,7 @@ public class GrilleController extends GridPane {
             this.add(pv, p.getColonne(), p.getLigne());
         }
 
-        
+        this.activeTriggerAreteView();
 
         // récuperer les coordonées des points de l'areteview
 
@@ -84,64 +88,26 @@ public class GrilleController extends GridPane {
         
     }
 
-    private void addTriggerAreteView(AreteView av){
+
+    private void activeTriggerAreteView(){
         this.setOnMouseMoved(event -> {
-            double mouseX = event.getSceneX();
-            double mouseY = event.getSceneY();
-            
-            double sommetHautGaucheX = av.localToScene(av.getBoundsInLocal()).getMinX();
-            double sommetBasDroiteX = av.localToScene(av.getBoundsInLocal()).getMaxX();
-            double sommetHautGaucheY = av.localToScene(av.getBoundsInLocal()).getMinY();
-            double sommetBasDroiteY = av.localToScene(av.getBoundsInLocal()).getMaxY();
-
-            //calcul des autres sommets
-            double sommetHautDroitX = sommetBasDroiteX;
-            double sommetHautDroitY = sommetHautGaucheY;
-            double sommetBasGaucheX = sommetHautGaucheX;
-            double sommetBasGaucheY = sommetBasDroiteY;
-
-            double distance1, distance2, distance = 0;
-            if(av.getArete().getOrientation() == EnumOrientation.VERTICAL){
-                // coté gauche
-                distance1 = (sommetHautGaucheX + sommetHautGaucheY) - (mouseX + mouseY) ;
-                distance2 = (sommetBasGaucheX - sommetBasGaucheY) - (mouseX - mouseY) ;
-                double distanceGauche = Math.max(distance1, distance2);
-
-                // coté droit
-                distance1 = (mouseX - mouseY) - (sommetHautDroitX - sommetHautDroitY) ;
-                distance2 = (mouseX + mouseY) - (sommetBasDroiteX + sommetBasDroiteY);
-                double distanceDroit = Math.max(distance1, distance2);
-
-                distance = Math.max(distanceGauche, distanceDroit);
-                
+            for(AreteView av : this.listAreteView){
+                // if(av.isCurseurProche(event)){
+                //     av.setStyle("-fx-background-color: #ffffff;");
+                // } else {
+                //     av.setStyle("-fx-background-color: #000000;");
+                // }
             }
-            else{
-                System.out.println("test");
-                // coté haut
-                distance1 = (sommetHautGaucheX + sommetHautGaucheY) - (mouseX + mouseY) ;
-                distance2 = (mouseX - mouseY) - (sommetHautDroitX - sommetHautDroitY) ;
-                double distanceHaut = Math.max(distance1, distance2);
+        });
 
-                // coté bas
-                distance1 = (sommetBasGaucheX - sommetBasGaucheY) - (mouseX - mouseY);
-                distance2 = (mouseX + mouseY) - (sommetBasDroiteX + sommetBasDroiteY);
-                double distanceBas = Math.max(distance1, distance2);
-
-                distance = Math.max(distanceHaut, distanceBas);
-
-                
+        this.setOnMouseClicked(event -> {
+            for(AreteView av : this.listAreteView){
+                if(av.isCurseurProche(event))
+                    if (event.isPrimaryButtonDown())
+                        av.clicGauche();
+                    else if (event.isSecondaryButtonDown())
+                       { av.clicDroit(); System.out.println("test");}
             }
-
-            
-            if (distance < 0) {
-                av.setCurseurProche(true);
-            } else {
-                av.setCurseurProche(false);
-            }
-
-            
-
-
         });
     }
 

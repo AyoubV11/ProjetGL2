@@ -19,12 +19,6 @@ public class ChiffreView extends ImageView{
         this.fitWidthProperty().bind(grille.widthProperty().multiply(grille.getLargeurChiffre() / 100));
         this.fitHeightProperty().bind(grille.heightProperty().multiply(grille.getLargeurChiffre() / 100));
 
-        // Lier les propriétés de taille de l'ImageView aux propriétés de taille de la cellule
-
-        
-        // this.fitWidthProperty().bind(((GridPane)this.getParent()).layoutXProperty());
-        // this.fitHeightProperty().bind(((GridPane)this.getParent()).layoutYProperty());
-
 
         this.chiffre = chiffre;
     }
