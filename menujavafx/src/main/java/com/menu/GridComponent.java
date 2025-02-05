@@ -1,9 +1,14 @@
 package com.menu;
 
+import javafx.scene.image.ImageView;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 
 public class GridComponent {
 
@@ -78,13 +83,40 @@ public class GridComponent {
     public void showTechniquesGrid() {
         // Réinitialiser la grille pour afficher une grille technique
         gridPane.getChildren().clear();  // Vider la grille actuelle
-
-        // Logique pour ajouter des boutons techniques (exemple simple)
-        for (int i = 1; i <= 12; i++) {
-            Button button = ButtonFactory.createAnimatedButton("Techniques " + i);
-            button.setPrefWidth(200);
-            gridPane.add(button, (i - 1) % 2, (i - 1) / 2);
+    
+        // Créer un VBox pour les images (alignées verticalement)
+        VBox vbox = new VBox(10);  // 10 pixels d'espacement entre les images
+    
+        // Logique pour ajouter des images différentes
+        for (int i = 1; i <= 8; i++) {
+            // Créer le chemin de l'image avec un numéro incrémenté
+            String imagePath = getClass().getResource("/techniques/image" + i + ".png").toExternalForm(); // Exemple: /image1.png
+    
+            // Vérifier si le chemin est valide
+            if (imagePath != null) {
+                // Créer une ImageView pour chaque image
+                Image image = new Image(imagePath);  // Charger l'image
+                ImageView imageView = new ImageView(image);
+    
+                // Ajuster la taille de l'image si nécessaire
+                imageView.setFitWidth(500*1.2);  // Ajuster la largeur de l'image
+                imageView.setFitHeight(300*1.2); // Ajuster la hauteur de l'image
+                imageView.setPreserveRatio(true); // Maintenir le ratio de l'image
+    
+                // Ajouter l'ImageView au VBox
+                vbox.getChildren().add(imageView);
+            } else {
+                System.out.println("Image " + i + " non trouvée.");
+            }
         }
+    
+        // Créer un ScrollPane pour activer le défilement vertical
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);  // Assurer que le contenu s'adapte à la largeur du ScrollPane
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);  // Toujours afficher la barre de défilement verticale
+    
+        // Ajouter le ScrollPane à la grille (ou à un autre conteneur)
+        gridPane.add(scrollPane, 0, 0);  // Placer le ScrollPane dans la grille
     }
 
 
