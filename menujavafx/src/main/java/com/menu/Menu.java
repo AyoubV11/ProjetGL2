@@ -62,6 +62,7 @@ public class Menu extends Application {
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Slither Link");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/star_completed.png")));
         primaryStage.show();
     }
 
@@ -72,19 +73,16 @@ public class Menu extends Application {
     // Méthodes d'action pour chaque bouton
     public void showClassicGrid() {
         // Logique pour afficher la grille classique
-        System.out.println("Affichage de la grille CLASSIQUE");
         gridComponent.showClassicGrid();  // Afficher la grille classique
     }
 
     public void showFreeGrid() {
         // Logique pour afficher la grille libre
-        System.out.println("Affichage de la grille LIBRE");
         gridComponent.showFreeGrid();  // Afficher la grille vide
     }
 
     public void showTechniquesGrid() {
         // Logique pour afficher la grille techniques
-        System.out.println("Affichage de la grille TECHNIQUES");
         gridComponent.showTechniquesGrid();  // Afficher une grille pour les techniques
     }
     public void showClassicMenu() {
@@ -93,7 +91,6 @@ public class Menu extends Application {
     }
 
     public void showSettings() {
-        System.out.println("Affichage des paramètres");
         gridComponent.clear();
     
         // Vider le contenu actuel
@@ -156,7 +153,6 @@ public class Menu extends Application {
     }
 
     public void showLevel() {
-        System.out.println("Affichage du niveau");
         gridComponent.clear();
         
         // Vider le contenu actuel
@@ -236,7 +232,6 @@ public class Menu extends Application {
     }
 
     public void showMainMenu() {
-        System.out.println("Retour au menu principal");
         content.getChildren().clear();
         content.getChildren().addAll(menuBoxComponent.getMenuBox(), gridComponent.getGridPane());
     }
