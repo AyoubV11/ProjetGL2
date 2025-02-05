@@ -1,17 +1,21 @@
 package com.menu;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class GridComponent {
 
     private GridPane gridPane;
+    private Menu menu;
 
-    public GridComponent() {
+    public GridComponent(Menu leMenu) {
         gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setAlignment(javafx.geometry.Pos.CENTER);
+        menu=leMenu;
     }
 
     public GridPane getGridPane() {
@@ -37,6 +41,12 @@ public class GridComponent {
                 button.setPrefWidth(200);
                 gridPane.add(button, (i - 1) % 2, (i - 1) / 2);
             }
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    menu.showLevel();
+                }
+            });
         }
     }
 
@@ -78,7 +88,7 @@ public class GridComponent {
     }
 
 
-    public void showSettings() {
+    public void clear() {
         gridPane.getChildren().clear();
     }
 }
