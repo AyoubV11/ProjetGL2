@@ -3,8 +3,8 @@ package com.menu;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Polygon;
 
 public class AreteView extends Button{
 
@@ -21,7 +21,7 @@ public class AreteView extends Button{
         this.imTrait = new Image("file:src/main/ressources/trait" +  
         (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +
         ".png");
-        this.imCroix = new Image("file:src/main/ressources/chiffre0.png");
+        this.imCroix = new Image("file:src/main/ressources/croix.png");
         this.iv = new ImageView();
         this.setVide();
 
@@ -32,16 +32,7 @@ public class AreteView extends Button{
         this.setMinSize(0,0);
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.setStyle("-fx-background-color: transparent;");
-        this.setOnMouseClicked(event -> {
-            System.out.println(event);
-            switch (arete.getEtat()) {
-                case VIDE: this.setTrait(); break;
-                case TRAIT: this.setVide(); break;
-                case CROIX: this.setCroix(); break;
-                default:
-                    break;
-            }
-        });
+        this.setOnMousePressed(event -> {this.gererClic(event);});
 
         
 
@@ -67,6 +58,15 @@ public class AreteView extends Button{
     public void setVide(){
         this.arete.setEtat(EnumEtat.VIDE);
         this.iv.setVisible(false);
+    }
+
+    public void gererClic(MouseEvent event){
+        if (this.isCurseurProche(event)){
+            if (event.getButton() == MouseButton.PRIMARY)
+            this.clicGauche();
+        else if (event.getButton() == MouseButton.SECONDARY)
+            this.clicDroit();
+        }
     }
 
     public boolean isCurseurProche(MouseEvent event){
@@ -118,14 +118,14 @@ public class AreteView extends Button{
     }
 
     public void clicGauche() {
-        if (this.arete.getEtat() == EnumEtat.VIDE) 
+        if (this.arete.getEtat() != EnumEtat.TRAIT) 
             this.setTrait();
         else 
             this.setVide();
     }
 
     public void clicDroit() {
-        if (this.arete.getEtat() == EnumEtat.VIDE) 
+        if (this.arete.getEtat() != EnumEtat.CROIX) 
             this.setCroix();
         else 
             this.setVide();

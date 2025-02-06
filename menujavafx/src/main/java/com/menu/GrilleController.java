@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 public class GrilleController extends GridPane {
@@ -19,10 +17,13 @@ public class GrilleController extends GridPane {
     private double largeurInterstice;
     private double largeurChiffre; 
 
+    private static final double DEFAULT_PROPORTION_INTERSTICE = 0.2;
+
     public GrilleController(Grille grille, int sizeH, int sizeV, double proportionInterstice){
         this.grille = grille;
         this.listAreteView = new ArrayList<AreteView>();
         this.setGridLinesVisible(false);
+        this.setStyle("-fx-background-color: transparent;");
         
         this.nbLignes = grille.getNbLignes();
         this.nbColonnes = grille.getNbColonnes();
@@ -79,34 +80,28 @@ public class GrilleController extends GridPane {
             this.add(pv, p.getColonne(), p.getLigne());
         }
 
-        this.activeTriggerAreteView();
-
-        // récuperer les coordonées des points de l'areteview
-
-
-        
+        this.ameliorerHitboxAreteView();
         
     }
 
+    public GrilleController(Grille grille, int sizeH, int sizeV){
+        this(grille, sizeH, sizeV, DEFAULT_PROPORTION_INTERSTICE);
+    }
 
-    private void activeTriggerAreteView(){
-        this.setOnMouseMoved(event -> {
-            for(AreteView av : this.listAreteView){
-                // if(av.isCurseurProche(event)){
-                //     av.setStyle("-fx-background-color: #ffffff;");
-                // } else {
-                //     av.setStyle("-fx-background-color: #000000;");
-                // }
-            }
-        });
+    public GrilleController(Grille grille, int size, double proportionInterstice){
+        this(grille, size, size, proportionInterstice);
+    }
 
-        this.setOnMouseClicked(event -> {
+    public GrilleController(Grille grille, int size){
+        this(grille, size, size, DEFAULT_PROPORTION_INTERSTICE);
+    }
+
+
+    // agrandir la zone clicable des areteView, pour que le clic soit pris en compte à coté de l'arete
+    private void ameliorerHitboxAreteView(){
+        this.setOnMousePressed(event -> {
             for(AreteView av : this.listAreteView){
-                if(av.isCurseurProche(event))
-                    if (event.isPrimaryButtonDown())
-                        av.clicGauche();
-                    else if (event.isSecondaryButtonDown())
-                       { av.clicDroit(); System.out.println("test");}
+                av.gererClic(event);
             }
         });
     }
@@ -118,6 +113,5 @@ public class GrilleController extends GridPane {
     public double getLargeurChiffre(){
         return this.largeurChiffre;
     }
-
 
 }
