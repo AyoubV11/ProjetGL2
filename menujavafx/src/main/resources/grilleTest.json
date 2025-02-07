@@ -1,0 +1,18 @@
+{
+    "ligne": 5,
+    "colonne": 5,
+    "modifications": [
+        {"ligne": 0, "colonne": 2, "chiffre": 3},
+        {"ligne": 0, "colonne": 3, "chiffre": 3},
+        {"ligne": 2, "colonne": 3, "chiffre": 3},
+        {"ligne": 4, "colonne": 2, "chiffre": 3},
+        {"ligne": 4, "colonne": 3, "chiffre": 3},
+        {"ligne": 1, "colonne": 0, "chiffre": 2},
+        {"ligne": 1, "colonne": 3, "chiffre": 2},
+        {"ligne": 1, "colonne": 4, "chiffre": 2},
+        {"ligne": 3, "colonne": 1, "chiffre": 2},
+        {"ligne": 4, "colonne": 1, "chiffre": 2},
+        {"ligne": 3, "colonne": 3, "chiffre": 1},
+        {"ligne": 1, "colonne": 2, "chiffre": 0}
+    ]
+}

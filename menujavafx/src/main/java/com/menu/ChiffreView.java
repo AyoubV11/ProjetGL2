@@ -8,18 +8,14 @@ public class ChiffreView extends ImageView{
 
     public ChiffreView(Chiffre chiffre, GrilleController grille){
         super();
-        this.setStyle("-fx-background-color: transparent;");
-        Image image = new Image("file:src/main/ressources/chiffre" + 
-        chiffre.getChiffre() + ".png");
-        this.setImage(image);   
-        //taille max imposé par les contraintes de la grille
-
-
+        this.chiffre = chiffre;
+        if (chiffre.getChiffre() >= 0){
+            Image image = new Image("chiffre" + chiffre.getChiffre() + ".png");
+            this.setImage(image);   
+        }
+        // mettre les dimensions de l'image en fonction de la taille de sa cellule
         this.fitWidthProperty().bind(grille.widthProperty().multiply(grille.getLargeurChiffre() / 100));
         this.fitHeightProperty().bind(grille.heightProperty().multiply(grille.getLargeurChiffre() / 100));
-
-
-        this.chiffre = chiffre;
     }
 
     public Chiffre getChiffre(){

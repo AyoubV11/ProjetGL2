@@ -32,7 +32,7 @@ class SlitherlinkGrid extends Canvas {
     private int ligne = 11;
     private int colonne = 11;
     private double cellSize;
-    Grille g = new Grille("src/test/ressources/grilleTest.json");
+    Grille g = new Grille("src/test/resources/grilleTest.json");
 
     public SlitherlinkGrid(double width, double height) {
         super(width, height);
