@@ -23,6 +23,7 @@ public class Menu extends Application {
     private GridComponent gridComponent;
     private HBox content;
     private MenuBoxComponent menuBoxComponent;
+    private VBox menuBox;
     
     @Override
     public void start(Stage primaryStage) {
@@ -48,12 +49,27 @@ public class Menu extends Application {
         StackPane root = new StackPane();
         root.setBackground(new Background(background));
 
-        content = new HBox(40, menuBoxComponent.getMenuBox(), gridComponent.getGridPane()); // Espacement entre éléments
-        content.setStyle("-fx-padding: 40;");
+        menuBox = menuBoxComponent.getMenuBox();
+        menuBox.setPrefWidth(220);
+        menuBox.setMinWidth(220);
+        menuBox.setMaxWidth(220);
+        menuBox.setPrefHeight(260);
+        menuBox.setMinHeight(260);
+        menuBox.setMaxHeight(260);
+        menuBox.setAlignment(Pos.CENTER);
+
+        content = new HBox(40, menuBox, gridComponent.getGridPane()); // Espacement entre éléments
+        content.setStyle("-fx-padding: 20;");
         content.setAlignment(javafx.geometry.Pos.CENTER);   
 
-        VBox mainLayout = new VBox(20, title, content);
-        mainLayout.setAlignment(javafx.geometry.Pos.CENTER);
+        BorderPane mainLayout = new BorderPane();
+        StackPane titleContainer = new StackPane(title);
+        titleContainer.setPadding(new Insets(40, 0, 0, 0));
+        BorderPane.setAlignment(titleContainer, Pos.TOP_CENTER);
+        
+        mainLayout.setTop(titleContainer);
+        
+        mainLayout.setCenter(content);
 
         root.getChildren().add(mainLayout);
 
@@ -100,6 +116,13 @@ public class Menu extends Application {
         VBox settingsBox = new VBox(15);
         settingsBox.setAlignment(Pos.CENTER);
         settingsBox.setStyle("-fx-background-color: #D3D3D3; -fx-padding: 20; -fx-border-radius: 15; -fx-background-radius: 15;");
+        settingsBox.setPrefWidth(220);  
+        settingsBox.setMinWidth(220);
+        settingsBox.setMaxWidth(220);
+
+        settingsBox.setPrefHeight(260); 
+        settingsBox.setMinHeight(260);
+        settingsBox.setMaxHeight(260);
     
         // Bouton retour
         Button retourButton = ButtonFactory.createAnimatedButton("RETOUR");
@@ -161,6 +184,13 @@ public class Menu extends Application {
         // Créer une nouvelle VBox pour le niveau
         VBox levelBox = new VBox(15);
         levelBox.setAlignment(Pos.CENTER);
+        levelBox.setPrefWidth(440);  
+        levelBox.setMinWidth(440);
+        levelBox.setMaxWidth(440);
+
+        levelBox.setPrefHeight(270); 
+        levelBox.setMinHeight(270);
+        levelBox.setMaxHeight(270);
         levelBox.setStyle("-fx-background-color: #D3D3D3; -fx-padding: 20; -fx-border-radius: 15; -fx-background-radius: 15;");
         
         // Images des étoiles avec descriptions
@@ -233,7 +263,7 @@ public class Menu extends Application {
 
     public void showMainMenu() {
         content.getChildren().clear();
-        content.getChildren().addAll(menuBoxComponent.getMenuBox(), gridComponent.getGridPane());
+        content.getChildren().addAll(menuBox, gridComponent.getGridPane());
     }
 
 }
