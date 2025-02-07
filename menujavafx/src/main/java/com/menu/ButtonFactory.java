@@ -1,7 +1,10 @@
 package com.menu;
 
 import javafx.animation.ScaleTransition;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -87,6 +90,13 @@ public class ButtonFactory {
         scaleTransition.play();
     }
 
+    private static void animateButton(ToggleButton button, double scale) {
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
+        scaleTransition.setToX(scale);
+        scaleTransition.setToY(scale);
+        scaleTransition.play();
+    }
+
 
 
     // Fonction pour débloquer un niveau
@@ -94,5 +104,31 @@ public class ButtonFactory {
         if (level > unlockedLevel) {
             unlockedLevel = level;
         }
+    }
+
+    public static HBox createToggleButton(String labelText, String offText, String onText) {
+        Label label = new Label(labelText);
+        label.setFont(BalooFont.setBalooSized(18));
+        ToggleButton toggle = new ToggleButton(offText);
+        toggle.setFont(BalooFont.setBalooSized(18));
+        toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+
+        toggle.setOnMouseEntered(e -> toggle.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        toggle.setOnMouseExited(e -> toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+
+        toggle.setOnMousePressed(e -> animateButton(toggle, 1.1));
+        toggle.setOnMouseReleased(e -> animateButton(toggle, 1.0));
+        toggle.setOnAction(event -> toggle.setText(toggle.isSelected() ? onText : offText));
+        HBox box = new HBox(10, label, toggle);
+        box.setAlignment(Pos.CENTER);
+        return box;
+    }
+
+    public static Slider createVolumeSlider(Label volumeLabel) {
+        Slider slider = new Slider(0, 100, 50);
+        slider.setStyle("-fx-control-inner-background: #000000; -fx-background-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" +"-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;");
+        slider.valueProperty().addListener((obs, oldVal, newVal) ->
+                volumeLabel.setText("Volume : " + newVal.intValue() + "%"));
+        return slider;
     }
 }
