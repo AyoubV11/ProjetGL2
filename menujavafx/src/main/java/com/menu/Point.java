@@ -12,7 +12,7 @@ public class Point extends Case{
      * @return
      */
     public boolean VerifPoint(Point p){
-        return p.getTraitVoisin() == 2;
+        return p.getNbAretesVoisines() == 2;
     }
 
     public String toString(){

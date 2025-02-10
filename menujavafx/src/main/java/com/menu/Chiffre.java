@@ -2,12 +2,14 @@ package com.menu;
 
 public class Chiffre extends Case {
     protected int chiffre;   // Chiffre de la case
-    protected boolean estVide;   // Indique si la case est vide
 
     public Chiffre(int ligne, int colonne, Grille grille, int chiffre) {
         super(ligne, colonne, grille);
         this.chiffre = chiffre;
-        this.estVide = false;
+    }
+
+    public Chiffre(int ligne, int colonne, Grille grille) {
+        this(ligne, colonne, grille, -1);
     }
 
     public int getChiffre() {
@@ -18,32 +20,24 @@ public class Chiffre extends Case {
         this.chiffre = chiffre;
     }
 
+    public boolean estVide() {
+        return this.chiffre < 0 || this.chiffre > 3;
+    }
+
 
     /**
      * Methode qui verifie si le nombre d'aretes est bien egal au chiffre
      * @return
      */
-    public boolean VerifChiffre(){
-        return this.chiffre==this.getTraitVoisin();
+    public boolean matchNbAretesVoisines(){
+        return this.chiffre==this.getNbAretesVoisines();
     }
-
-    /**
-     * Methode qui renvoie vrai si le nombre d'arete est egal au chiffre sinon faux
-     * @return boolean
-     */
-    public boolean ChiffreEgaleVoisins(){
-        
-        if( this.getChiffre() == this.getTraitVoisin()){
-            return true;
-        }
-        return false;
-    }
-
-
     
     public String toString(){
         if(this.chiffre == -1) return "   ";
         else return " " + this.chiffre + " ";
     }
+
+    
 
 }

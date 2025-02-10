@@ -35,8 +35,7 @@ public class Arete extends Case {
 
 
     @Override
-    public int getTraitVoisin(){
-      
+    public int getNbAretesVoisines(){  
         return 0;
     }
 
@@ -46,13 +45,18 @@ public class Arete extends Case {
      * @return boolean
      */
     public boolean estAutoriseAPoserArete(int ligne , int colonne){
-        Grille grille =  this.getGrille();
+        Point pointHaut = (Point)this.getGrille().getCase(ligne-1, colonne);
+        Point pointBas = (Point)this.getGrille().getCase(ligne+1, colonne);
+        Point pointGauche = (Point)this.getGrille().getCase(ligne, colonne-1);
+        Point pointDroite = (Point)this.getGrille().getCase(ligne, colonne+1);
         
-        if((this.getOrientation() == EnumOrientation.HORIZONTAL) && (((Point)grille.getCase(ligne, colonne-1)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne, colonne+1)).getTraitVoisin() < 2))
+        if((this.getOrientation() == EnumOrientation.HORIZONTAL) && 
+        pointDroite.getNbAretesVoisines() < 2 && pointGauche.getNbAretesVoisines() < 2)
         {
             return true;
         }
-        else if((this.getOrientation() == EnumOrientation.VERTICAL) && (((Point)grille.getCase(ligne-1, colonne)).getTraitVoisin() < 2 && ((Point)grille.getCase(ligne+1, colonne)).getTraitVoisin() < 2))
+        else if((this.getOrientation() == EnumOrientation.VERTICAL) && 
+        pointHaut.getNbAretesVoisines() < 2 && pointBas.getNbAretesVoisines() < 2)
         {
             return true;
         }
@@ -76,7 +80,7 @@ public class Arete extends Case {
         int colonne = this.getColonne();     
         
     
-        if(this.estValide(ligne, colonne) && this.estAutoriseAPoserArete(ligne,colonne) /*Ca respe */){
+        if(this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserArete(ligne,colonne) /*Ca respe */){
             return true;
         }
 

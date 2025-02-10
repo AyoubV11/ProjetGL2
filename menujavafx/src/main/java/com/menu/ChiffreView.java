@@ -9,7 +9,7 @@ public class ChiffreView extends ImageView{
     public ChiffreView(Chiffre chiffre, GrilleController grille){
         super();
         this.chiffre = chiffre;
-        if (chiffre.getChiffre() >= 0){
+        if (!chiffre.estVide()){
             Image image = new Image("chiffre" + chiffre.getChiffre() + ".png");
             this.setImage(image);   
         }

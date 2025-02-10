@@ -4,6 +4,7 @@ import java.util.Stack;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +19,10 @@ public class Grille {
         try {
             // Charger le JSON
             ObjectMapper objectMapper = new ObjectMapper();
-            GrilleJson grilleJson = objectMapper.readValue(new File(fichier), GrilleJson.class);
+
+            URL fichierURL = getClass().getClassLoader()
+                            .getResource("grilleTest.json");
+            GrilleJson grilleJson = objectMapper.readValue(fichierURL, GrilleJson.class);
 
             // Affectation des dimensions spécifiées à la grille
             this.nbLignes = grilleJson.getLigne() * 2 + 1;
@@ -31,7 +35,7 @@ public class Grille {
                 for(int j = 0; j < this.nbColonnes; j++){
                     if(i%2 == 0 && j%2 == 0) this.cases[i][j] = new Point(i, j, this);
                     else if(i%2 == 0 || (i%2 == 1 && j%2 == 0)) this.cases[i][j] = new Arete(i,j,this,EnumEtat.VIDE);
-                    else this.cases[i][j] = new Chiffre(i,j,this,-1);
+                    else this.cases[i][j] = new Chiffre(i, j, this);
                 }
             }
 
@@ -51,6 +55,19 @@ public class Grille {
 
     public int getNbColonnes() {
         return this.nbColonnes;
+    }
+
+    /**
+     * Cette methode vérifie si les coordonnées passés en paramètre sont celle d'une case de la grille
+     * @return boolean
+     */
+    public boolean caseExiste(int ligne, int colonne) {
+        System.out.println("nb ligne" + this.nbLignes);
+        System.out.println("nb Colonne" + this.nbColonnes);
+        System.out.println("ligne" + ligne);
+        System.out.println("colonne" + colonne);
+    
+        return (ligne >= 0 && ligne < this.nbLignes && colonne >= 0 && colonne < this.nbColonnes);
     }
 
     public Case getCase(int ligne, int colonne) throws ArrayIndexOutOfBoundsException {

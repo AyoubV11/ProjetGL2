@@ -1,9 +1,14 @@
 package com.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Case {
     protected int ligne;   // Coordonnée X de la case
     protected int colonne;   // Coordonnée Y de la case
     protected Grille grille;   // Grille à laquelle appartient la case
+
+    private List<Arete> aretesVoisines;
 
     public Case(int ligne, int colonne, Grille grille) {
         this.ligne = ligne;
@@ -18,42 +23,33 @@ public abstract class Case {
     public int getColonne() {
         return this.colonne;
     }
-
+    
     /**
      * Methode qui renvoie le nombre d'aretes autour de la case
      * @return int
      */
-    public int getTraitVoisin(){
-        
-        int x = this.getLigne();
-        int y = this.getColonne();
-        int nbArete = 0;
-        
-        // Si les case sont egale a une arete
-
-
-        if(estValide(x,y-1) && ((Arete)this.getGrille().getCase(x,y-1)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(estValide(x-1,y) &&((Arete)this.getGrille().getCase(x-1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(estValide(x,y+1) &&((Arete)this.getGrille().getCase(x,y+1)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        if(estValide(x+1,y) &&((Arete)this.getGrille().getCase(x+1,y)).getEtat() == EnumEtat.TRAIT) nbArete++;
-        
-        return nbArete;
+    public int getNbAretesVoisines(){
+        return this.getAretesVoisines().size();
     }
 
-    /**
-     * Cette methode permet de verifier si la case est valide
-     * @return boolean
-     */
-    public boolean estValide(int ligne, int colonne) {
-        int nbLignes = grille.getNbLignes();
-        int nbColonnes = grille.getNbColonnes();
-        System.out.println("nb ligne" + nbLignes);
-        System.out.println("nb Colonne" + nbColonnes);
-        System.out.println("ligne" + ligne);
-        System.out.println("colonne" + colonne);
-    
-        // Vérifier si la position est dans les limites de la grille
-        return (ligne >= 0 && ligne < nbLignes && colonne >= 0 && colonne < nbColonnes);
+    public List<Arete> getAretesVoisines() {
+        if(this.aretesVoisines == null){
+            this.aretesVoisines = new ArrayList<Arete>();
+
+            int x = this.getLigne();
+            int y = this.getColonne();
+
+            if (this.grille.caseExiste(x, y - 1)) 
+                this.aretesVoisines.add((Arete) this.grille.getCase(x, y - 1));
+            if (this.grille.caseExiste(x - 1, y)) 
+                this.aretesVoisines.add((Arete) this.grille.getCase(x - 1, y));
+            if (this.grille.caseExiste(x, y + 1)) 
+                this.aretesVoisines.add((Arete) this.grille.getCase(x, y + 1));
+            if (this.grille.caseExiste(x + 1, y)) 
+                this.aretesVoisines.add((Arete) this.grille.getCase(x + 1, y));
+        }
+
+        return aretesVoisines;
     }
 
 
