@@ -70,6 +70,8 @@ public class Grille {
         return (ligne >= 0 && ligne < this.nbLignes && colonne >= 0 && colonne < this.nbColonnes);
     }
 
+    
+
     public Case getCase(int ligne, int colonne) throws ArrayIndexOutOfBoundsException {
         return this.cases[ligne][colonne];
     }

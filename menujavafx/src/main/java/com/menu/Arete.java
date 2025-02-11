@@ -44,24 +44,20 @@ public class Arete extends Case {
      * Cette methode permet de verifier si les cases voisines ont un nombre de  voisins inferieur a 2
      * @return boolean
      */
-    public boolean estAutoriseAPoserArete(int ligne , int colonne){
-        Point pointHaut = (Point)this.getGrille().getCase(ligne-1, colonne);
-        Point pointBas = (Point)this.getGrille().getCase(ligne+1, colonne);
-        Point pointGauche = (Point)this.getGrille().getCase(ligne, colonne-1);
-        Point pointDroite = (Point)this.getGrille().getCase(ligne, colonne+1);
-        
-        if((this.getOrientation() == EnumOrientation.HORIZONTAL) && 
-        pointDroite.getNbAretesVoisines() < 2 && pointGauche.getNbAretesVoisines() < 2)
-        {
-            return true;
-        }
-        else if((this.getOrientation() == EnumOrientation.VERTICAL) && 
-        pointHaut.getNbAretesVoisines() < 2 && pointBas.getNbAretesVoisines() < 2)
-        {
-            return true;
-        }
+    public boolean estAutoriseAPoserTrait(){
 
-        return false;
+        Point point1, point2;
+
+        if((this.getOrientation() == EnumOrientation.HORIZONTAL)){
+            point1 = (Point)this.getGrille().getCase(this.ligne, this.colonne-1);
+            point2 = (Point)this.getGrille().getCase(this.ligne, this.colonne+1);
+        }else{
+            point1 = (Point)this.getGrille().getCase(this.ligne-1, this.colonne);
+            point2 = (Point)this.getGrille().getCase(this.ligne+1, this.colonne);
+        }
+        
+        return point1.getNbAretesVoisines() < 2 && point2.getNbAretesVoisines() < 2;
+
         
     }
 
@@ -80,7 +76,7 @@ public class Arete extends Case {
         int colonne = this.getColonne();     
         
     
-        if(this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserArete(ligne,colonne) /*Ca respe */){
+        if(this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserTrait() /*Ca respe */){
             return true;
         }
 
