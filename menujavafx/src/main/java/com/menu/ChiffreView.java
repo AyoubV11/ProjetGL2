@@ -21,7 +21,5 @@ public class ChiffreView extends ImageView{
     public Chiffre getChiffre(){
         return this.chiffre;
     }
-
-
     
 }
