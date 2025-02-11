@@ -16,6 +16,15 @@ public class Menu extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+
+
+
+        BoxFactory.initialiserListe();
+
+
+
+
         TitleComponent titleComponent = new TitleComponent();
         MenuBoxComponent menuBoxComponent = new MenuBoxComponent(this);
         gridComponent = new GridComponent(this);
@@ -33,12 +42,12 @@ public class Menu extends Application {
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Slither Link");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/star_completed.png")));
+        primaryStage.getIcons().add(new Image("/star_completed.png"));
         primaryStage.show();
     }
 
     private StackPane setupBackground() {
-        Image backgroundImage = new Image(getClass().getResource("/slither.png").toExternalForm());
+        Image backgroundImage = new Image(("/slither.png"));
         BackgroundImage background = new BackgroundImage(
                 backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, new BackgroundSize(100, 100, true, true, true, false));
@@ -85,10 +94,10 @@ public class Menu extends Application {
     }
 
 
-    public void showLevel() {
+    public void showLevel(int i) {
         gridComponent.clear();
         content.getChildren().clear();
-        content.getChildren().addAll(BoxFactory.createLevelBox(this,getClass().getResource("/star_completed.png").toExternalForm(),getClass().getResource("/star_uncompleted.png").toExternalForm()), gridComponent.getGridPane());
+        content.getChildren().addAll(BoxFactory.createLevelBox(this,"/star_completed.png","/star_uncompleted.png",i), gridComponent.getGridPane());
     }
 
     public void showMainMenu() {

@@ -17,6 +17,13 @@ public class ButtonFactory {
 
     private static int unlockedLevel = 1;  // Le niveau actuellement débloqué, peut être mis à jour dynamiquement
 
+    
+    
+    /** 
+     * Crée un bouton contenant un texte blanc sur fond noir, qui grossit quand on clique dessus et qui s'éclaircit lorsque la souris passe dessus.
+     * @param text le texte affiché dans le bouton.
+     * @return Button le bouton créé.
+     */
     public static Button createAnimatedButton(String text) {
         Button button = new Button(text);
         button.setFont(BalooFont.setBalooSized(18));
@@ -33,6 +40,19 @@ public class ButtonFactory {
         return button;
     }
 
+    
+    
+    /** 
+     * Crée les boutons contenant le numéro d'une grille ainsi que 3 images de tête de mort.
+     * Plus ou moins de têtes de mort sont grisées en fonction de la difficulté.
+     * Si le niveau n'est pas débloqué, il apparait grisé avec une image de cadenas dessus.
+     * @param text le nom de la grille.
+     * @param level le numéro de la grille.
+     * @param difficulty la difficulté de la grille, définissant le nombre de têtes de mort qui seront grisées.
+     * @param imagePath le chemin vers l'image de tête de mort.
+     * @param lockedImagePath le chemin vers l'image du cadenas, qui se superpose sur le bouton d'un niveau non-débloqué.
+     * @return Button
+     */
     public static Button createSkullButton(String text, int level, int difficulty, String imagePath, String lockedImagePath) {
         Image skullImage = new Image(imagePath);
         Image lockedImage = new Image(lockedImagePath);

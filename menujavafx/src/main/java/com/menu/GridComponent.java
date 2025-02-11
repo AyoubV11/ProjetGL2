@@ -34,8 +34,8 @@ public class GridComponent {
         // Logique pour créer la grille classique (même logique qu'avant)
         for (int i = 1; i <= 12; i++) {
             int difficulty = (i <= 3) ? 1 : (i <= 6) ? 2 : 3;
-            String imagePath = getClass().getResource("/skull.png").toExternalForm();
-            String imagePath2 = getClass().getResource("/locked.png").toExternalForm();
+            String imagePath = "/skull.png";
+            String imagePath2 = "/locked.png";
             Button button;
             if (i >= 10) {
                 button = ButtonFactory.createSkullButton("Grille " + i, i, difficulty, imagePath, imagePath2);
@@ -46,10 +46,11 @@ public class GridComponent {
                 button.setPrefWidth(200);
                 gridPane.add(button, (i - 1) % 2, (i - 1) / 2);
             }
+            int indice=i;
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    menu.showLevel();
+                    menu.showLevel(indice);
                 }
             });
         }
@@ -58,8 +59,8 @@ public class GridComponent {
     public void showFreeGrid() {
         // Réinitialiser la grille pour afficher une grille vide
         gridPane.getChildren().clear();  // Vider la grille actuelle
-        String imagePath = getClass().getResource("/skull.png").toExternalForm();
-        String imagePath2 = getClass().getResource("/locked.png").toExternalForm();
+        String imagePath = "/skull.png";
+        String imagePath2 = "/locked.png";
         Button button;
         // Ajouter des boutons vides pour simuler une grille vide
         for (int i = 1; i <= 3; i++) {
@@ -90,24 +91,20 @@ public class GridComponent {
         // Logique pour ajouter des images différentes
         for (int i = 1; i <= 8; i++) {
             // Créer le chemin de l'image avec un numéro incrémenté
-            String imagePath = getClass().getResource("/techniques/image" + i + ".png").toExternalForm(); // Exemple: /image1.png
+            String imagePath = "/techniques/image" + i + ".png"; // Exemple: /image1.png
     
             // Vérifier si le chemin est valide
-            if (imagePath != null) {
-                // Créer une ImageView pour chaque image
-                Image image = new Image(imagePath);  // Charger l'image
-                ImageView imageView = new ImageView(image);
-    
-                // Ajuster la taille de l'image si nécessaire
-                imageView.setFitWidth(500*1.2);  // Ajuster la largeur de l'image
-                imageView.setFitHeight(300*1.2); // Ajuster la hauteur de l'image
-                imageView.setPreserveRatio(true); // Maintenir le ratio de l'image
-    
-                // Ajouter l'ImageView au VBox
-                vbox.getChildren().add(imageView);
-            } else {
-                System.out.println("Image " + i + " non trouvée.");
-            }
+            // Créer une ImageView pour chaque image
+            Image image = new Image(imagePath);  // Charger l'image
+            ImageView imageView = new ImageView(image);
+
+            // Ajuster la taille de l'image si nécessaire
+            imageView.setFitWidth(500*1.2);  // Ajuster la largeur de l'image
+            imageView.setFitHeight(300*1.2); // Ajuster la hauteur de l'image
+            imageView.setPreserveRatio(true); // Maintenir le ratio de l'image
+
+            // Ajouter l'ImageView au VBox
+            vbox.getChildren().add(imageView);
         }
     
         // Créer un ScrollPane pour activer le défilement vertical
