@@ -9,10 +9,18 @@ public class MenuBoxComponent {
 
     private Menu menu;
 
+    /**
+     * Constructeur.
+     * @param menu le contenant principal du jeu, qui contient les autres Box.
+     */
     public MenuBoxComponent(Menu menu) {
         this.menu = menu; // Référence à la classe Menu pour changer de contenu
     }
 
+    /**
+     * Crée une VBox qui contient les boutons "Classique", "Libre", "Techniques" et "Paramètres".
+     * @return VBox la box créée.
+     */
     public VBox getMenuBox() {
         VBox menuBox = new VBox(10);
         menuBox.setAlignment(javafx.geometry.Pos.CENTER);

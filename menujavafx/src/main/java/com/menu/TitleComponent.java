@@ -6,6 +6,10 @@ import javafx.scene.text.Text;
 
 public class TitleComponent {
 
+    /**
+     * Fonction qui crée le titre du jeu.
+     * @return Text le titre.
+     */
     public Text getTitle() {
         Font baloo = Font.loadFont(getClass().getResourceAsStream("/Baloo2-Medium.ttf"), 50);
         Text title = new Text("SLITHER LINK");
