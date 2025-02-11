@@ -6,26 +6,27 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-// public class HelloWorldApp extends Application {
-
-//     @Override
-//     public void start(Stage primaryStage) {
-//         Parent root = new Parametres(primaryStage);
-//         Scene scene = new Scene(root, 500, 550);
-//         primaryStage.setTitle("JavaFX Slitherlink");
-//         primaryStage.setScene(scene);
-//         primaryStage.show();
-//     }
-
-//     public static void main(String[] args) {
-//         launch(args);
-//     }
-// }
-
-
-
-
+/* 
 public class HelloWorldApp extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        Parent root = new Parametres(primaryStage);
+        Scene scene = new Scene(root, 500, 550);
+        primaryStage.setTitle("JavaFX Slitherlink");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}*/
+
+
+
+
+public class InterApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
