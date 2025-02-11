@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class AppTest {
 
     public static void main(String[] args) {
-        Grille g = new Grille("menujavafx/src/test/resources/grilleTest.json") ;
+        Grille g = new Grille("grilleTest.json") ;
 
         Scanner scanner = new Scanner(System.in);
 
