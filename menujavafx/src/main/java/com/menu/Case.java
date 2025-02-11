@@ -8,8 +8,6 @@ public abstract class Case {
     protected int colonne;   // Coordonnée Y de la case
     protected Grille grille;   // Grille à laquelle appartient la case
 
-    private List<Arete> aretesVoisines;
-
     public Case(int ligne, int colonne, Grille grille) {
         this.ligne = ligne;
         this.colonne = colonne;
@@ -33,21 +31,19 @@ public abstract class Case {
     }
 
     public List<Arete> getAretesVoisines() {
-        if(this.aretesVoisines == null){
-            this.aretesVoisines = new ArrayList<Arete>();
+        ArrayList<Arete> aretesVoisines = new ArrayList<Arete>();
 
-            int x = this.getLigne();
-            int y = this.getColonne();
+        int x = this.getLigne();
+        int y = this.getColonne();
 
-            if (this.grille.caseExiste(x, y - 1)) 
-                this.aretesVoisines.add((Arete) this.grille.getCase(x, y - 1));
-            if (this.grille.caseExiste(x - 1, y)) 
-                this.aretesVoisines.add((Arete) this.grille.getCase(x - 1, y));
-            if (this.grille.caseExiste(x, y + 1)) 
-                this.aretesVoisines.add((Arete) this.grille.getCase(x, y + 1));
-            if (this.grille.caseExiste(x + 1, y)) 
-                this.aretesVoisines.add((Arete) this.grille.getCase(x + 1, y));
-        }
+        if (this.grille.caseExiste(x, y - 1) && ((Arete) this.grille.getCase(x, y - 1)).getEtat() == EnumEtat.TRAIT)
+            aretesVoisines.add((Arete) this.grille.getCase(x, y - 1));
+        if (this.grille.caseExiste(x - 1, y) && ((Arete) this.grille.getCase(x - 1, y)).getEtat() == EnumEtat.TRAIT) 
+            aretesVoisines.add((Arete) this.grille.getCase(x - 1, y));
+        if (this.grille.caseExiste(x, y + 1) && ((Arete) this.grille.getCase(x, y + 1)).getEtat() == EnumEtat.TRAIT) 
+            aretesVoisines.add((Arete) this.grille.getCase(x, y + 1));
+        if (this.grille.caseExiste(x + 1, y) && ((Arete) this.grille.getCase(x + 1, y)).getEtat() == EnumEtat.TRAIT) 
+            aretesVoisines.add((Arete) this.grille.getCase(x + 1, y));
 
         return aretesVoisines;
     }

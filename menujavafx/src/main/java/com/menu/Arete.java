@@ -1,5 +1,8 @@
 package com.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
 
@@ -16,13 +19,15 @@ public class Arete extends Case {
         this.etat = EnumEtat.CROIX;
     }
 
-    public void setTrait() {
-        if(check()){
+    public boolean setTrait() {
+        if(this.check()){
             this.etat = EnumEtat.TRAIT;
+            return true;
         }else{
 
             this.etat = EnumEtat.CROIX;
-       }
+            return false;
+        }
     }
 
     public void setVide() {
@@ -45,20 +50,54 @@ public class Arete extends Case {
      * @return boolean
      */
     public boolean estAutoriseAPoserTrait(){
+        boolean posePossibleSelonPoints = getPointsVoisins().stream().noneMatch(Point::matchNbAretesVoisines); //pososiblement faux
+        boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines);
 
-        Point point1, point2;
+        return posePossibleSelonPoints && posePossibleSelonChiffres;
+    }
 
-        if((this.getOrientation() == EnumOrientation.HORIZONTAL)){
-            point1 = (Point)this.getGrille().getCase(this.ligne, this.colonne-1);
-            point2 = (Point)this.getGrille().getCase(this.ligne, this.colonne+1);
-        }else{
-            point1 = (Point)this.getGrille().getCase(this.ligne-1, this.colonne);
-            point2 = (Point)this.getGrille().getCase(this.ligne+1, this.colonne);
+    public List<Chiffre> getChiffresVoisins() {
+        ArrayList<Chiffre> chiffreVoisins = new ArrayList<Chiffre>();
+
+        int x = this.getLigne();
+        int y = this.getColonne();
+
+        if(this.getOrientation() == EnumOrientation.HORIZONTAL){
+            if (this.grille.caseExiste(x - 1, y))
+                chiffreVoisins.add((Chiffre) this.grille.getCase(x - 1, y));
+            if (this.grille.caseExiste(x + 1, y))
+            chiffreVoisins.add((Chiffre) this.grille.getCase(x + 1, y));
         }
-        
-        return point1.getNbAretesVoisines() < 2 && point2.getNbAretesVoisines() < 2;
+        else if(this.getOrientation() == EnumOrientation.VERTICAL){
+            if (this.grille.caseExiste(x, y - 1))
+                chiffreVoisins.add((Chiffre) this.grille.getCase(x, y - 1));
+            if (this.grille.caseExiste(x, y + 1))
+            chiffreVoisins.add((Chiffre) this.grille.getCase(x, y + 1));
+        }
 
-        
+        return chiffreVoisins;
+    }
+
+    public List<Point> getPointsVoisins() {
+        ArrayList<Point> pointsVoisins = new ArrayList<Point>();
+
+        int x = this.getLigne();
+        int y = this.getColonne();
+
+        if(this.getOrientation() == EnumOrientation.HORIZONTAL){
+            if (this.grille.caseExiste(x, y - 1))
+                pointsVoisins.add((Point) this.grille.getCase(x, y - 1));
+            if (this.grille.caseExiste(x, y + 1))
+                pointsVoisins.add((Point) this.grille.getCase(x, y + 1));
+        }
+        else if(this.getOrientation() == EnumOrientation.VERTICAL){
+            if (this.grille.caseExiste(x - 1, y))
+                pointsVoisins.add((Point) this.grille.getCase(x - 1, y));
+            if (this.grille.caseExiste(x + 1, y))
+                pointsVoisins.add((Point) this.grille.getCase(x + 1, y));
+        }
+
+        return pointsVoisins;
     }
 
     public EnumOrientation getOrientation(){

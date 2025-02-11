@@ -44,19 +44,23 @@ public class AreteView extends Button{
     }
 
     public void setTrait(){
-        this.arete.setEtat(EnumEtat.TRAIT);
-        this.iv.setVisible(true);
-        this.iv.setImage(imTrait);
+        if(this.arete.setTrait()) {
+            this.iv.setVisible(true);
+            this.iv.setImage(imTrait);
+        }
+        else {
+            this.setCroix();
+        }
     }
 
     public void setCroix(){
-        this.arete.setEtat(EnumEtat.CROIX);
+        this.arete.setCroix();
         this.iv.setVisible(true);
         this.iv.setImage(imCroix);
     }
 
     public void setVide(){
-        this.arete.setEtat(EnumEtat.VIDE);
+        this.arete.setVide();
         this.iv.setVisible(false);
     }
 
