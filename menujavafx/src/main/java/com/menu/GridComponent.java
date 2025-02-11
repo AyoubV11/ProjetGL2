@@ -15,6 +15,10 @@ public class GridComponent {
     private GridPane gridPane;
     private Menu menu;
 
+    /**
+     * Constructeur.
+     * @param leMenu le menu qui contient les autres box.
+     */
     public GridComponent(Menu leMenu) {
         gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -23,13 +27,20 @@ public class GridComponent {
         menu=leMenu;
     }
 
+    /**
+     * Renvoie le gridPane avec la composition actuelle.
+     * @return
+     */
     public GridPane getGridPane() {
         return gridPane;  // Retourner la grille existante
     }
 
+    /**
+     * Mise à jour du gridPane pour afficher la grille de niveaux du mode Classic.
+     */
     public void showClassicGrid() {
         // Réinitialiser la grille pour l'affichage classique
-        gridPane.getChildren().clear();  // Vider la grille actuelle
+        clear();  // Vider la grille actuelle
 
         // Logique pour créer la grille classique (même logique qu'avant)
         for (int i = 1; i <= 12; i++) {
@@ -56,9 +67,12 @@ public class GridComponent {
         }
     }
 
+    /**
+     * Mise à jour du gridPane pour afficher la grille de niveaux du mode Libre.
+     */
     public void showFreeGrid() {
         // Réinitialiser la grille pour afficher une grille vide
-        gridPane.getChildren().clear();  // Vider la grille actuelle
+        clear();  // Vider la grille actuelle
         String imagePath = "/skull.png";
         String imagePath2 = "/locked.png";
         Button button;
@@ -81,9 +95,12 @@ public class GridComponent {
         }
     }
 
+    /**
+     * Mise à jour du gridPane pour afficher les techniques.
+     */
     public void showTechniquesGrid() {
         // Réinitialiser la grille pour afficher une grille technique
-        gridPane.getChildren().clear();  // Vider la grille actuelle
+        clear();  // Vider la grille actuelle
     
         // Créer un VBox pour les images (alignées verticalement)
         VBox vbox = new VBox(10);  // 10 pixels d'espacement entre les images
@@ -116,7 +133,9 @@ public class GridComponent {
         gridPane.add(scrollPane, 0, 0);  // Placer le ScrollPane dans la grille
     }
 
-
+    /**
+     * Mise à jour du gridPane, vide le gridPane.
+     */
     public void clear() {
         gridPane.getChildren().clear();
     }

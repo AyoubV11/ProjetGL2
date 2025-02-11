@@ -46,6 +46,10 @@ public class Menu extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Met en place le fond de la fenetre.
+     * @return stackPane contenant l'image de fond.
+     */
     private StackPane setupBackground() {
         Image backgroundImage = new Image(("/slither.png"));
         BackgroundImage background = new BackgroundImage(
@@ -56,6 +60,11 @@ public class Menu extends Application {
         return root;
     }
 
+    /**
+     * Initialise les composants principaux du "main".
+     * @param title titre du jeu.
+     * @return BorderPane avec les différents composants.
+    */
     private BorderPane setupMainLayout(Text title) {
         BorderPane mainLayout = new BorderPane();
         StackPane titleContainer = new StackPane(title);
@@ -70,36 +79,56 @@ public class Menu extends Application {
         launch(args);
     }
 
+    /**
+     * Affiche le menu avec la grille des jeux classiques.
+     */
     public void showClassicMenu() {
         showMainMenu();
         showClassicGrid();
     }
 
+    /**
+     * Affiche la grille de niveaux Classique.
+     */
     public void showClassicGrid() {
         gridComponent.showClassicGrid();
     }
 
+    /**
+     * Affiche la grille de niveaux Libre.
+     */
     public void showFreeGrid() {
         gridComponent.showFreeGrid();
     }
 
+    /**
+     * Affiche les techniques pour résoudre le jeu.
+     */
     public void showTechniquesGrid() {
         gridComponent.showTechniquesGrid();
     }
 
+    /**
+     * Affiche les paramètres du jeu.
+     */
     public void showSettings() {
         gridComponent.clear();
         content.getChildren().clear();
         content.getChildren().addAll(BoxFactory.createSettingsBox(this), gridComponent.getGridPane());
     }
 
-
+    /**
+     * Affiche les techniques pour résoudre le jeu.
+     */
     public void showLevel(int i) {
         gridComponent.clear();
         content.getChildren().clear();
         content.getChildren().addAll(BoxFactory.createLevelBox(this,"/star_completed.png","/star_uncompleted.png",i), gridComponent.getGridPane());
     }
 
+    /**
+     * Affiche les techniques pour résoudre le jeu.
+     */
     public void showMainMenu() {
         content.getChildren().clear();
         content.getChildren().addAll(menuBox, gridComponent.getGridPane());
