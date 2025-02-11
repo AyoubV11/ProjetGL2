@@ -51,7 +51,7 @@ public class ButtonFactory {
      * @param difficulty la difficulté de la grille, définissant le nombre de têtes de mort qui seront grisées.
      * @param imagePath le chemin vers l'image de tête de mort.
      * @param lockedImagePath le chemin vers l'image du cadenas, qui se superpose sur le bouton d'un niveau non-débloqué.
-     * @return Button
+     * @return Button le bouton créé.
      */
     public static Button createSkullButton(String text, int level, int difficulty, String imagePath, String lockedImagePath) {
         Image skullImage = new Image(imagePath);
@@ -103,6 +103,13 @@ public class ButtonFactory {
         return button;
     }
 
+    
+    
+    /** 
+     * Fonction animant un bouton de classe Button passé en paramètre. 
+     * @param button le bouton à animer
+     * @param scale la taille de l'agrandissement
+     */
     private static void animateButton(Button button, double scale) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
         scaleTransition.setToX(scale);
@@ -110,6 +117,12 @@ public class ButtonFactory {
         scaleTransition.play();
     }
 
+    
+    /** 
+     * Fonction animant un bouton de classe ToggleButton passé en paramètre. 
+     * @param button le bouton à animer
+     * @param scale la taille de l'agrandissement
+     */
     private static void animateButton(ToggleButton button, double scale) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
         scaleTransition.setToX(scale);
@@ -119,13 +132,23 @@ public class ButtonFactory {
 
 
 
-    // Fonction pour débloquer un niveau
+    /**
+     * Fonction débloquant un niveau passé en paramètre.
+     * @param level le niveau à débloquer.
+     */
     public static void unlockLevel(int level) {
         if (level > unlockedLevel) {
             unlockedLevel = level;
         }
     }
 
+    /**
+     * Crée un bouton qui active ou désactive un paramètre quand on clique dessus.
+     * @param labelText le texte à afficher à coté du bouton.
+     * @param offText le texte lorsque le paramètre est désactivé.
+     * @param onText le texte lorsque le paramètre est activé.
+     * @return la HBox contenant le texte et le bouton créé.
+     */
     public static HBox createToggleButton(String labelText, String offText, String onText) {
         Label label = new Label(labelText);
         label.setFont(BalooFont.setBalooSized(18));
@@ -144,6 +167,12 @@ public class ButtonFactory {
         return box;
     }
 
+    /**
+     * Crée un slider pour régler un paramètre.
+     * Ce slider va de 0 à 100.
+     * @param volumeLabel le texte à afficher au dessus du bouton.
+     * @return le Slider créé.
+     */
     public static Slider createVolumeSlider(Label volumeLabel) {
         Slider slider = new Slider(0, 100, 50);
         slider.setStyle("-fx-control-inner-background: #000000; -fx-background-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" +"-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;");

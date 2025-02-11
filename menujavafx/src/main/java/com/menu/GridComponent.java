@@ -111,7 +111,7 @@ public class GridComponent {
         ScrollPane scrollPane = new ScrollPane(vbox);
         scrollPane.setFitToWidth(true);  // Assurer que le contenu s'adapte à la largeur du ScrollPane
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);  // Toujours afficher la barre de défilement verticale
-    
+        scrollPane.setStyle("-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;");    
         // Ajouter le ScrollPane à la grille (ou à un autre conteneur)
         gridPane.add(scrollPane, 0, 0);  // Placer le ScrollPane dans la grille
     }
