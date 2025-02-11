@@ -1,5 +1,8 @@
 package com.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
 
@@ -16,8 +19,15 @@ public class Arete extends Case {
         this.etat = EnumEtat.CROIX;
     }
 
-    public void setTrait() {
-        if(check()) this.etat = EnumEtat.TRAIT;
+    public boolean setTrait() {
+        if(this.check()){
+            this.etat = EnumEtat.TRAIT;
+            return true;
+        }else{
+
+            this.etat = EnumEtat.CROIX;
+            return false;
+        }
     }
 
     public void setVide() {
@@ -29,45 +39,88 @@ public class Arete extends Case {
     }
 
 
-    /**
-     * Cette methode permet de verifier si la case est valide
-     * @return boolean
-     */
-    public boolean estValide(int ligne, int colonne) {
-        int nbLignes = grille.getNbLignes();
-        int nbColonnes = grille.getNbColonnes();
-    
-        // Vérifier si la position est dans les limites de la grille
-        return (ligne >= 0 && ligne < nbLignes && colonne >= 0 && colonne < nbColonnes);
+    @Override
+    public int getNbAretesVoisines(){  
+        return 0;
     }
-    
+
+
     /**
      * Cette methode permet de verifier si les cases voisines ont un nombre de  voisins inferieur a 2
      * @return boolean
      */
-    public boolean estAutoriseAPoserArete(int ligne , int colonne){
-        Grille grille =  this.getGrille();
-        if(grille.getCase(ligne-1, colonne).getTraitVoisin() < 2 && grille.getCase(ligne+1, colonne).getTraitVoisin() < 2
-        && grille.getCase(ligne, colonne-1).getTraitVoisin() < 2 && grille.getCase(ligne, colonne+1).getTraitVoisin() < 2){
-            return true;
+    public boolean estAutoriseAPoserTrait(){
+        boolean posePossibleSelonPoints = getPointsVoisins().stream().noneMatch(Point::matchNbAretesVoisines); //pososiblement faux
+        boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines);
+
+        return posePossibleSelonPoints && posePossibleSelonChiffres;
+    }
+
+    public List<Chiffre> getChiffresVoisins() {
+        ArrayList<Chiffre> chiffreVoisins = new ArrayList<Chiffre>();
+
+        int x = this.getLigne();
+        int y = this.getColonne();
+
+        if(this.getOrientation() == EnumOrientation.HORIZONTAL){
+            if (this.grille.caseExiste(x - 1, y))
+                chiffreVoisins.add((Chiffre) this.grille.getCase(x - 1, y));
+            if (this.grille.caseExiste(x + 1, y))
+            chiffreVoisins.add((Chiffre) this.grille.getCase(x + 1, y));
         }
-       return false;
+        else if(this.getOrientation() == EnumOrientation.VERTICAL){
+            if (this.grille.caseExiste(x, y - 1))
+                chiffreVoisins.add((Chiffre) this.grille.getCase(x, y - 1));
+            if (this.grille.caseExiste(x, y + 1))
+            chiffreVoisins.add((Chiffre) this.grille.getCase(x, y + 1));
+        }
+
+        return chiffreVoisins;
+    }
+
+    public List<Point> getPointsVoisins() {
+        ArrayList<Point> pointsVoisins = new ArrayList<Point>();
+
+        int x = this.getLigne();
+        int y = this.getColonne();
+
+        if(this.getOrientation() == EnumOrientation.HORIZONTAL){
+            if (this.grille.caseExiste(x, y - 1))
+                pointsVoisins.add((Point) this.grille.getCase(x, y - 1));
+            if (this.grille.caseExiste(x, y + 1))
+                pointsVoisins.add((Point) this.grille.getCase(x, y + 1));
+        }
+        else if(this.getOrientation() == EnumOrientation.VERTICAL){
+            if (this.grille.caseExiste(x - 1, y))
+                pointsVoisins.add((Point) this.grille.getCase(x - 1, y));
+            if (this.grille.caseExiste(x + 1, y))
+                pointsVoisins.add((Point) this.grille.getCase(x + 1, y));
+        }
+
+        return pointsVoisins;
+    }
+
+    public EnumOrientation getOrientation(){
+        if(this.getLigne() % 2 == 0){
+            return EnumOrientation.HORIZONTAL;
+        } else {
+            return EnumOrientation.VERTICAL;
+        }
     }
 
 
-    /**
-     * Cette methode permet de verifier si l'utilisateur a le droit de poser l'arete, si la case est valide et qu'elle respecte la conditions des voisins
-     * @return boolean
-     */
     public boolean check(){
        
         int ligne = this.getLigne();
         int colonne = this.getColonne();     
         
-        
-        if(this.estValide(ligne, colonne) && this.estAutoriseAPoserArete(ligne,colonne)){
+    
+        if(this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserTrait() /*Ca respe */){
             return true;
         }
+
+        // Cas si le nb d'arrete autour du chiffre est superieur au chiffre
+        
         return false;
     }
     

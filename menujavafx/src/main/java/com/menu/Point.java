@@ -11,8 +11,8 @@ public class Point extends Case{
      * Methode qui verifie si un point a bien deux aretes
      * @return
      */
-    public boolean VerifPoint(Point p){
-        return p.getTraitVoisin() == 2;
+    public boolean matchNbAretesVoisines(){
+        return this.getNbAretesVoisines() == 2;
     }
 
     public String toString(){
