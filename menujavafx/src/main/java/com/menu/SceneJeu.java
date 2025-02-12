@@ -71,7 +71,7 @@ private VBox createLabelOnly(String labelText) {
         VBox bestScoreGroup = createLabelOnly("MEILLEUR TEMPS : 00:30:00");
 
         topBar.getChildren().addAll(
-            restartButton, helpButton, validateButton, lightButton,
+            restartButton, helpButton, validateButton,
             timeGroup, bestScoreGroup,
             leftArrow, rightArrow, settingButton
         );
