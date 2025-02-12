@@ -116,7 +116,7 @@ private VBox createLabelOnly(String labelText) {
 
         //aJOUTER DES CADRES TRANSPARENTS
 
-        GridPane leftBox = new GridPane();
+        GridPane leftBox = new GrilleController(new Grille("grilleTest.json"), 300, 0.2);
         leftBox.setPrefSize(300, 300);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
 

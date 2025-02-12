@@ -32,7 +32,8 @@ public class HelloWorldApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         Parent gameInterface = new SceneJeu(primaryStage);
-        Scene scene = new Scene(gameInterface, 600, 400);
+        Scene scene = new Scene(gameInterface, 1006, 595);
+        primaryStage.setResizable(false);
 
         primaryStage.setTitle("Jeu JavaFX");
         primaryStage.setScene(scene);
