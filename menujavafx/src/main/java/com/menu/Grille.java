@@ -21,7 +21,7 @@ public class Grille {
             ObjectMapper objectMapper = new ObjectMapper();
 
             URL fichierURL = getClass().getClassLoader()
-                            .getResource("grilleTest.json");
+                            .getResource(fichier);
             GrilleJson grilleJson = objectMapper.readValue(fichierURL, GrilleJson.class);
 
             // Affectation des dimensions spécifiées à la grille
