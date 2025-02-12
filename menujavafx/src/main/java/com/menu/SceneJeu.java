@@ -3,13 +3,9 @@ package com.menu;
 //import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
@@ -62,8 +58,14 @@ private VBox createLabelOnly(String labelText) {
         Button restartButton = createRoundButton("↻");
         Button helpButton = createRoundButton("?");
         Button validateButton = createRoundButton("✔");
+        
+
+
         //Button lightButton = createRoundButton("💡");
         Button leftArrow = createRoundButton("←");
+        leftArrow.setOnAction(e -> {
+
+        });
         Button rightArrow = createRoundButton("→");
         Button settingButton = createRoundButton("⚙");
         
@@ -83,7 +85,7 @@ private VBox createLabelOnly(String labelText) {
         StackPane centerPane = new StackPane();
         centerPane.setPadding(new Insets(20));
 
-        GridPane leftBox = new GrilleController(new Grille("grilleTest.json"), 300, 0.2);
+        GrilleController leftBox = new GrilleController(new Grille("grilleTest.json"), 300, 0.2);
         leftBox.setPrefSize(300, 300);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
 
@@ -101,6 +103,18 @@ private VBox createLabelOnly(String labelText) {
 
 
         this.setCenter(centerPane);
+
+
+        validateButton.setOnAction(e -> {
+            System.out.println("Validation de la grille");
+            boolean resultat = leftBox.getGrille().check();
+            if(resultat){
+                System.out.println("Grille correcte");
+            }else{
+                System.out.println("Grille incorrecte");
+            }
+
+        });
 
 
     }

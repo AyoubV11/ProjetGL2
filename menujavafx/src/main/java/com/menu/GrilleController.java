@@ -114,4 +114,8 @@ public class GrilleController extends GridPane {
         return this.largeurChiffre;
     }
 
+    public Grille getGrille(){
+        return this.grille;
+    }
+
 }

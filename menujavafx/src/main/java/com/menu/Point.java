@@ -12,7 +12,7 @@ public class Point extends Case{
      * @return
      */
     public boolean matchNbAretesVoisines(){
-        return this.getNbAretesVoisines() == 2;
+        return this.getNbAretesVoisines() == 2 || this.getNbAretesVoisines() == 0;
     }
 
     public String toString(){

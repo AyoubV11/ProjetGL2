@@ -62,10 +62,10 @@ public class Grille {
      * @return boolean
      */
     public boolean caseExiste(int ligne, int colonne) {
-        System.out.println("nb ligne" + this.nbLignes);
-        System.out.println("nb Colonne" + this.nbColonnes);
-        System.out.println("ligne" + ligne);
-        System.out.println("colonne" + colonne);
+        // System.out.println("nb ligne" + this.nbLignes);
+        // System.out.println("nb Colonne" + this.nbColonnes);
+        // System.out.println("ligne" + ligne);
+        // System.out.println("colonne" + colonne);
     
         return (ligne >= 0 && ligne < this.nbLignes && colonne >= 0 && colonne < this.nbColonnes);
     }
@@ -99,32 +99,49 @@ public class Grille {
             COMMENT ?
 
             SOLUTION
-            - Verifier que chaque points qui est en contact avec une aretes possedent 2 voisins
-            - Verfifier que le nombre d'arrete correspond bien au chiffre d'une case 
-            - La boucle (chemin) doit etre connexe
+            1) Verifier que chaque points qui est en contact avec une aretes possedent 2 voisins
+            2) Verfifier que le nombre d'arrete correspond bien au chiffre d'une case 
+            3) Verifier qu'il n'y a qu'une seule boucle connexe
             */
 
-
-        /*for(Case[] x : this.cases){
-            for(Case y : x){
-                // SI la case est un chiffre
-                if(y instanceof Chiffre){
-
-                    if(!((Chiffre)y).VerifChiffre()){
-                        return false;
-                    }
-                    // SI la case est un Point
-                    if(y instanceof Point){
-                            
-                        
-                        return false;
-                        
-                    }
-                }
+        // 1)
+        Iterator<Point> itPoints = this.iteratorPoints();
+        while(itPoints.hasNext()){
+            Point p = itPoints.next();
+            System.out.println("TEST");
+            if(!p.matchNbAretesVoisines()){
+                return false;
             }
-            
-        }*/
-        return true;
+        }
+
+        // 2)
+        Iterator<Chiffre> itChiffres = this.iteratorChiffres();
+        while(itChiffres.hasNext()){
+            Chiffre c = itChiffres.next();
+            if(!c.matchNbAretesVoisines()){
+                return false;
+            }
+        }
+
+        // 3)
+        boolean[][] visited = new boolean[this.nbLignes][this.nbColonnes];
+        for(int i = 0; i < this.nbLignes; i++){
+            for(int j = 0; j < this.nbColonnes; j++){
+                visited[i][j] = false;
+            }
+        }
+
+        int totalComposanteConnexe = 0;
+        Iterator<Arete> itAretes = this.iteratorAretes();
+        while(itAretes.hasNext()){
+            Arete a = itAretes.next();
+            if(a.getEtat() == EnumEtat.TRAIT && !visited[a.getLigne()][a.getColonne()]){
+                dfs(a, visited);
+                totalComposanteConnexe++;
+            }
+        }
+
+        return totalComposanteConnexe == 1;
     }
 
 
@@ -203,5 +220,20 @@ public class Grille {
         };
     }
 
+
+    private int dfs(Arete a, boolean[][] visited){
+        if (a.getEtat() == EnumEtat.VIDE) return 0;
+        int nbAretesVisitees = 1;
+        visited[a.getLigne()][a.getColonne()] = true;
+
+        for(Arete areteVoisine : a.getAretesVoisines()){
+            if(areteVoisine.getEtat() == EnumEtat.TRAIT){
+                if(!visited[areteVoisine.getLigne()][areteVoisine.getColonne()]){
+                    nbAretesVisitees += dfs(areteVoisine, visited);
+                }
+            }  
+        }
+        return nbAretesVisitees;
+    }
     
 }

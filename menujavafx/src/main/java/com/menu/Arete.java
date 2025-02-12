@@ -50,7 +50,8 @@ public class Arete extends Case {
      * @return boolean
      */
     public boolean estAutoriseAPoserTrait(){
-        boolean posePossibleSelonPoints = getPointsVoisins().stream().noneMatch(Point::matchNbAretesVoisines); //pososiblement faux
+        // TODO corriger "posePossibleSelonPoints"
+        boolean posePossibleSelonPoints = getPointsVoisins().stream().anyMatch(point -> point.getNbAretesVoisines() < 2); //possiblement faux
         boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines);
 
         return posePossibleSelonPoints && posePossibleSelonChiffres;
@@ -98,6 +99,13 @@ public class Arete extends Case {
         }
 
         return pointsVoisins;
+    }
+
+    @Override
+    public List<Arete> getAretesVoisines() {
+        return getPointsVoisins().stream()
+            .map(Point::getAretesVoisines)
+            .flatMap(List::stream).toList();
     }
 
     public EnumOrientation getOrientation(){
