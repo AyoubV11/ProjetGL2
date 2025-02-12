@@ -15,7 +15,7 @@ import javafx.util.Duration;
 
 public class ButtonFactory {
 
-    private static int unlockedLevel = 1;  // Le niveau actuellement débloqué, peut être mis à jour dynamiquement
+    private static int unlockedLevel = 1;  // Le dernier niveau actuellement débloqué, peut être mis à jour dynamiquement
 
     
     

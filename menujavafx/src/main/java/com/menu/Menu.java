@@ -14,6 +14,9 @@ public class Menu extends Application {
     private HBox content;
     private VBox menuBox;
 
+    /**
+     * Programme principal du jeu : lancement de la fenêtre du menu.
+     */
     @Override
     public void start(Stage primaryStage) {
 
