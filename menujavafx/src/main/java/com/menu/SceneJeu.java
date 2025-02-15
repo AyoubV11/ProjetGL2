@@ -3,6 +3,7 @@ package com.menu;
 //import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -11,11 +12,13 @@ import javafx.stage.Stage;
 public class SceneJeu extends BorderPane {
 
     private Stage primaryStage;
+    private Stage param;
     private GrilleController leftBox; 
     private StackPane centerPane; 
     private HBox boxes; 
     private Chrono chrono;
     private Label timeLabel;
+    private Parametres parametres;
 
     public SceneJeu(Stage stage) {
         this.primaryStage = stage;
@@ -101,6 +104,11 @@ public class SceneJeu extends BorderPane {
             resetGrille();
             chrono.reset();
         }); 
+
+
+        settingButton.setOnAction(e -> {
+            openSettings();
+        }); 
     }
 
     private VBox createLabelOnly(String labelText) {
@@ -111,6 +119,16 @@ public class SceneJeu extends BorderPane {
         vbox.setAlignment(Pos.CENTER);
         return vbox;
     }
+
+
+    private void openSettings() {
+            Stage paramStage = new Stage();
+            Parametres parametresScene = new Parametres(paramStage);
+            Scene paramScene = new Scene(parametresScene, 400, 300);
+            paramStage.setScene(paramScene);
+            paramStage.show();
+    }
+
 
     private void resetGrille() {
         System.out.println("Restart de la grille");
