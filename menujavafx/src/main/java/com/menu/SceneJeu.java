@@ -14,8 +14,10 @@ public class SceneJeu extends BorderPane {
     private GrilleController leftBox; 
     private StackPane centerPane; 
     private HBox boxes; 
+    private Chrono chrono;
+    private Label timeLabel;
 
-    public SceneJeu(Stage stage){
+    public SceneJeu(Stage stage) {
         this.primaryStage = stage;
         setupInterface();
     }
@@ -24,25 +26,16 @@ public class SceneJeu extends BorderPane {
     private Button createRoundButton(String text) {
         Button button = new Button(text);
         button.setStyle(
-        "-fx-background-color: #ffffff; " +    
-        "-fx-background-radius: 50%; " +      
-        "-fx-border-radius: 50%; " +           
-        "-fx-border-color: black; " +         
-        "-fx-border-width: 2px; " +            
-        "-fx-font-size: 18px; " +             
-        "-fx-pref-width: 40px; " +      
-        "-fx-pref-height: 40px;"           
-    );
-    return button;
-}
-
-    private VBox createLabelOnly(String labelText) {
-        Label label = new Label(labelText);
-        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
-        VBox vbox = new VBox(label);
-        vbox.setAlignment(Pos.CENTER);
-        return vbox;
+            "-fx-background-color: #ffffff; " +    
+            "-fx-background-radius: 50%; " +      
+            "-fx-border-radius: 50%; " +           
+            "-fx-border-color: black; " +         
+            "-fx-border-width: 2px; " +            
+            "-fx-font-size: 18px; " +             
+            "-fx-pref-width: 40px; " +      
+            "-fx-pref-height: 40px;"
+        );
+        return button;
     }
 
     private void setupInterface() {
@@ -58,7 +51,15 @@ public class SceneJeu extends BorderPane {
         Button rightArrow = createRoundButton("→");
         Button settingButton = createRoundButton("⚙");
 
-        VBox timeGroup = createLabelOnly("TEMPS : 00:00:00");
+        // Correction : Création unique de timeLabel
+        timeLabel = new Label("TEMPS : 00:00:00"); 
+        chrono = new Chrono(timeLabel); // Instancier le chrono avec le label
+        chrono.start(); // Lancer le chrono dès le début
+
+        // Correction : Utilisation directe de timeLabel dans timeGroup
+        VBox timeGroup = new VBox(timeLabel);
+        timeGroup.setAlignment(Pos.CENTER);
+        
         VBox bestScoreGroup = createLabelOnly("MEILLEUR TEMPS : 00:30:00");
 
         topBar.getChildren().addAll(
@@ -96,17 +97,27 @@ public class SceneJeu extends BorderPane {
             }
         });
 
-        restartButton.setOnAction(e -> resetGrille()); 
+        restartButton.setOnAction(e -> {
+            resetGrille();
+            chrono.reset();
+        }); 
     }
 
-  
+    private VBox createLabelOnly(String labelText) {
+        Label label = new Label(labelText);
+        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        VBox vbox = new VBox(label);
+        vbox.setAlignment(Pos.CENTER);
+        return vbox;
+    }
+
     private void resetGrille() {
         System.out.println("Restart de la grille");
 
-        
         centerPane.getChildren().remove(boxes);
 
-        // Creation nouvelle grille
+        // Création nouvelle grille
         leftBox = new GrilleController(new Grille("grilleTest.json"), 300, 0.2);
         leftBox.setPrefSize(300, 300);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
