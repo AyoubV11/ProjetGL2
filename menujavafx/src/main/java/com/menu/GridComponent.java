@@ -116,8 +116,7 @@ public class GridComponent {
             ImageView imageView = new ImageView(image);
 
             // Ajuster la taille de l'image si nécessaire
-            imageView.setFitWidth(500*1.2);  // Ajuster la largeur de l'image
-            imageView.setFitHeight(300*1.2); // Ajuster la hauteur de l'image
+            imageView.setFitWidth(1264*0.5);  // Ajuster la largeur de l'image
             imageView.setPreserveRatio(true); // Maintenir le ratio de l'image
 
             // Ajouter l'ImageView au VBox
