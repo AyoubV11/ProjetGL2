@@ -67,10 +67,18 @@ public class AreteView extends Button{
     public void gererClic(MouseEvent event){
         if (this.isCurseurProche(event)){
             if (event.getButton() == MouseButton.PRIMARY)
-            this.clicGauche();
-        else if (event.getButton() == MouseButton.SECONDARY)
-            this.clicDroit();
+                this.clicGauche();
+            else if (event.getButton() == MouseButton.SECONDARY)
+                this.clicDroit();
+            System.out.println("Validation de la grille");
+            boolean resultat = this.arete.getGrille().check();
+            if (resultat) {
+                System.out.println("Grille correcte");
+            } else {
+                System.out.println("Grille incorrecte");
+            }
         }
+            
     }
 
     public boolean isCurseurProche(MouseEvent event){
