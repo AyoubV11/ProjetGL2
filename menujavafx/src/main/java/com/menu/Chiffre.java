@@ -30,7 +30,7 @@ public class Chiffre extends Case {
      * @return
      */
     public boolean matchNbAretesVoisines(){
-        return this.chiffre==this.getNbAretesVoisines();
+        return this.getNbAretesVoisines() == this.chiffre;
     }
     
     public String toString(){

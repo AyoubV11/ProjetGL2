@@ -108,7 +108,6 @@ public class Grille {
         Iterator<Point> itPoints = this.iteratorPoints();
         while(itPoints.hasNext()){
             Point p = itPoints.next();
-            System.out.println("TEST");
             if(!p.matchNbAretesVoisines()){
                 return false;
             }
@@ -118,7 +117,7 @@ public class Grille {
         Iterator<Chiffre> itChiffres = this.iteratorChiffres();
         while(itChiffres.hasNext()){
             Chiffre c = itChiffres.next();
-            if(!c.matchNbAretesVoisines()){
+            if(!c.estVide() && !c.matchNbAretesVoisines()){
                 return false;
             }
         }

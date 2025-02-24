@@ -51,8 +51,8 @@ public class Arete extends Case {
      */
     public boolean estAutoriseAPoserTrait(){
         // TODO corriger "posePossibleSelonPoints"
-        boolean posePossibleSelonPoints = getPointsVoisins().stream().anyMatch(point -> point.getNbAretesVoisines() < 2); //possiblement faux
-        boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines);
+        boolean posePossibleSelonPoints = getPointsVoisins().stream().allMatch(point -> point.getNbAretesVoisines() < 2); 
+        boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines); // on puet poser temps que les chiffres voisins n'ont pas le bon nombre d'arretes
 
         return posePossibleSelonPoints && posePossibleSelonChiffres;
     }
