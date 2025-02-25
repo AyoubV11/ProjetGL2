@@ -102,7 +102,7 @@ public class SceneJeu extends BorderPane {
 
         restartButton.setOnAction(e -> {
             resetGrille();
-            chrono.reset();
+            
         }); 
 
 
