@@ -10,6 +10,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 
+/* import pour les labels et hyperlinks */
+import javafx.scene.control.Label;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.text.TextAlignment;
+import javafx.geometry.Pos;
+import javafx.application.HostServices;
+import java.awt.Desktop;
+import java.net.URI;
+
+
 public class GridComponent {
 
     private GridPane gridPane;
@@ -106,9 +116,9 @@ public class GridComponent {
         VBox vbox = new VBox(10);  // 10 pixels d'espacement entre les images
     
         // Logique pour ajouter des images différentes
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 7; i++) {
             // Créer le chemin de l'image avec un numéro incrémenté
-            String imagePath = "/techniques/image" + i + ".png"; // Exemple: /image1.png
+            String imagePath = "/techniques/techniques" + i + ".png"; // Exemple: /techniques1.png
     
             // Vérifier si le chemin est valide
             // Créer une ImageView pour chaque image
@@ -122,6 +132,28 @@ public class GridComponent {
             // Ajouter l'ImageView au VBox
             vbox.getChildren().add(imageView);
         }
+        
+        // Ajouter un texte de résumé et un lien à la fin
+        Label summaryLabel = new Label("Vous voila maintenant pret a resoudre vos premieres grilles de Slitherlink, si vous souhaitez connaitre des techniques plus avancees, cliquez sur le lien ci-dessous:");
+        
+        // Centrer le texte à l'intérieur du Label
+        summaryLabel.setTextAlignment(TextAlignment.CENTER);
+        summaryLabel.setWrapText(true); // Permet d'afficher le texte correctement s'il est long
+        
+        Hyperlink summaryLink = new Hyperlink("Voir toutes les techniques");
+        summaryLink.setOnAction(e -> {
+            try {
+                // Ouvrir le lien dans le navigateur par défaut
+                HostServices hostServices = menu.getHostServices();
+                hostServices.showDocument("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/slitherlink/techniques");
+            } catch (Exception ex) {
+                // Gérer les exceptions
+                System.out.println("Erreur lors de l'ouverture du lien: " + ex.getMessage());
+            }
+        });
+        VBox summaryBox = new VBox(5, summaryLabel, summaryLink);
+        summaryBox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(summaryBox);
     
         // Créer un ScrollPane pour activer le défilement vertical
         ScrollPane scrollPane = new ScrollPane(vbox);
