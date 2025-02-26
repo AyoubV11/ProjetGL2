@@ -48,7 +48,9 @@ public class Grille {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
         }
     }
-
+    public Stack<Action> getPileUndo(){
+        return this.pileUndo;
+    }
     public int getNbLignes() {
         return this.nbLignes;
     }

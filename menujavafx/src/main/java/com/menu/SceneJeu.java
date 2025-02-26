@@ -130,6 +130,12 @@ public class SceneJeu extends BorderPane {
     }
 
 
+    private void precedent() {
+        // desempiler
+        // reactualiser la grille (reafficher toute les actions de la pile)
+            
+    }
+
     private void resetGrille() {
         System.out.println("Restart de la grille");
 
