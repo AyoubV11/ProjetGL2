@@ -3,6 +3,7 @@ package com.menu;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -13,6 +14,9 @@ public class Menu extends Application {
     private GridComponent gridComponent;
     private HBox content;
     private VBox menuBox;
+    
+    private Stage stage;
+
 
     /**
      * Programme principal du jeu : lancement de la fenêtre du menu.
@@ -26,6 +30,7 @@ public class Menu extends Application {
         BoxFactory.initialiserListe();
 
 
+        stage=primaryStage;
 
 
         TitleComponent titleComponent = new TitleComponent();
@@ -109,6 +114,15 @@ public class Menu extends Application {
      */
     public void showTechniquesGrid() {
         gridComponent.showTechniquesGrid();
+    }
+
+    /**
+     * Affiche le jeu.
+     */
+    public void showGame() {
+        Parent gameInterface = new SceneJeu(stage);
+        Scene scene2 = new Scene(gameInterface, 1006, 595);
+        stage.setScene(scene2);
     }
 
     /**
