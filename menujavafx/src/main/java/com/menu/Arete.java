@@ -2,6 +2,7 @@ package com.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
@@ -22,6 +23,14 @@ public class Arete extends Case {
     public boolean setTrait() {
         if(this.check()){
             this.etat = EnumEtat.TRAIT;
+            
+            // Creation de l'action (faut ajouter pose valide)
+            Action action = new Action(ligne, colonne, etat, etat, false);
+            //ajout dans la pile
+            Stack<Action> pileUndo = this.grille.getPileUndo();
+            pileUndo.push(action);
+            
+
             return true;
         }else{
 
