@@ -1,0 +1,173 @@
+package com.menu;
+
+import javafx.scene.image.ImageView;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+
+/* import pour les labels et hyperlinks */
+import javafx.scene.control.Label;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.text.TextAlignment;
+import javafx.geometry.Pos;
+import javafx.application.HostServices;
+import java.awt.Desktop;
+import java.net.URI;
+
+
+public class GridComponent {
+
+    private GridPane gridPane;
+    private Menu menu;
+
+    /**
+     * Constructeur.
+     * @param leMenu le menu qui contient les autres box.
+     */
+    public GridComponent(Menu leMenu) {
+        gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setAlignment(javafx.geometry.Pos.CENTER);
+        menu=leMenu;
+    }
+
+    /**
+     * Renvoie le gridPane avec la composition actuelle.
+     * @return
+     */
+    public GridPane getGridPane() {
+        return gridPane;  // Retourner la grille existante
+    }
+
+    /**
+     * Mise à jour du gridPane pour afficher la grille de niveaux du mode Classic.
+     */
+    public void showClassicGrid() {
+        // Réinitialiser la grille pour l'affichage classique
+        clear();  // Vider la grille actuelle
+
+        // Logique pour créer la grille classique (même logique qu'avant)
+        for (int i = 1; i <= 12; i++) {
+            int difficulty = (i <= 3) ? 1 : (i <= 6) ? 2 : 3;
+            String imagePath = "/skull.png";
+            String imagePath2 = "/locked.png";
+            Button button;
+            if (i >= 10) {
+                button = ButtonFactory.createSkullButton("Grille " + i, i, difficulty, imagePath, imagePath2);
+                button.setPrefWidth(200);
+                gridPane.add(button, (i - 1) % 2, (i - 1) / 2);
+            } else {
+                button = ButtonFactory.createSkullButton("Grille    " + i, i, difficulty, imagePath, imagePath2);
+                button.setPrefWidth(200);
+                gridPane.add(button, (i - 1) % 2, (i - 1) / 2);
+            }
+            int indice=i;
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    menu.showLevel(indice);
+                }
+            });
+        }
+    }
+
+    /**
+     * Mise à jour du gridPane pour afficher la grille de niveaux du mode Libre.
+     */
+    public void showFreeGrid() {
+        // Réinitialiser la grille pour afficher une grille vide
+        clear();  // Vider la grille actuelle
+        String imagePath = "/skull.png";
+        String imagePath2 = "/locked.png";
+        Button button;
+        // Ajouter des boutons vides pour simuler une grille vide
+        for (int i = 1; i <= 3; i++) {
+            switch(i){
+                case 1:button = ButtonFactory.createSkullButton("Facile", 0, i, imagePath, imagePath2);
+                    button.setPrefWidth(200);
+                    gridPane.add(button, 0, i);
+                    break;
+                case 2:button = ButtonFactory.createSkullButton("Moyen", 0, i, imagePath, imagePath2);
+                    button.setPrefWidth(200);
+                    gridPane.add(button, 0, i);
+                    break;
+                case 3:button = ButtonFactory.createSkullButton("Difficile", 0, i, imagePath, imagePath2);
+                    button.setPrefWidth(200);
+                    gridPane.add(button, 0, i);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Mise à jour du gridPane pour afficher les techniques.
+     */
+    public void showTechniquesGrid() {
+        // Réinitialiser la grille pour afficher une grille technique
+        clear();  // Vider la grille actuelle
+    
+        // Créer un VBox pour les images (alignées verticalement)
+        VBox vbox = new VBox(10);  // 10 pixels d'espacement entre les images
+    
+        // Logique pour ajouter des images différentes
+        for (int i = 1; i <= 7; i++) {
+            // Créer le chemin de l'image avec un numéro incrémenté
+            String imagePath = "/techniques/techniques" + i + ".png"; // Exemple: /techniques1.png
+    
+            // Vérifier si le chemin est valide
+            // Créer une ImageView pour chaque image
+            Image image = new Image(imagePath);  // Charger l'image
+            ImageView imageView = new ImageView(image);
+
+            // Ajuster la taille de l'image si nécessaire
+            imageView.setFitWidth(1264*0.5);  // Ajuster la largeur de l'image
+            imageView.setPreserveRatio(true); // Maintenir le ratio de l'image
+
+            // Ajouter l'ImageView au VBox
+            vbox.getChildren().add(imageView);
+        }
+        
+        // Ajouter un texte de résumé et un lien à la fin
+        Label summaryLabel = new Label("Vous voila maintenant pret a resoudre vos premieres grilles de Slitherlink, si vous souhaitez connaitre des techniques plus avancees, cliquez sur le lien ci-dessous:");
+        
+        // Centrer le texte à l'intérieur du Label
+        summaryLabel.setTextAlignment(TextAlignment.CENTER);
+        summaryLabel.setWrapText(true); // Permet d'afficher le texte correctement s'il est long
+        
+        Hyperlink summaryLink = new Hyperlink("Voir toutes les techniques");
+        summaryLink.setOnAction(e -> {
+            try {
+                // Ouvrir le lien dans le navigateur par défaut
+                HostServices hostServices = menu.getHostServices();
+                hostServices.showDocument("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/slitherlink/techniques");
+            } catch (Exception ex) {
+                // Gérer les exceptions
+                System.out.println("Erreur lors de l'ouverture du lien: " + ex.getMessage());
+            }
+        });
+        VBox summaryBox = new VBox(5, summaryLabel, summaryLink);
+        summaryBox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(summaryBox);
+    
+        // Créer un ScrollPane pour activer le défilement vertical
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);  // Assurer que le contenu s'adapte à la largeur du ScrollPane
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);  // Toujours afficher la barre de défilement verticale
+        scrollPane.setStyle("-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;");    
+        // Ajouter le ScrollPane à la grille (ou à un autre conteneur)
+        gridPane.add(scrollPane, 0, 0);  // Placer le ScrollPane dans la grille
+    }
+
+    /**
+     * Mise à jour du gridPane, vide le gridPane.
+     */
+    public void clear() {
+        gridPane.getChildren().clear();
+    }
+}
