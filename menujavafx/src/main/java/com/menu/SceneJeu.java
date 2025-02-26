@@ -76,8 +76,8 @@ public class SceneJeu extends BorderPane {
         centerPane = new StackPane(); 
         centerPane.setPadding(new Insets(20));
 
-        leftBox = new GrilleController(new Grille("grilleTest.json"), 300, 0.2); // Stocke la grille dans une variable d'instance
-        leftBox.setPrefSize(300, 300);
+        leftBox = new GrilleController(new Grille("grilleTest.json"), 400, 0.2); // Stocke la grille dans une variable d'instance
+        leftBox.setPrefSize(400, 400);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
 
         VBox rightBox = new VBox();
