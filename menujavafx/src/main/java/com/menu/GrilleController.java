@@ -106,6 +106,61 @@ public class GrilleController extends GridPane {
         });
     }
 
+    /**
+     * Retourne la vue d'arête correspondant à l'arête du modèle donnée
+     * 
+     * @param arete L'arête du modèle à rechercher
+     * @return La vue correspondante ou null si non trouvée
+     */
+    public AreteView getAreteView(Arete arete) {
+        for (AreteView areteView : listAreteView) {
+            if (areteView.getArete() == arete) {
+                return areteView;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Applique la fonctionnalité "Croix auto" à toutes les arêtes de la grille
+     */
+    public void applyAutoCroixToAllAretes() {
+        // Parcourir tous les points qui ont déjà deux arêtes
+        Iterator<Point> points = grille.iteratorPoints();
+        while (points.hasNext()) {
+            Point point = points.next();
+            if (point.getNbAretesVoisines() == 2) {
+                // Pour chaque arête vide autour de ce point, mettre une croix
+                for (Arete arete : point.getAretesVoisines()) {
+                    if (arete.getEtat() == EnumEtat.VIDE) {
+                        AreteView areteView = getAreteView(arete);
+                        if (areteView != null) {
+                            areteView.setCroix();
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Parcourir tous les chiffres qui ont déjà leur nombre exact d'arêtes
+        Iterator<Chiffre> chiffres = grille.iteratorChiffres();
+        while (chiffres.hasNext()) {
+            Chiffre chiffre = chiffres.next();
+            if (!chiffre.estVide() && chiffre.matchNbAretesVoisines()) {
+                // Pour chaque arête vide autour de ce chiffre, mettre une croix
+                List<Arete> aretes = chiffre.getAretesVoisines();
+                for (Arete arete : aretes) {
+                    if (arete.getEtat() == EnumEtat.VIDE) {
+                        AreteView areteView = getAreteView(arete);
+                        if (areteView != null) {
+                            areteView.setCroix();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public double getLargeurInterstice(){
         return this.largeurInterstice;
     }
