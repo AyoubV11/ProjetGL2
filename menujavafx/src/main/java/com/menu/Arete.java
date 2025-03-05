@@ -49,13 +49,39 @@ public class Arete extends Case {
      * @return true si le trait peut être posé, false sinon
      */
     public boolean setTrait(Boolean croix) {
-        if(this.check()){
+        if(!croix){
             this.etat = EnumEtat.TRAIT;
             return true;
-        }else if(croix){
-            this.etat = EnumEtat.CROIX;
+        }
+        else{
+            if(this.check()){
+                this.etat = EnumEtat.TRAIT;
+                return true;
+            }else {
+                this.etat = EnumEtat.CROIX;
+            }
         }
         return false;
+    }
+
+    public List<Arete> getAretesConnectees() {
+        ArrayList<Arete> aretesConnectees = new ArrayList<Arete>();
+        
+        // Obtenir les points voisins de cette arête
+        List<Point> points = this.getPointsVoisins();
+        
+        // Pour chaque point voisin
+        for (Point p : points) {
+            
+            for (Case voisin : p.getAretesVoisines()) {
+                if (voisin instanceof Arete && ((Arete)voisin).getEtat() == EnumEtat.TRAIT 
+                    && voisin != this) {  // Ne pas s'inclure soi-même
+                    aretesConnectees.add((Arete)voisin);
+                }
+            }
+        }
+        
+        return aretesConnectees;
     }
 
     /**

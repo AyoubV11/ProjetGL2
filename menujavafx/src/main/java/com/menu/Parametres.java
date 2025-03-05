@@ -15,11 +15,13 @@ import javafx.scene.text.Text;
 public class Parametres extends BorderPane {
     
     private Stage primaryStage;
+    public SceneJeu sceneJeu;
 
     
-    public Parametres(Stage paramStage, Stage mainStage) {
+    public Parametres(Stage paramStage, Stage mainStage, SceneJeu sceneJeu) {
         // Stocker la référence au stage principal
         this.primaryStage = mainStage;
+        this.sceneJeu = sceneJeu;
         
         // Titre du menu
         Text title = new Text("PARAMETRES");
@@ -64,7 +66,6 @@ public class Parametres extends BorderPane {
         HBox croixAutoBox = new HBox(20, croixAutoLabel, croixAutoToggle);
         croixAutoBox.setAlignment(Pos.CENTER);
         
-        // Créer manuellement les boutons de bascule pour le timer
         Label afficherTempsLabel = new Label("Afficher temps :");
         afficherTempsLabel.setFont(BalooFont.setBalooSized(18));
         
@@ -83,12 +84,13 @@ public class Parametres extends BorderPane {
             afficherTempsToggle.setText(afficherTempsToggle.isSelected() ? "ON" : "OFF");
             System.out.println("Affichage temps: " + (settings.isShowTimer() ? "Activé" : "Désactivé"));
             
-            // Appliquer immédiatement le changement à l'interface
-            if (paramStage.getOwner() != null && paramStage.getOwner().getScene() != null) {
-                Object root = paramStage.getOwner().getScene().getRoot();
-                if (root instanceof SceneJeu) {
-                    ((SceneJeu) root).updateTimerVisibility();
-                }
+            // Mettre à jour directement l'interface si possible
+            if (sceneJeu != null) {
+                // Appel de la méthode de mise à jour de l'interface
+                sceneJeu.updateTimerVisibility();
+                
+                // Force le rafraîchissement de l'interface pour appliquer les changements
+                sceneJeu.requestLayout();
             }
         });
         

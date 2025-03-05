@@ -48,8 +48,7 @@ public class AreteView extends Button {
         (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +
         ".png");
         this.imCroix = new Image("croix" + 
-        (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +
-        ".png");
+        (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +".png");
         this.iv = new ImageView();
         this.setVide();
 
@@ -79,15 +78,19 @@ public class AreteView extends Button {
      * Si le placement est invalide, transforme en croix.
      */
     public void setTrait(Boolean croix){
-        if(this.arete.setTrait(croix)) {
+        if(!croix){
+            this.arete.setTrait(croix);
             this.iv.setVisible(true);
             this.iv.setImage(imTrait);
         }
-        else if(croix){
-            this.setCroix();
-        }
         else{
-            this.setVide();
+            if(this.arete.setTrait(croix)) {
+                this.iv.setVisible(true);
+                this.iv.setImage(imTrait);
+            }
+            else {
+                this.setCroix();
+            }
         }
     }
 

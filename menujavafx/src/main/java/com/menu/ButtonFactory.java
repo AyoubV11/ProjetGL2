@@ -123,7 +123,7 @@ public class ButtonFactory {
      * @param button le bouton à animer
      * @param scale la taille de l'agrandissement
      */
-    private static void animateButton(ToggleButton button, double scale) {
+    public static void animateButton(ToggleButton button, double scale) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
         scaleTransition.setToX(scale);
         scaleTransition.setToY(scale);
@@ -152,16 +152,22 @@ public class ButtonFactory {
     public static HBox createToggleButton(String labelText, String offText, String onText) {
         Label label = new Label(labelText);
         label.setFont(BalooFont.setBalooSized(18));
+        
         ToggleButton toggle = new ToggleButton(offText);
         toggle.setFont(BalooFont.setBalooSized(18));
         toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
-
+    
         toggle.setOnMouseEntered(e -> toggle.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
         toggle.setOnMouseExited(e -> toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
-
+    
         toggle.setOnMousePressed(e -> animateButton(toggle, 1.1));
         toggle.setOnMouseReleased(e -> animateButton(toggle, 1.0));
-        toggle.setOnAction(event -> toggle.setText(toggle.isSelected() ? onText : offText));
+        
+        // Modifier ceci pour mettre à jour correctement le texte
+        toggle.setOnAction(event -> {
+            toggle.setText(toggle.isSelected() ? onText : offText);
+        });
+        
         HBox box = new HBox(10, label, toggle);
         box.setAlignment(Pos.CENTER);
         return box;

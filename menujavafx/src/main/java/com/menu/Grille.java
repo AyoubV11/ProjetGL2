@@ -220,17 +220,15 @@ public class Grille {
     }
 
 
-    private int dfs(Arete a, boolean[][] visited){
-        if (a.getEtat() == EnumEtat.VIDE) return 0;
+    private int dfs(Arete a, boolean[][] visited) {
+        if (a.getEtat() != EnumEtat.TRAIT) return 0;
         int nbAretesVisitees = 1;
         visited[a.getLigne()][a.getColonne()] = true;
-
-        for(Arete areteVoisine : a.getAretesVoisines()){
-            if(areteVoisine.getEtat() == EnumEtat.TRAIT){
-                if(!visited[areteVoisine.getLigne()][areteVoisine.getColonne()]){
-                    nbAretesVisitees += dfs(areteVoisine, visited);
-                }
-            }  
+    
+        for(Arete areteVoisine : a.getAretesConnectees()) {
+            if(!visited[areteVoisine.getLigne()][areteVoisine.getColonne()]) {
+                nbAretesVisitees += dfs(areteVoisine, visited);
+            }
         }
         return nbAretesVisitees;
     }

@@ -139,9 +139,9 @@ public class SceneJeu extends BorderPane {
         // Créer un stage modal pour les paramètres
         if (paramStage == null) {
             paramStage = new Stage();
-            paramStage.initModality(Modality.APPLICATION_MODAL); // Empêche l'interaction avec la fenêtre principale
-            paramStage.initOwner(primaryStage);                  // Définit la fenêtre principale comme propriétaire
-            paramStage.initStyle(StageStyle.TRANSPARENT);        // Fenêtre transparente pour les bords arrondis
+            paramStage.initModality(Modality.APPLICATION_MODAL);
+            paramStage.initOwner(primaryStage);
+            paramStage.initStyle(StageStyle.TRANSPARENT);
             
             // Centrer les paramètres sur la fenêtre principale
             paramStage.setX(primaryStage.getX() + primaryStage.getWidth()/2 - 200);
@@ -150,8 +150,8 @@ public class SceneJeu extends BorderPane {
             // Empêcher le redimensionnement
             paramStage.setResizable(false);
             
-            // Créer le contenu du menu des paramètres avec référence à la fenêtre principale
-            Parametres parametresScene = new Parametres(paramStage, primaryStage);
+            // Créer le contenu du menu des paramètres avec référence à la fenêtre principale ET la scène de jeu
+            Parametres parametresScene = new Parametres(paramStage, primaryStage, this); // Passer 'this' pour référencer la SceneJeu actuelle
             
             // Ajouter un gestionnaire pour reprendre le chronomètre quand le menu est fermé
             paramStage.setOnHidden(e -> {
@@ -159,11 +159,14 @@ public class SceneJeu extends BorderPane {
                 this.setEffect(null); // Enlever l'effet de flou quand on ferme la fenêtre
             });
             
-            Scene paramScene = new Scene(parametresScene, 400, 400); // Hauteur augmentée pour voir tous les éléments
-            paramScene.setFill(Color.TRANSPARENT); // Nécessaire pour les bords arrondis
+            Scene paramScene = new Scene(parametresScene, 400, 400);
+            paramScene.setFill(Color.TRANSPARENT);
             paramStage.setScene(paramScene);
         } else {
-            // Si la fenêtre existe déjà, s'assurer que l'effet de flou est supprimé à la fermeture
+            // Mettre à jour la référence à la scène de jeu si la fenêtre existe déjà
+            ((Parametres)paramStage.getScene().getRoot()).sceneJeu = this;
+            
+            // S'assurer que l'effet de flou est supprimé à la fermeture
             paramStage.setOnHidden(e -> {
                 chrono.start();
                 this.setEffect(null);
@@ -180,44 +183,70 @@ public class SceneJeu extends BorderPane {
     public void updateTimerVisibility() {
         boolean showTimer = GameSettings.getInstance().isShowTimer();
         
-        // Récupérer directement les éléments depuis la barre du haut
-        if (this.getTop() instanceof HBox) {
-            HBox topBar = (HBox) this.getTop();
-            
-            // Trouver et mettre à jour la visibilité des deux éléments de temps
-            for (int i = 0; i < topBar.getChildren().size(); i++) {
-                javafx.scene.Node node = topBar.getChildren().get(i);
-                
-                // Vérifier si c'est un VBox (les deux éléments de temps sont dans des VBox)
-                if (node instanceof VBox) {
-                    VBox box = (VBox) node;
-                    
-                    // Vérifier le contenu pour déterminer si c'est un élément de temps
-                    for (javafx.scene.Node child : box.getChildren()) {
-                        if (child instanceof Label) {
-                            Label label = (Label) child;
-                            String text = label.getText();
-                            
-                            // Si c'est le temps courant ou le meilleur temps, mettre à jour sa visibilité
-                            if (text.contains("TEMPS") || text.contains("MEILLEUR TEMPS")) {
-                                box.setVisible(showTimer);
-                                box.setManaged(showTimer); // Important pour que l'espace soit libéré
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    
-        // Mettre à jour également la visibilité du label (par sécurité)
+        // Mettre à jour la visibilité du label
         timeLabel.setVisible(showTimer);
-        if (timeLabel.getParent() != null) {
-            timeLabel.getParent().setVisible(showTimer);
-            timeLabel.getParent().setManaged(showTimer);
+        
+        // Récupérer la barre du haut
+        HBox topBar = (HBox) this.getTop();
+        if (topBar != null) {
+            // Nous allons reconstruire la barre du haut entièrement
+            topBar.getChildren().clear();
+            
+            // Recréer les boutons
+            Button restartButton = ButtonFactory.createAnimatedButton("R");
+            Button helpButton = ButtonFactory.createAnimatedButton("?");
+            Button validateButton = ButtonFactory.createAnimatedButton("V");
+            Button leftArrow = ButtonFactory.createAnimatedButton("<");
+            Button rightArrow = ButtonFactory.createAnimatedButton(">");
+            Button settingButton = ButtonFactory.createAnimatedButton("P");
+            
+            // Ajuster la taille des boutons
+            restartButton.setPrefSize(40, 40);
+            helpButton.setPrefSize(40, 40);
+            validateButton.setPrefSize(40, 40);
+            leftArrow.setPrefSize(40, 40);
+            rightArrow.setPrefSize(40, 40);
+            settingButton.setPrefSize(40, 40);
+            
+            // Recréer le groupe pour le chronomètre
+            VBox timeGroup = new VBox(timeLabel);
+            timeGroup.setAlignment(Pos.CENTER);
+            timeGroup.setVisible(showTimer);
+            timeGroup.setManaged(showTimer); // Important pour que l'espace soit libéré si caché
+            
+            // Recréer le meilleur temps
+            VBox bestScoreGroup = createLabelOnly("MEILLEUR TEMPS : 00:30:00");
+            bestScoreGroup.setVisible(showTimer);
+            bestScoreGroup.setManaged(showTimer); // Également géré par le paramètre du timer
+            
+            // Réajouter les éléments à la barre du haut
+            topBar.getChildren().addAll(
+                restartButton, helpButton, validateButton,
+                timeGroup, bestScoreGroup,
+                leftArrow, rightArrow, settingButton
+            );
+            
+            // Remettre les actions sur les boutons
+            validateButton.setOnAction(e -> {
+                System.out.println("Validation de la grille");
+                boolean resultat = leftBox.getGrille().check();
+                if (resultat) {
+                    System.out.println("Grille correcte");
+                } else {
+                    System.out.println("Grille incorrecte");
+                }
+            });
+    
+            restartButton.setOnAction(e -> {
+                resetGrille();
+            }); 
+    
+            settingButton.setOnAction(e -> {
+                openSettings();
+            });
         }
         
-        // Forcer la mise à jour de la mise en page
+        // Force le rafraîchissement de la disposition
         this.requestLayout();
     }
 
