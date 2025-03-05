@@ -81,12 +81,12 @@ public class SceneJeu extends BorderPane {
         // Initialiser la grille avec la taille par défaut - en utilisant le constructeur qui prend un int
         leftBox = new GrilleController(new Grille("grilleTest.json"), gridSize, 0.2);
         leftBox.setPrefSize(gridSize, gridSize);
-        leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
+        leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
         VBox rightBox = new VBox(10);
         rightBox.setPadding(new Insets(10));
         rightBox.setPrefSize(150, 300);
-        rightBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
+        rightBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
         rightBox.setAlignment(Pos.TOP_CENTER);
         
         // Ajout de boutons dans le panneau de droite
