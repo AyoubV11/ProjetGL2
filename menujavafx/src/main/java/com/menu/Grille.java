@@ -1,7 +1,10 @@
 package com.menu;
 
 import java.util.Stack;
+import java.util.Vector;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -9,15 +12,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Grille {
+    public static final String SAVE_FOLDER = "sauvegarde";
+    private String name;
+
     protected int nbLignes;   // Abscisse de la grille
     protected int nbColonnes;   // Ordonnée de la grille
     protected Case[][] cases;   // Cases de la grille
     protected Stack<Action> pileUndo;   // Pile des actions effectuées
     protected Stack<Action> pileRedo;   // Pile des actions annulées
+    protected List<CoordonneeAreteGrilleResolu> aretesGrilleResolue;   // Liste des coordonnées des arêtes de la grille résolue
 
     public Grille(String fichier) {
         try {
             // Charger le JSON
+
+            this.name = fichier.split("\\.")[0];
+
             ObjectMapper objectMapper = new ObjectMapper();
 
             URL fichierURL = getClass().getClassLoader()
@@ -40,7 +50,8 @@ public class Grille {
             }
 
             // Appliquer les modifications des cases chiffres
-            this.appliquerModifications(grilleJson.getModifications());
+            this.ajouterChiffres(grilleJson.getAjoutChiffres());
+            this.ajouterAretesGrilleResolue(grilleJson.getAretesGrilleResolue());
 
             this.pileUndo = new Stack<Action>();
             this.pileRedo = new Stack<Action>();
@@ -51,6 +62,11 @@ public class Grille {
     public Stack<Action> getPileUndo(){
         return this.pileUndo;
     }
+
+    public Stack<Action> getPileRedo(){
+        return this.pileRedo;
+    }
+
     public int getNbLignes() {
         return this.nbLignes;
     }
@@ -83,8 +99,8 @@ public class Grille {
         c.setChiffre(chiffre);
     }
 
-    public void appliquerModifications(List<Modification> modifications) {
-        for (Modification modif : modifications) {
+    public void ajouterChiffres(List<AjoutChiffre> ajoutChiffres) {
+        for (AjoutChiffre modif : ajoutChiffres) {
             int ligne = modif.getLigne();
             int colonne = modif.getColonne();
             int chiffre = modif.getChiffre();
@@ -92,59 +108,43 @@ public class Grille {
         }
     }
 
-    /**
-     * Cette methode permet de verifier la reponse de l'utilisateur et renvoie VRAI ou FAUX
-     * @return boolean
-     */
-    public boolean check(){
-        /*Verifier que la grille est bonne
-            COMMENT ?
-
-            SOLUTION
-            1) Verifier que chaque points qui est en contact avec une aretes possedent 2 voisins
-            2) Verfifier que le nombre d'arrete correspond bien au chiffre d'une case 
-            3) Verifier qu'il n'y a qu'une seule boucle connexe
-            */
-
-        // 1)
-        Iterator<Point> itPoints = this.iteratorPoints();
-        while(itPoints.hasNext()){
-            Point p = itPoints.next();
-            if(!p.matchNbAretesVoisines()){
-                return false;
-            }
-        }
-
-        // 2)
-        Iterator<Chiffre> itChiffres = this.iteratorChiffres();
-        while(itChiffres.hasNext()){
-            Chiffre c = itChiffres.next();
-            if(!c.estVide() && !c.matchNbAretesVoisines()){
-                return false;
-            }
-        }
-
-        // 3)
-        boolean[][] visited = new boolean[this.nbLignes][this.nbColonnes];
-        for(int i = 0; i < this.nbLignes; i++){
-            for(int j = 0; j < this.nbColonnes; j++){
-                visited[i][j] = false;
-            }
-        }
-
-        int totalComposanteConnexe = 0;
+    public void ajouterAretesGrilleResolue (List<CoordonneeAreteGrilleResolu> aretesGrilleResolue) {
         Iterator<Arete> itAretes = this.iteratorAretes();
         while(itAretes.hasNext()){
             Arete a = itAretes.next();
-            if(a.getEtat() == EnumEtat.TRAIT && !visited[a.getLigne()][a.getColonne()]){
-                dfs(a, visited);
-                totalComposanteConnexe++;
+            for (CoordonneeAreteGrilleResolu coordonnee : aretesGrilleResolue) {
+                if (coordonnee.getLigne() == a.getLigne() && coordonnee.getColonne() == a.getColonne()) {
+                    a.devientUneAreteDeLaGrilleResolue();
+                    break;
+                }
             }
         }
-
-        return totalComposanteConnexe == 1;
     }
 
+    // Cette méthode vérifie si la grille est résolue
+    public boolean resolue(){
+        Iterator<Arete> itAretes = this.iteratorAretes();
+        while(itAretes.hasNext()){      
+            Arete a = itAretes.next();
+            if (a.estUneAreteDeLaGrilleResolue() && a.getEtat() != EnumEtat.TRAIT ||
+                !a.estUneAreteDeLaGrilleResolue() && a.getEtat() == EnumEtat.TRAIT) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Cette méthode vérifie si toutes les arêtes posées sur la grille sont correctes
+    public boolean check(){
+        Iterator<Arete> itAretes = this.iteratorAretes();
+        while(itAretes.hasNext()){      
+            Arete a = itAretes.next();
+            if (!a.estUneAreteDeLaGrilleResolue() && a.getEtat() == EnumEtat.TRAIT) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public String toString(){
         String chaine = "";
@@ -235,6 +235,43 @@ public class Grille {
             }  
         }
         return nbAretesVisitees;
+    }
+
+    public void undo(){
+        if(!this.pileUndo.isEmpty()){
+            System.out.println("undo");
+            Action action = this.pileUndo.pop();
+            Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
+            a.setEtat(action.getEtatPrecedent());
+            this.pileRedo.push(action);
+        }
+    }
+
+    public void redo(){
+        if(!this.pileRedo.isEmpty()){
+            System.out.println("redo");
+            Action action = this.pileRedo.pop();
+            Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
+            a.setEtat(action.getEtat());
+            this.pileUndo.push(action);
+        }
+    }
+
+    public void saveProgress(){
+        // Charger le JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        //concatener le nom du fichier à l'url
+        File fichierJSON = new File(SAVE_FOLDER + "/" + this.name + "_progress.json");
+
+
+        try{
+            objectMapper.writeValue(fichierJSON, this);
+        }
+        catch (IOException e)
+        {
+            System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
+        }
     }
     
 }

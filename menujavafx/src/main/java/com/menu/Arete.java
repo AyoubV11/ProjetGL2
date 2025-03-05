@@ -2,51 +2,46 @@ package com.menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
+    protected boolean estUneAreteDeLaGrilleResolue;
 
     public Arete(int ligne, int colonne, Grille grille, EnumEtat etat) {
         super(ligne, colonne, grille);
         this.etat = etat;
+        this.estUneAreteDeLaGrilleResolue = false;
     }
 
     public EnumEtat getEtat() {
         return this.etat;
     }
+    
 
     public void setCroix() {
-        this.etat = EnumEtat.CROIX;
+        this.pushAction(EnumEtat.CROIX);
+        this.setEtat(EnumEtat.CROIX);
     }
 
-    public boolean setTrait() {
-        if(this.check()){
-            this.etat = EnumEtat.TRAIT;
-            
-            // Creation de l'action (faut ajouter pose valide)
-            Action action = new Action(ligne, colonne, etat, etat, false);
-            //ajout dans la pile
-            Stack<Action> pileUndo = this.grille.getPileUndo();
-            pileUndo.push(action);
-            
+    public void pushAction(EnumEtat nouvelleEtat){
+        Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
+        this.grille.getPileUndo().push(action);
+        this.grille.getPileRedo().clear();
+    }
 
-            return true;
-        }else{
-
-            this.etat = EnumEtat.CROIX;
-            return false;
-        }
+    public void setTrait() {
+        this.pushAction(EnumEtat.TRAIT);
+        this.setEtat(EnumEtat.TRAIT);
     }
 
     public void setVide() {
-        this.etat = EnumEtat.VIDE;
+        this.pushAction(EnumEtat.VIDE);
+        this.setEtat(EnumEtat.VIDE);
     }
 
     public void setEtat(EnumEtat etat){
         this.etat = etat;
     }
-
 
     @Override
     public int getNbAretesVoisines(){  
@@ -145,5 +140,13 @@ public class Arete extends Case {
         if(this.etat == EnumEtat.VIDE) return " - ";
         else if(this.etat == EnumEtat.TRAIT) return " | ";
         else return " x ";
+    }
+
+    public void devientUneAreteDeLaGrilleResolue(){
+        this.estUneAreteDeLaGrilleResolue = true;
+    }
+
+    public boolean estUneAreteDeLaGrilleResolue(){
+        return this.estUneAreteDeLaGrilleResolue;
     }
 }

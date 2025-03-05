@@ -118,4 +118,9 @@ public class GrilleController extends GridPane {
         return this.grille;
     }
 
+    public void update(){
+        for(AreteView av : this.listAreteView){
+            av.update();
+        }
+    }
 }

@@ -51,6 +51,7 @@ public class SceneJeu extends BorderPane {
         Button validateButton = createRoundButton("✔");
 
         Button leftArrow = createRoundButton("←");
+        
         Button rightArrow = createRoundButton("→");
         Button settingButton = createRoundButton("⚙");
 
@@ -89,6 +90,9 @@ public class SceneJeu extends BorderPane {
 
         centerPane.getChildren().add(boxes);
         this.setCenter(centerPane);
+
+        leftArrow.setOnAction(e -> {leftBox.getGrille().undo(); leftBox.update();});
+        rightArrow.setOnAction(e -> {leftBox.getGrille().redo(); leftBox.update();});
 
         validateButton.setOnAction(e -> {
             System.out.println("Validation de la grille");
@@ -129,22 +133,17 @@ public class SceneJeu extends BorderPane {
             paramStage.show();
     }
 
-
-    private void precedent() {
-        // desempiler
-        // reactualiser la grille (reafficher toute les actions de la pile)
-            
-    }
-
     private void resetGrille() {
         System.out.println("Restart de la grille");
 
         centerPane.getChildren().remove(boxes);
 
         // Création nouvelle grille
-        leftBox = new GrilleController(new Grille("grilleTest.json"), 300, 0.2);
-        leftBox.setPrefSize(300, 300);
+        leftBox = new GrilleController(new Grille("grilleTest.json"), 400, 0.2);
+        leftBox.setPrefSize(400, 400);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
+
+        
 
         VBox rightBox = new VBox();
         rightBox.setPrefSize(150, 300);

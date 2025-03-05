@@ -6,7 +6,8 @@ import java.util.List;
 class GrilleJson {
     private int ligne;
     private int colonne;
-    private List<Modification> modifications;
+    private List<AjoutChiffre> ajoutChiffres;
+    private List<CoordonneeAreteGrilleResolu> aretesGrilleResolue;
 
     // Getters et Setters
     public int getLigne() {
@@ -25,11 +26,19 @@ class GrilleJson {
         this.colonne = colonne;
     }
 
-    public List<Modification> getModifications() {
-        return modifications;
+    public List<AjoutChiffre> getAjoutChiffres() {
+        return ajoutChiffres;
     }
 
-    public void setModifications(List<Modification> modifications) {
-        this.modifications = modifications;
+    public void setAjoutChiffre(List<AjoutChiffre> ajoutChiffres) {
+        this.ajoutChiffres = ajoutChiffres;
+    }
+    
+    public List<CoordonneeAreteGrilleResolu> getAretesGrilleResolue() {
+        return aretesGrilleResolue;
+    }
+
+    public void setAretesGrilleResolue(List<CoordonneeAreteGrilleResolu> aretesGrilleResolue) {
+        this.aretesGrilleResolue = aretesGrilleResolue;
     }
 }

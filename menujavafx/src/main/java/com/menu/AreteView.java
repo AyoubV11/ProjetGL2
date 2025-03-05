@@ -33,9 +33,6 @@ public class AreteView extends Button{
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.setStyle("-fx-background-color: transparent;");
         this.setOnMousePressed(event -> {this.gererClic(event);});
-
-        
-
         
     }
 
@@ -44,9 +41,10 @@ public class AreteView extends Button{
     }
 
     public void setTrait(){
-        if(this.arete.setTrait()) {
-            this.iv.setVisible(true);
+        if(this.arete.check()) {
+            this.arete.setTrait();
             this.iv.setImage(imTrait);
+            this.iv.setVisible(true);
         }
         else {
             this.setCroix();
@@ -55,8 +53,8 @@ public class AreteView extends Button{
 
     public void setCroix(){
         this.arete.setCroix();
-        this.iv.setVisible(true);
         this.iv.setImage(imCroix);
+        this.iv.setVisible(true);
     }
 
     public void setVide(){
@@ -70,12 +68,20 @@ public class AreteView extends Button{
                 this.clicGauche();
             else if (event.getButton() == MouseButton.SECONDARY)
                 this.clicDroit();
+
             System.out.println("Validation de la grille");
             boolean resultat = this.arete.getGrille().check();
             if (resultat) {
-                System.out.println("Grille correcte");
+                System.out.println("--toutes les aretes sont correctes");
             } else {
-                System.out.println("Grille incorrecte");
+                System.out.println("--au moins une arete est incorrecte");
+            }
+
+            resultat = this.arete.getGrille().resolue();
+            if (resultat) {
+                System.out.println("-Grille résolue");
+            } else {
+                System.out.println("-Grille non résolue");
             }
         }
             
@@ -143,7 +149,17 @@ public class AreteView extends Button{
             this.setVide();
     }
 
-
-    
-
+    public void update(){
+        if(this.arete.getEtat() == EnumEtat.TRAIT){
+            this.iv.setImage(imTrait);
+            this.iv.setVisible(true);
+        }
+        else if(this.arete.getEtat() == EnumEtat.CROIX){
+            this.iv.setImage(imCroix);
+            this.iv.setVisible(true);
+        }
+        else{
+            this.iv.setVisible(false);
+        }
+    }
 }

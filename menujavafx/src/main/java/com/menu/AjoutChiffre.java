@@ -1,6 +1,6 @@
 package com.menu;
 
-class Modification {
+class AjoutChiffre {
     private int ligne;
     private int colonne;
     private int chiffre;
