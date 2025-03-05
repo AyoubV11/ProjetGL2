@@ -47,7 +47,9 @@ public class AreteView extends Button {
         this.imTrait = new Image("trait" +  
         (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +
         ".png");
-        this.imCroix = new Image("croix.png");
+        this.imCroix = new Image("croix" + 
+        (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +
+        ".png");
         this.iv = new ImageView();
         this.setVide();
 
