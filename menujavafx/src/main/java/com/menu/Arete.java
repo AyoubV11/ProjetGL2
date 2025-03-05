@@ -48,14 +48,14 @@ public class Arete extends Case {
      * 
      * @return true si le trait peut être posé, false sinon
      */
-    public boolean setTrait() {
+    public boolean setTrait(Boolean croix) {
         if(this.check()){
             this.etat = EnumEtat.TRAIT;
             return true;
-        }else{
+        }else if(croix){
             this.etat = EnumEtat.CROIX;
-            return false;
         }
+        return false;
     }
 
     /**

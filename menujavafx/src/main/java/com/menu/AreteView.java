@@ -5,8 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.Parent;
-import java.util.List;
+
 
 /**
  * Représente la vue graphique d'une arête dans l'interface utilisateur du jeu Slitherlink.
@@ -77,82 +76,17 @@ public class AreteView extends Button {
      * Tente de définir l'arête comme un trait.
      * Si le placement est invalide, transforme en croix.
      */
-    public void setTrait(){
-        if(this.arete.setTrait()) {
+    public void setTrait(Boolean croix){
+        if(this.arete.setTrait(croix)) {
             this.iv.setVisible(true);
             this.iv.setImage(imTrait);
-            
-            // Place automatiquement des croix si l'option est activée
-            if (GameSettings.getInstance().isAutoCroix()) {
-                placeAutoCroix();
-            }
         }
-        else {
+        else if(croix){
             this.setCroix();
         }
-    }
-    
-    /**
-     * Place automatiquement des croix sur les arêtes qui ne peuvent pas être utilisées
-     * en raison des contraintes du jeu.
-     */
-    private void placeAutoCroix() {
-        // Récupère les points voisins de cette arête
-        List<Point> pointsVoisins = this.arete.getPointsVoisins();
-        
-        for (Point point : pointsVoisins) {
-            // Si le point a déjà 2 arêtes (le maximum permis)
-            if (point.getNbAretesVoisines() == 2) {
-                // Trouve et marque les arêtes voisines vides d'une croix
-                for (Arete areteVoisine : point.getAretesVoisines()) {
-                    if (areteVoisine.getEtat() == EnumEtat.VIDE) {
-                        AreteView areteView = findAreteView(areteVoisine);
-                        if (areteView != null) {
-                            areteView.setCroix();
-                        }
-                    }
-                }
-            }
+        else{
+            this.setVide();
         }
-        
-        // Récupère les chiffres voisins de cette arête
-        List<Chiffre> chiffresVoisins = this.arete.getChiffresVoisins();
-        
-        for (Chiffre chiffre : chiffresVoisins) {
-            // Si le chiffre n'est pas vide et a déjà le nombre exact d'arêtes
-            if (!chiffre.estVide() && chiffre.matchNbAretesVoisines()) {
-                // Trouve et marque les arêtes voisines vides d'une croix
-                List<Arete> aretesAutourChiffre = chiffre.getAretesVoisines();
-                for (Arete areteVoisine : aretesAutourChiffre) {
-                    if (areteVoisine.getEtat() == EnumEtat.VIDE) {
-                        AreteView areteView = findAreteView(areteVoisine);
-                        if (areteView != null) {
-                            areteView.setCroix();
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * Trouve la vue d'arête correspondant à une arête du modèle.
-     * 
-     * @param arete L'arête du modèle à rechercher
-     * @return La vue de l'arête correspondante, ou null si non trouvée
-     */
-    private AreteView findAreteView(Arete arete) {
-        // Recherche du contrôleur de grille dans la hiérarchie des parents
-        Parent parent = this.getParent();
-        while (parent != null && !(parent instanceof GrilleController)) {
-            parent = parent.getParent();
-        }
-        
-        if (parent instanceof GrilleController) {
-            return ((GrilleController) parent).getAreteView(arete);
-        }
-        
-        return null;
     }
 
     /**
@@ -181,17 +115,10 @@ public class AreteView extends Button {
         if (this.isCurseurProche(event)){
             // Gère les clics gauche et droit
             if (event.getButton() == MouseButton.PRIMARY)
-                this.clicGauche();
+                this.clicGauche(GameSettings.getInstance().isAutoCroix());
             else if (event.getButton() == MouseButton.SECONDARY)
                 this.clicDroit();
             
-            // Placement automatique des croix si activé
-            if (GameSettings.getInstance().isAutoCroix()) {
-                GrilleController grilleController = findGrilleController();
-                if (grilleController != null) {
-                    grilleController.applyAutoCroixToAllAretes();
-                }
-            }
             
             // Validation de la grille
             System.out.println("Validation de la grille");
@@ -202,19 +129,6 @@ public class AreteView extends Button {
                 System.out.println("Grille incorrecte");
             }
         }
-    }
-    
-    /**
-     * Trouve le contrôleur de grille dans la hiérarchie des parents.
-     * 
-     * @return Le contrôleur de grille, ou null s'il n'est pas trouvé
-     */
-    private GrilleController findGrilleController() {
-        Parent parent = this.getParent();
-        while (parent != null && !(parent instanceof GrilleController)) {
-            parent = parent.getParent();
-        }
-        return (GrilleController) parent;
     }
 
     /**
@@ -275,9 +189,9 @@ public class AreteView extends Button {
      * Gère le clic gauche sur l'arête.
      * Alterne entre trait et vide.
      */
-    public void clicGauche() {
+    public void clicGauche(Boolean croix) {
         if (this.arete.getEtat() != EnumEtat.TRAIT) 
-            this.setTrait();
+            this.setTrait(croix);
         else 
             this.setVide();
     }

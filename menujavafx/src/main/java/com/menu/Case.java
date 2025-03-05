@@ -75,15 +75,43 @@ public abstract class Case {
         int x = this.getLigne();
         int y = this.getColonne();
 
-        // Vérification et ajout des arêtes voisines dans l'état TRAIT
-        if (this.grille.caseExiste(x, y - 1) && ((Arete) this.grille.getCase(x, y - 1)).getEtat() == EnumEtat.TRAIT)
-            aretesVoisines.add((Arete) this.grille.getCase(x, y - 1));
-        if (this.grille.caseExiste(x - 1, y) && ((Arete) this.grille.getCase(x - 1, y)).getEtat() == EnumEtat.TRAIT) 
-            aretesVoisines.add((Arete) this.grille.getCase(x - 1, y));
-        if (this.grille.caseExiste(x, y + 1) && ((Arete) this.grille.getCase(x, y + 1)).getEtat() == EnumEtat.TRAIT) 
-            aretesVoisines.add((Arete) this.grille.getCase(x, y + 1));
-        if (this.grille.caseExiste(x + 1, y) && ((Arete) this.grille.getCase(x + 1, y)).getEtat() == EnumEtat.TRAIT) 
-            aretesVoisines.add((Arete) this.grille.getCase(x + 1, y));
+        // Utilisation de try-catch pour éviter les ClassCastException
+        try {
+            if (this.grille.caseExiste(x, y - 1)) {
+                Arete arete = (Arete) this.grille.getCase(x, y - 1);
+                if (arete.getEtat() == EnumEtat.TRAIT)
+                    aretesVoisines.add(arete);
+            }
+        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+
+        // Utilisation de try-catch pour éviter les ClassCastException
+        try {
+            if (this.grille.caseExiste(x - 1, y)) {
+                Arete arete = (Arete) this.grille.getCase(x - 1, y);
+                if (arete.getEtat() == EnumEtat.TRAIT)
+                    aretesVoisines.add(arete);
+            }
+        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+
+        // Utilisation de try-catch pour éviter les ClassCastException
+        try {
+            if (this.grille.caseExiste(x, y + 1)) {
+                Arete arete = (Arete) this.grille.getCase(x, y + 1);
+                if (arete.getEtat() == EnumEtat.TRAIT)
+                    aretesVoisines.add(arete);
+            }
+        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+
+        // Utilisation de try-catch pour éviter les ClassCastException
+        try {
+            if (this.grille.caseExiste(x + 1, y)) {
+                Arete arete = (Arete) this.grille.getCase(x + 1, y);
+                if (arete.getEtat() == EnumEtat.TRAIT)
+                    aretesVoisines.add(arete);
+            }
+        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+
+
 
         return aretesVoisines;
     }
