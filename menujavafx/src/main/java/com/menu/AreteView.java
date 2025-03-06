@@ -23,7 +23,7 @@ public class AreteView extends Button{
         ".png");
         this.imCroix = new Image("croix.png");
         this.iv = new ImageView();
-        this.setVide();
+        this.update();
 
         iv.fitWidthProperty().bind(this.widthProperty());
         iv.fitHeightProperty().bind(this.heightProperty());
@@ -68,21 +68,6 @@ public class AreteView extends Button{
                 this.clicGauche();
             else if (event.getButton() == MouseButton.SECONDARY)
                 this.clicDroit();
-
-            System.out.println("Validation de la grille");
-            boolean resultat = this.arete.getGrille().check();
-            if (resultat) {
-                System.out.println("--toutes les aretes sont correctes");
-            } else {
-                System.out.println("--au moins une arete est incorrecte");
-            }
-
-            resultat = this.arete.getGrille().resolue();
-            if (resultat) {
-                System.out.println("-Grille résolue");
-            } else {
-                System.out.println("-Grille non résolue");
-            }
         }
             
     }

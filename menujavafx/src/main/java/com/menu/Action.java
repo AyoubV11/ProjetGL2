@@ -6,6 +6,8 @@ public class Action {
     protected EnumEtat etat;   // Etat de l'action
     protected EnumEtat etatPrecedent;   // Etat précédent de l'action
 
+    public Action() {}
+
     public Action(int ligne, int colonne, EnumEtat etat, EnumEtat etatPrecedent) {
         this.ligne = ligne;
         this.colonne = colonne;

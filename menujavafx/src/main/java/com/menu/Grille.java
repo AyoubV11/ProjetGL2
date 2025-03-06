@@ -3,11 +3,15 @@ package com.menu;
 import java.util.Stack;
 import java.util.Vector;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,9 +34,9 @@ public class Grille {
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            URL fichierURL = getClass().getClassLoader()
-                            .getResource(fichier);
-            GrilleJson grilleJson = objectMapper.readValue(fichierURL, GrilleJson.class);
+            File fichierJSON = new File(getResourcePath(fichier));
+
+            GrilleJson grilleJson = objectMapper.readValue(fichierJSON, GrilleJson.class);
 
             // Affectation des dimensions spécifiées à la grille
             this.nbLignes = grilleJson.getLigne() * 2 + 1;
@@ -55,6 +59,9 @@ public class Grille {
 
             this.pileUndo = new Stack<Action>();
             this.pileRedo = new Stack<Action>();
+            
+            this.chargerProgression();
+
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
         }
@@ -257,21 +264,63 @@ public class Grille {
         }
     }
 
-    public void saveProgress(){
+    public void clear(){
+        Iterator<Arete> itAretes = this.iteratorAretes();
+        while(itAretes.hasNext()){
+            Arete a = itAretes.next();
+            a.setEtat(EnumEtat.VIDE);
+        }
+        this.pileUndo.clear();
+        this.pileRedo.clear();
+        this.sauvegarderProgress();
+    }
+
+    public void chargerProgression(){
+        try{
+            // Charger le JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            //concatener le nom du fichier à l'url
+
+            Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+            try {Files.createDirectories(userDir);} catch (Exception e) { e.printStackTrace(); }
+            Path filePath = userDir.resolve(this.name + "_progress.json");
+            File fichierJSON = new File(filePath.toString());
+
+            this.pileUndo = objectMapper.readValue(fichierJSON, new TypeReference<Stack<Action>>(){});   
+            
+            for(Action action : this.pileUndo){
+                Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
+                a.setEtat(action.getEtat());
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
+        }
+
+    }
+        
+
+    public void sauvegarderProgress(){
         // Charger le JSON
         ObjectMapper objectMapper = new ObjectMapper();
-
         //concatener le nom du fichier à l'url
-        File fichierJSON = new File(SAVE_FOLDER + "/" + this.name + "_progress.json");
 
+        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        try {Files.createDirectories(userDir);} catch (Exception e) { e.printStackTrace(); }
+        Path filePath = userDir.resolve(this.name + "_progress.json");
+        File fichierJSON = new File(filePath.toString());
 
         try{
-            objectMapper.writeValue(fichierJSON, this);
+            objectMapper.writeValue(fichierJSON, this.pileUndo);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
         }
     }
-    
+
+    public String getResourcePath(String fichier){
+        return this.getClass().getClassLoader().getResource(fichier).getPath();
+    }
 }

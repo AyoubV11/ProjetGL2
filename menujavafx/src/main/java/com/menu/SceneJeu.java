@@ -93,21 +93,25 @@ public class SceneJeu extends BorderPane {
 
         leftArrow.setOnAction(e -> {leftBox.getGrille().undo(); leftBox.update();});
         rightArrow.setOnAction(e -> {leftBox.getGrille().redo(); leftBox.update();});
+        restartButton.setOnAction(e -> {leftBox.getGrille().clear(); leftBox.update();});
+        
 
         validateButton.setOnAction(e -> {
             System.out.println("Validation de la grille");
-            boolean resultat = leftBox.getGrille().check();
+            boolean resultat = leftBox.getGrille().resolue();
             if (resultat) {
-                System.out.println("Grille correcte");
+                System.out.println("-Grille résolue");
             } else {
-                System.out.println("Grille incorrecte");
+                System.out.println("-Grille non résolue");
+            }
+
+            resultat = leftBox.getGrille().check();
+            if (resultat) {
+                System.out.println("--toutes les aretes sont correctes");
+            } else {
+                System.out.println("--au moins une arete est incorrecte");
             }
         });
-
-        restartButton.setOnAction(e -> {
-            resetGrille();
-            
-        }); 
 
 
         settingButton.setOnAction(e -> {
@@ -133,25 +137,4 @@ public class SceneJeu extends BorderPane {
             paramStage.show();
     }
 
-    private void resetGrille() {
-        System.out.println("Restart de la grille");
-
-        centerPane.getChildren().remove(boxes);
-
-        // Création nouvelle grille
-        leftBox = new GrilleController(new Grille("grilleTest.json"), 400, 0.2);
-        leftBox.setPrefSize(400, 400);
-        leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
-
-        
-
-        VBox rightBox = new VBox();
-        rightBox.setPrefSize(150, 300);
-        rightBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
-
-        boxes = new HBox(50, leftBox, rightBox); 
-        boxes.setAlignment(Pos.CENTER);
-
-        centerPane.getChildren().add(boxes);
-    }
 }

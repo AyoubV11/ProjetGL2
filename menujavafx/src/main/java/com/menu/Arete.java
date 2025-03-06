@@ -27,6 +27,7 @@ public class Arete extends Case {
         Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
         this.grille.getPileUndo().push(action);
         this.grille.getPileRedo().clear();
+        this.grille.sauvegarderProgress();
     }
 
     public void setTrait() {
@@ -54,7 +55,6 @@ public class Arete extends Case {
      * @return boolean
      */
     public boolean estAutoriseAPoserTrait(){
-        // TODO corriger "posePossibleSelonPoints"
         boolean posePossibleSelonPoints = getPointsVoisins().stream().allMatch(point -> point.getNbAretesVoisines() < 2); 
         boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines); // on puet poser temps que les chiffres voisins n'ont pas le bon nombre d'arretes
 
