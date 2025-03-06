@@ -275,6 +275,10 @@ public class Grille {
         this.sauvegarderProgress();
     }
 
+    // TODO, retourner nombre d'erreurs puis undo
+    public int validate(){ return 0;}
+
+
     public void chargerProgression(){
         try{
             // Charger le JSON
