@@ -118,6 +118,7 @@ public class GrilleController extends GridPane {
         return this.grille;
     }
 
+    // Cette méthode permet de mettre à jour l'état des aretes de la grille
     public void update(){
         for(AreteView av : this.listAreteView){
             av.update();
