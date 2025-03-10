@@ -105,12 +105,10 @@ public class SceneJeu extends BorderPane {
                 System.out.println("-Grille non résolue");
             }
 
-            resultat = leftBox.getGrille().check();
-            if (resultat) {
-                System.out.println("--toutes les aretes sont correctes");
-            } else {
-                System.out.println("--au moins une arete est incorrecte");
-            }
+            int erreurs = leftBox.getGrille().check();
+            System.out.println("--" + erreurs + " aretes incorrectes");
+            leftBox.getGrille().retablirEtatValide();
+            leftBox.update();
         });
 
 

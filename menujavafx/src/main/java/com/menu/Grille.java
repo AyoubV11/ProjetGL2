@@ -1,14 +1,12 @@
 package com.menu;
 
 import java.util.Stack;
-import java.util.Vector;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,7 +22,7 @@ public class Grille {
     protected Case[][] cases;   // Cases de la grille
     protected Stack<Action> pileUndo;   // Pile des actions effectuées
     protected Stack<Action> pileRedo;   // Pile des actions annulées
-    protected List<CoordonneeAreteGrilleResolu> aretesGrilleResolue;   // Liste des coordonnées des arêtes de la grille résolue
+    protected List<Coordonnee> aretesGrilleResolue;   // Liste des coordonnées des arêtes de la grille résolue
 
     public Grille(String fichier) {
         try {
@@ -115,11 +113,11 @@ public class Grille {
         }
     }
 
-    public void ajouterAretesGrilleResolue (List<CoordonneeAreteGrilleResolu> aretesGrilleResolue) {
+    public void ajouterAretesGrilleResolue (List<Coordonnee> aretesGrilleResolue) {
         Iterator<Arete> itAretes = this.iteratorAretes();
         while(itAretes.hasNext()){
             Arete a = itAretes.next();
-            for (CoordonneeAreteGrilleResolu coordonnee : aretesGrilleResolue) {
+            for (Coordonnee coordonnee : aretesGrilleResolue) {
                 if (coordonnee.getLigne() == a.getLigne() && coordonnee.getColonne() == a.getColonne()) {
                     a.devientUneAreteDeLaGrilleResolue();
                     break;
@@ -141,16 +139,17 @@ public class Grille {
         return true;
     }
 
-    // Cette méthode vérifie si toutes les arêtes posées sur la grille sont correctes
-    public boolean check(){
+    // Cette méthode compte le nombre d'erreurs dans la grille
+    public int check(){
+        int nbErreurs = 0;
         Iterator<Arete> itAretes = this.iteratorAretes();
         while(itAretes.hasNext()){      
             Arete a = itAretes.next();
             if (!a.estUneAreteDeLaGrilleResolue() && a.getEtat() == EnumEtat.TRAIT) {
-                return false;
+                nbErreurs++;
             }
         }
-        return true;
+        return nbErreurs;
     }
 
     public String toString(){
@@ -228,22 +227,6 @@ public class Grille {
         };
     }
 
-
-    private int dfs(Arete a, boolean[][] visited){
-        if (a.getEtat() == EnumEtat.VIDE) return 0;
-        int nbAretesVisitees = 1;
-        visited[a.getLigne()][a.getColonne()] = true;
-
-        for(Arete areteVoisine : a.getAretesVoisines()){
-            if(areteVoisine.getEtat() == EnumEtat.TRAIT){
-                if(!visited[areteVoisine.getLigne()][areteVoisine.getColonne()]){
-                    nbAretesVisitees += dfs(areteVoisine, visited);
-                }
-            }  
-        }
-        return nbAretesVisitees;
-    }
-
     public void undo(){
         if(!this.pileUndo.isEmpty()){
             System.out.println("undo");
@@ -274,10 +257,6 @@ public class Grille {
         this.pileRedo.clear();
         this.sauvegarderProgress();
     }
-
-    // TODO, retourner nombre d'erreurs puis undo
-    public int validate(){ return 0;}
-
 
     public void chargerProgression(){
         try{
@@ -326,5 +305,11 @@ public class Grille {
 
     public String getResourcePath(String fichier){
         return this.getClass().getClassLoader().getResource(fichier).getPath();
+    }
+
+    public void retablirEtatValide(){
+        while(this.check() > 0){
+            this.undo();
+        }
     }
 }

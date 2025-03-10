@@ -7,7 +7,7 @@ class GrilleJson {
     private int ligne;
     private int colonne;
     private List<AjoutChiffre> ajoutChiffres;
-    private List<CoordonneeAreteGrilleResolu> aretesGrilleResolue;
+    private List<Coordonnee> aretesGrilleResolue;
 
     // Getters et Setters
     public int getLigne() {
@@ -34,11 +34,11 @@ class GrilleJson {
         this.ajoutChiffres = ajoutChiffres;
     }
     
-    public List<CoordonneeAreteGrilleResolu> getAretesGrilleResolue() {
+    public List<Coordonnee> getAretesGrilleResolue() {
         return aretesGrilleResolue;
     }
 
-    public void setAretesGrilleResolue(List<CoordonneeAreteGrilleResolu> aretesGrilleResolue) {
+    public void setAretesGrilleResolue(List<Coordonnee> aretesGrilleResolue) {
         this.aretesGrilleResolue = aretesGrilleResolue;
     }
 }

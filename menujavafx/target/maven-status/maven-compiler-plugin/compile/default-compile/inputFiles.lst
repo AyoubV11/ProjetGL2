@@ -10,7 +10,6 @@
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/App.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/PointView.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/ChiffreView.java
-/info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/CoordonneeAreteGrilleResolu.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/AreteView.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/GrilleController.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/BoxFactory.java
@@ -20,6 +19,7 @@
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/Parametres.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/Point.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/SceneJeu.java
+/info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/Coordonnee.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/EnumOrientation.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/Grille.java
 /info/etu/l3info/s2103379/Documents/ProjetGL2/menujavafx/src/main/java/com/menu/GridComponent.java
