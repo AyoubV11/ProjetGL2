@@ -1,34 +1,40 @@
 package com.menu;
 
+import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class SceneJeu extends BorderPane {
 
+    private Menu menu;
     private Stage primaryStage;
     private Stage paramStage;
     private GrilleController leftBox; 
     private StackPane centerPane; 
     private HBox boxes; 
+    private HBox topBar;
     private Chrono chrono;
     private Label timeLabel;
-    private int gridSize = 400; // Taille par défaut de la grille (en int, pas en double)
+    private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
 
-    public SceneJeu(Stage stage) {
+    public SceneJeu(Stage stage, Menu menu) {
+        this.menu = menu;
         this.primaryStage = stage;
         setupInterface();
     }
 
     private void setupInterface() {
-        HBox topBar = new HBox(20);
+        topBar = new HBox(20);
         topBar.setPadding(new Insets(10));
         topBar.setAlignment(Pos.CENTER);
 
@@ -79,7 +85,7 @@ public class SceneJeu extends BorderPane {
         centerPane.setPadding(new Insets(20));
 
         // Initialiser la grille avec la taille par défaut - en utilisant le constructeur qui prend un int
-        leftBox = new GrilleController(new Grille("grilleTest.json"), gridSize, 0.2);
+        leftBox = new GrilleController(new Grille("grilleTest.json"), gridSize, 0.2, this);
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
@@ -102,13 +108,7 @@ public class SceneJeu extends BorderPane {
         this.setCenter(centerPane);
 
         validateButton.setOnAction(e -> {
-            System.out.println("Validation de la grille");
-            boolean resultat = leftBox.getGrille().check();
-            if (resultat) {
-                System.out.println("Grille correcte");
-            } else {
-                System.out.println("Grille incorrecte");
-            }
+            victoryScreen();
         });
 
         restartButton.setOnAction(e -> {
@@ -266,7 +266,7 @@ public class SceneJeu extends BorderPane {
         centerPane.getChildren().remove(boxes);
 
         // Création nouvelle grille en conservant la même taille
-        leftBox = new GrilleController(new Grille("grilleTest.json"), gridSize, 0.2);
+        leftBox = new GrilleController(new Grille("grilleTest.json"), gridSize, 0.2, this);
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
 
@@ -289,5 +289,34 @@ public class SceneJeu extends BorderPane {
         
         // Ne pas réinitialiser le chronomètre
         // chrono.reset(); - Cette ligne est commentée pour conserver le temps
+    }
+
+    public void victoryScreen() {
+        // Box affichage Victoire
+        Label victoryText = new Label("VICTOIRE");
+        victoryText.setStyle("-fx-font-size: 100px; -fx-text-fill: red;");
+
+        VBox victoryBox = new VBox();
+        victoryBox.setAlignment(Pos.CENTER);
+        victoryBox.getChildren().add(victoryText);
+
+        // Appliquer un effet de flou sur le contenu du jeu
+        this.topBar.setEffect(new GaussianBlur(10));
+        this.boxes.setEffect(new GaussianBlur(10));
+
+        // Désactivation des éléments clicables
+        this.topBar.setDisable(true);
+
+        // Désactivation chrono
+        this.chrono.stop();
+
+        this.centerPane.getChildren().add(victoryBox);
+
+        // Délai avant retour menu
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        delay.setOnFinished(event -> {
+            this.menu.showMenu();
+        });
+        delay.play();
     }
 }

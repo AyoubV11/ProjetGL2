@@ -34,14 +34,20 @@ public class AreteView extends Button {
     private ImageView iv;
 
     /**
+     * Scène de jeu pour afficher la victoire.
+     */
+    private SceneJeu scene;
+
+    /**
      * Constructeur de AreteView.
      * Initialise la vue de l'arête avec ses images et ses interactions.
      * 
      * @param arete L'arête du modèle à associer à cette vue
      */
-    public AreteView(Arete arete){
+    public AreteView(Arete arete, SceneJeu scene){
         super();
         this.arete = arete;
+        this.scene = scene;
         
         // Charge l'image du trait selon l'orientation de l'arête
         this.imTrait = new Image("trait" +  
@@ -126,12 +132,10 @@ public class AreteView extends Button {
             
             
             // Validation de la grille
-            System.out.println("Validation de la grille");
             boolean resultat = this.arete.getGrille().check();
             if (resultat) {
-                System.out.println("Grille correcte");
-            } else {
-                System.out.println("Grille incorrecte");
+                /* Victoire */
+                this.scene.victoryScreen();
             }
         }
     }
