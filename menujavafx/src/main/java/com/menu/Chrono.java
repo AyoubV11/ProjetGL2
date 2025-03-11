@@ -39,6 +39,11 @@ public class Chrono {
     }
 
 
+    public String getTemps() {
+        return timeLabel.getText(); 
+    }
+    
+
     private String formatTime(int totalSeconds) {
         int hours = totalSeconds / 3600;
         int minutes = (totalSeconds % 3600) / 60;

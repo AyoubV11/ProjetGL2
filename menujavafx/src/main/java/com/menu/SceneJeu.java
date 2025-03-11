@@ -1,13 +1,22 @@
 package com.menu;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+
 //import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 public class SceneJeu extends BorderPane {
 
@@ -101,6 +110,10 @@ public class SceneJeu extends BorderPane {
             boolean resultat = leftBox.getGrille().resolue();
             if (resultat) {
                 System.out.println("-Grille résolue");
+                chrono.stop();
+                String tempsFinal = chrono.getTemps(); 
+                sauvegarderTemps(tempsFinal);
+                chrono.start();
             } else {
                 System.out.println("-Grille non résolue");
             }
@@ -134,5 +147,20 @@ public class SceneJeu extends BorderPane {
             paramStage.setScene(paramScene);
             paramStage.show();
     }
+
+
+
+
+    private void sauvegarderTemps(String temps) {
+    TempsSauvegarde t = new TempsSauvegarde(temps);
+    Gson gson = new Gson();
+
+    try (FileWriter writer = new FileWriter("../menujavafx/src/main/resources/sauvegarde/temps.json")) {
+        gson.toJson(t, writer);
+        System.out.println("Temps sauvegardé !");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
 }
