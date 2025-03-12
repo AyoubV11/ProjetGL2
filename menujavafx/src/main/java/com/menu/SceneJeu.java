@@ -1,6 +1,5 @@
 package com.menu;
 
-import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
+
 
 public class SceneJeu extends BorderPane {
 
@@ -292,31 +291,49 @@ public class SceneJeu extends BorderPane {
     }
 
     public void victoryScreen() {
-        // Box affichage Victoire
-        Label victoryText = new Label("VICTOIRE");
-        victoryText.setStyle("-fx-font-size: 100px; -fx-text-fill: red;");
-
-        VBox victoryBox = new VBox();
-        victoryBox.setAlignment(Pos.CENTER);
-        victoryBox.getChildren().add(victoryText);
-
+        // Arrêt du chronomètre
+        this.chrono.stop();
+        
+        // Créer une boîte stylisée pour l'affichage de la victoire
+        VBox victoryBox = BoxFactory.createStyledBox(400, 300);
+        victoryBox.setSpacing(30);
+        
+        // Texte de victoire stylisé avec la police Baloo
+        Label victoryText = new Label("VICTOIRE !");
+        victoryText.setFont(BalooFont.setBalooSized(48));
+        
+        String chronoText = this.timeLabel.getText().replace("TEMPS : ", "");
+        Label timeLabel = new Label("Temps : " + chronoText);
+        timeLabel.setFont(BalooFont.setBalooSized(24));
+        
+        // Créer un bouton pour retourner au menu
+        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
+        retourMenuButton.setPrefWidth(200);
+        retourMenuButton.setOnAction(e -> {
+            this.menu.showMenu();
+        });
+        
+        // Ajouter les éléments à la boîte de victoire
+        victoryBox.getChildren().addAll(victoryText, timeLabel, retourMenuButton);
+        
         // Appliquer un effet de flou sur le contenu du jeu
         this.topBar.setEffect(new GaussianBlur(10));
         this.boxes.setEffect(new GaussianBlur(10));
-
+        
         // Désactivation des éléments clicables
         this.topBar.setDisable(true);
-
-        // Désactivation chrono
-        this.chrono.stop();
-
+        this.boxes.setDisable(true);
+        
+        // Centrer la boîte de victoire
+        StackPane.setAlignment(victoryBox, Pos.CENTER);
+        
+        // Ajouter la boîte de victoire au centre
         this.centerPane.getChildren().add(victoryBox);
-
-        // Délai avant retour menu
-        PauseTransition delay = new PauseTransition(Duration.seconds(5));
-        delay.setOnFinished(event -> {
-            this.menu.showMenu();
-        });
-        delay.play();
+        
+        // Déverrouiller le niveau suivant si nécessaire
+        // ButtonFactory.unlockLevel(currentLevel + 1);
+        
+        // Mise à jour du score dans BoxFactory si le temps est meilleur
+        // Cette partie est à implémenter selon votre logique de sauvegarde des scores
     }
 }
