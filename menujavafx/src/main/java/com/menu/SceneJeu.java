@@ -4,8 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
-//import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,7 +18,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class SceneJeu extends BorderPane {
 
     private Stage primaryStage;
@@ -27,14 +27,13 @@ public class SceneJeu extends BorderPane {
     private HBox boxes; 
     private Chrono chrono;
     private Label timeLabel;
-    private Parametres parametres;
+    private Label bestTimeLabel; // 💡 Ajout du label meilleur temps
 
     public SceneJeu(Stage stage) {
         this.primaryStage = stage;
         setupInterface();
     }
 
-    // Méthode pour créer des boutons ronds
     private Button createRoundButton(String text) {
         Button button = new Button(text);
         button.setStyle(
@@ -58,35 +57,43 @@ public class SceneJeu extends BorderPane {
         Button restartButton = createRoundButton("↻");
         Button helpButton = createRoundButton("?");
         Button validateButton = createRoundButton("✔");
-
         Button leftArrow = createRoundButton("←");
-        
         Button rightArrow = createRoundButton("→");
         Button settingButton = createRoundButton("⚙");
 
-        // Correction : Création unique de timeLabel
         timeLabel = new Label("TEMPS : 00:00:00"); 
-        chrono = new Chrono(timeLabel); // Instancier le chrono avec le label
-        chrono.start(); // Lancer le chrono dès le début
+        chrono = new Chrono(timeLabel);
+        chrono.start(); 
 
-        // Correction : Utilisation directe de timeLabel dans timeGroup
         VBox timeGroup = new VBox(timeLabel);
         timeGroup.setAlignment(Pos.CENTER);
-        
-        VBox bestScoreGroup = createLabelOnly("MEILLEUR TEMPS : 00:30:00");
+
+        // Création du label meilleur temps
+        VBox bestScoreGroup = new VBox();
+        bestScoreGroup.setAlignment(Pos.CENTER);
+        if (meilleurTempsExiste("../menujavafx/src/main/resources/sauvegarde/temps.json")) {
+            String meilleurTemps = chargerMeilleurTemps("../menujavafx/src/main/resources/sauvegarde/temps.json");
+            bestTimeLabel = new Label("MEILLEUR TEMPS : " + meilleurTemps);
+            bestTimeLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+            bestScoreGroup.getChildren().add(bestTimeLabel);
+        }
 
         topBar.getChildren().addAll(
             restartButton, helpButton, validateButton,
-            timeGroup, bestScoreGroup,
+            timeGroup,
             leftArrow, rightArrow, settingButton
         );
+
+        if (!bestScoreGroup.getChildren().isEmpty()) {
+            topBar.getChildren().add(bestScoreGroup);
+        }
 
         this.setTop(topBar);
 
         centerPane = new StackPane(); 
         centerPane.setPadding(new Insets(20));
 
-        leftBox = new GrilleController(new Grille("grilleTest.json"), 400, 0.2); // Stocke la grille dans une variable d'instance
+        leftBox = new GrilleController(new Grille("grilleTest.json"), 400, 0.2); 
         leftBox.setPrefSize(400, 400);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.5); -fx-border-color: black;");
 
@@ -103,7 +110,6 @@ public class SceneJeu extends BorderPane {
         leftArrow.setOnAction(e -> {leftBox.getGrille().undo(); leftBox.update();});
         rightArrow.setOnAction(e -> {leftBox.getGrille().redo(); leftBox.update();});
         restartButton.setOnAction(e -> {leftBox.getGrille().clear(); leftBox.update();});
-        
 
         validateButton.setOnAction(e -> {
             System.out.println("Validation de la grille");
@@ -114,6 +120,12 @@ public class SceneJeu extends BorderPane {
                 String tempsFinal = chrono.getTemps(); 
                 sauvegarderTemps(tempsFinal);
                 chrono.start();
+
+                // 🔄 Mettre à jour le label du meilleur temps
+                if (bestTimeLabel != null) {
+                    String nouveauMeilleurTemps = chargerMeilleurTemps("../menujavafx/src/main/resources/sauvegarde/temps.json");
+                    bestTimeLabel.setText("MEILLEUR TEMPS : " + nouveauMeilleurTemps);
+                }
             } else {
                 System.out.println("-Grille non résolue");
             }
@@ -124,43 +136,46 @@ public class SceneJeu extends BorderPane {
             leftBox.update();
         });
 
-
-        settingButton.setOnAction(e -> {
-            openSettings();
-        }); 
+        settingButton.setOnAction(e -> openSettings()); 
     }
-
-    private VBox createLabelOnly(String labelText) {
-        Label label = new Label(labelText);
-        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
-        VBox vbox = new VBox(label);
-        vbox.setAlignment(Pos.CENTER);
-        return vbox;
-    }
-
 
     private void openSettings() {
-            Stage paramStage = new Stage();
-            Parametres parametresScene = new Parametres(paramStage);
-            Scene paramScene = new Scene(parametresScene, 400, 300);
-            paramStage.setScene(paramScene);
-            paramStage.show();
+        Stage paramStage = new Stage();
+        Parametres parametresScene = new Parametres(paramStage);
+        Scene paramScene = new Scene(parametresScene, 400, 300);
+        paramStage.setScene(paramScene);
+        paramStage.show();
     }
-
-
-
 
     private void sauvegarderTemps(String temps) {
-    TempsSauvegarde t = new TempsSauvegarde(temps);
-    Gson gson = new Gson();
+        TempsSauvegarde t = new TempsSauvegarde(temps);
+        Gson gson = new Gson();
 
-    try (FileWriter writer = new FileWriter("../menujavafx/src/main/resources/sauvegarde/temps.json")) {
-        gson.toJson(t, writer);
-        System.out.println("Temps sauvegardé !");
-    } catch (IOException e) {
-        e.printStackTrace();
+        try (FileWriter writer = new FileWriter("../menujavafx/src/main/resources/sauvegarde/temps.json")) {
+            gson.toJson(t, writer);
+            System.out.println("Temps sauvegardé !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
+    public static boolean meilleurTempsExiste(String cheminFichier) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
+            Gson gson = new Gson();
+            TempsSauvegarde t = gson.fromJson(reader, TempsSauvegarde.class);
+            return t != null && t.getTemps() != null && !t.getTemps().isEmpty();
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static String chargerMeilleurTemps(String cheminFichier) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
+            Gson gson = new Gson();
+            TempsSauvegarde t = gson.fromJson(reader, TempsSauvegarde.class);
+            return t != null && t.getTemps() != null ? t.getTemps() : "00:00:00";
+        } catch (IOException e) {
+            return "00:00:00";
+        }
+    }
 }
