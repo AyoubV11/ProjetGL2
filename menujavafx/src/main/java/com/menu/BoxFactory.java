@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -70,10 +71,45 @@ public class BoxFactory {
     public static VBox createSettingsBox(Menu menu) {
         VBox settingsBox = createStyledBox(220, 260);
         
-        HBox autoCrossToggle = ButtonFactory.createToggleButton("Croix auto : ", "OFF", "ON");
-        Label volumeLabel = new Label("Volume : 50%");
+        // Récupérer l'instance de GameSettings
+        GameSettings settings = GameSettings.getInstance();
+        
+        // Créer le toggle button avec l'état actuel correct
+        HBox autoCrossToggle = new HBox(10);
+        Label autoCrossLabel = new Label("Croix auto :");
+        autoCrossLabel.setFont(BalooFont.setBalooSized(18));
+        
+        ToggleButton toggle = new ToggleButton(settings.isAutoCroix() ? "ON" : "OFF");
+        toggle.setSelected(settings.isAutoCroix());
+        toggle.setFont(BalooFont.setBalooSized(18));
+        toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+        
+        toggle.setOnMouseEntered(e -> toggle.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        toggle.setOnMouseExited(e -> toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        
+        toggle.setOnMousePressed(e -> ButtonFactory.animateButton(toggle, 1.1));
+        toggle.setOnMouseReleased(e -> ButtonFactory.animateButton(toggle, 1.0));
+        
+        // Mettre à jour la valeur dans GameSettings ET le texte affiché
+        toggle.setOnAction(e -> {
+            settings.setAutoCroix(toggle.isSelected());
+            toggle.setText(toggle.isSelected() ? "ON" : "OFF");
+            System.out.println("Croix auto: " + (settings.isAutoCroix() ? "Activé" : "Désactivé"));
+        });
+        
+        autoCrossToggle.getChildren().addAll(autoCrossLabel, toggle);
+        autoCrossToggle.setAlignment(Pos.CENTER);
+        
+        // Reste du code inchangé...
+        Label volumeLabel = new Label("Volume : " + settings.getVolume() + "%");
         volumeLabel.setFont(BalooFont.setBalooSized(18));
         Slider volumeSlider = ButtonFactory.createVolumeSlider(volumeLabel);
+        volumeSlider.setValue(settings.getVolume());
+        
+        // Mettre à jour le volume dans GameSettings
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            settings.setVolume(newVal.intValue());
+        });
         
         Button retourButton = ButtonFactory.createAnimatedButton("RETOUR");
         retourButton.setPrefWidth(200);
@@ -82,7 +118,6 @@ public class BoxFactory {
         settingsBox.getChildren().addAll(autoCrossToggle, volumeLabel, volumeSlider, retourButton);
         return settingsBox;
     }
-
     
     /** 
      * Crée une VBox de taille fixe selon les valeurs rentrées en paramètres.

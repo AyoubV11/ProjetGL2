@@ -33,25 +33,7 @@ public class Menu extends Application {
         stage=primaryStage;
 
 
-        TitleComponent titleComponent = new TitleComponent();
-        MenuBoxComponent menuBoxComponent = new MenuBoxComponent(this);
-        gridComponent = new GridComponent(this);
-
-        StackPane root = setupBackground();
-        menuBox = BoxFactory.setupMenuBox(menuBoxComponent);
-        content = new HBox(40, menuBox, gridComponent.getGridPane());
-        content.setStyle("-fx-padding: 20;");
-        content.setAlignment(Pos.CENTER);
-
-        BorderPane mainLayout = setupMainLayout(titleComponent.getTitle());
-        root.getChildren().add(mainLayout);
-
-        Scene scene = new Scene(root, 1006, 595);
-        primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Slither Link");
-        primaryStage.getIcons().add(new Image("/star_completed.png"));
-        primaryStage.show();
+        showMenu();
     }
 
     /**
@@ -120,9 +102,33 @@ public class Menu extends Application {
      * Affiche le jeu.
      */
     public void showGame() {
-        Parent gameInterface = new SceneJeu(stage);
-        Scene scene2 = new Scene(gameInterface, 1006, 595);
+        Parent gameInterface = new SceneJeu(stage, this);
+        StackPane root = setupBackground();
+        root.getChildren().add(gameInterface);
+        Scene scene2 = new Scene(root, 1006, 595);
         stage.setScene(scene2);
+    }
+
+    public void showMenu(){
+        TitleComponent titleComponent = new TitleComponent();
+        MenuBoxComponent menuBoxComponent = new MenuBoxComponent(this);
+        gridComponent = new GridComponent(this);
+
+        StackPane root = setupBackground();
+        menuBox = BoxFactory.setupMenuBox(menuBoxComponent);
+        content = new HBox(40, menuBox, gridComponent.getGridPane());
+        content.setStyle("-fx-padding: 20;");
+        content.setAlignment(Pos.CENTER);
+
+        BorderPane mainLayout = setupMainLayout(titleComponent.getTitle());
+        root.getChildren().add(mainLayout);
+
+        Scene scene = new Scene(root, 1006, 595);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.setTitle("Slither Link");
+        stage.getIcons().add(new Image("/star_completed.png"));
+        stage.show();
     }
 
     /**

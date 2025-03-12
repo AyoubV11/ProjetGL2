@@ -6,72 +6,146 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-public class AreteView extends Button{
 
+/**
+ * Représente la vue graphique d'une arête dans l'interface utilisateur du jeu Slitherlink.
+ * Étend la classe Button pour permettre l'interaction avec l'arête.
+ */
+public class AreteView extends Button {
+
+    /**
+     * L'arête du modèle associée à cette vue.
+     */
     private Arete arete;
     
-    private Image imTrait, imCroix;
+    /**
+     * Image représentant un trait (horizontal ou vertical).
+     */
+    private Image imTrait;
 
+    /**
+     * Image représentant une croix.
+     */
+    private Image imCroix;
+
+    /**
+     * Vue de l'image pour afficher le trait ou la croix.
+     */
     private ImageView iv;
 
-    public AreteView(Arete arete){
+    /**
+     * Scène de jeu pour afficher la victoire.
+     */
+    private SceneJeu scene;
+
+    /**
+     * Constructeur de AreteView.
+     * Initialise la vue de l'arête avec ses images et ses interactions.
+     * 
+     * @param arete L'arête du modèle à associer à cette vue
+     */
+    public AreteView(Arete arete, SceneJeu scene){
         super();
         this.arete = arete;
+        this.scene = scene;
         
+        // Charge l'image du trait selon l'orientation de l'arête
         this.imTrait = new Image("trait" +  
         (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +
         ".png");
-        this.imCroix = new Image("croix.png");
+        this.imCroix = new Image("croix" + 
+        (arete.getOrientation() == EnumOrientation.VERTICAL ? "Vertical" : "Horizontal") +".png");
         this.iv = new ImageView();
         this.update();
 
+        // Ajuste la taille de l'image
         iv.fitWidthProperty().bind(this.widthProperty());
         iv.fitHeightProperty().bind(this.heightProperty());
         this.setGraphic(iv);
 
+        // Configuration du style du bouton
         this.setMinSize(0,0);
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.setStyle("-fx-background-color: transparent;");
         this.setOnMousePressed(event -> {this.gererClic(event);});
-        
     }
 
+    /**
+     * Récupère l'arête du modèle associée à cette vue.
+     * 
+     * @return L'arête du modèle
+     */
     public Arete getArete(){
         return this.arete;
     }
 
-    public void setTrait(){
-        if(this.arete.check()) {
-            this.arete.setTrait();
+    /**
+     * Tente de définir l'arête comme un trait.
+     * Si le placement est invalide, transforme en croix.
+     */
+    public void setTrait(Boolean croix){
+        if(!croix){
+            this.arete.setTrait(croix);
+            this.iv.setVisible(true);
             this.iv.setImage(imTrait);
             this.iv.setVisible(true);
         }
-        else {
-            this.setCroix();
+        else{
+            if(this.arete.setTrait(croix)) {
+                this.iv.setVisible(true);
+                this.iv.setImage(imTrait);
+            }
+            else {
+                this.setCroix();
+            }
         }
     }
 
+    /**
+     * Définit l'arête comme une croix.
+     */
     public void setCroix(){
         this.arete.setCroix();
         this.iv.setImage(imCroix);
         this.iv.setVisible(true);
     }
 
+    /**
+     * Définit l'arête comme vide (sans trait ni croix).
+     */
     public void setVide(){
         this.arete.setVide();
         this.iv.setVisible(false);
     }
 
+    /**
+     * Gère l'événement de clic sur l'arête.
+     * 
+     * @param event L'événement de souris
+     */
     public void gererClic(MouseEvent event){
         if (this.isCurseurProche(event)){
+            // Gère les clics gauche et droit
             if (event.getButton() == MouseButton.PRIMARY)
-                this.clicGauche();
+                this.clicGauche(GameSettings.getInstance().isAutoCroix());
             else if (event.getButton() == MouseButton.SECONDARY)
                 this.clicDroit();
-        }
             
+            // Validation de la grille
+            boolean resultat = this.arete.getGrille().resolue();
+            if (resultat) {
+                /* Victoire */
+                this.scene.victoryScreen();
+            }
+        }
     }
 
+    /**
+     * Vérifie si le curseur est proche de l'arête.
+     * 
+     * @param event L'événement de souris
+     * @return true si le curseur est proche, false sinon
+     */
     public boolean isCurseurProche(MouseEvent event){
         double mouseX = event.getSceneX();
         double mouseY = event.getSceneY();
@@ -120,13 +194,21 @@ public class AreteView extends Button{
         return distance < 0;
     }
 
-    public void clicGauche() {
+    /**
+     * Gère le clic gauche sur l'arête.
+     * Alterne entre trait et vide.
+     */
+    public void clicGauche(Boolean croix) {
         if (this.arete.getEtat() != EnumEtat.TRAIT) 
-            this.setTrait();
+            this.setTrait(croix);
         else 
             this.setVide();
     }
 
+    /**
+     * Gère le clic droit sur l'arête.
+     * Alterne entre croix et vide.
+     */
     public void clicDroit() {
         if (this.arete.getEtat() != EnumEtat.CROIX) 
             this.setCroix();
