@@ -171,7 +171,7 @@ public class BoxFactory {
         retourButton.setOnAction(e -> menu.showClassicMenu());
         retourButton.setPrefWidth(200);
         Button jouerButton = ButtonFactory.createAnimatedButton("JOUER");
-        jouerButton.setOnAction(e -> menu.showGame());
+        jouerButton.setOnAction(e -> menu.showGame(niveau));
         jouerButton.setPrefWidth(200);
         
         HBox buttonBox = new HBox(30, retourButton, jouerButton);

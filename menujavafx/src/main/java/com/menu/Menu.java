@@ -101,8 +101,8 @@ public class Menu extends Application {
     /**
      * Affiche le jeu.
      */
-    public void showGame() {
-        Parent gameInterface = new SceneJeu(stage, this);
+    public void showGame(int niveau) {
+        Parent gameInterface = new SceneJeu(stage, this, niveau);
         StackPane root = setupBackground();
         root.getChildren().add(gameInterface);
         Scene scene2 = new Scene(root, 1006, 595);

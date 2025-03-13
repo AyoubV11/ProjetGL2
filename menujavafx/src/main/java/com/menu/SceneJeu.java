@@ -33,10 +33,12 @@ public class SceneJeu extends BorderPane {
     private Label timeLabel;
     private Label bestTimeLabel; // 💡 Ajout du label meilleur temps
     private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
+    private int currentlevel;
 
-    public SceneJeu(Stage stage, Menu menu) {
+    public SceneJeu(Stage stage, Menu menu, int niveau) {
         this.menu = menu;
         this.primaryStage = stage;
+        this.currentlevel = niveau;
         setupInterface();
     }
 
@@ -104,7 +106,7 @@ public class SceneJeu extends BorderPane {
         centerPane.setPadding(new Insets(20));
 
         // Initialiser la grille avec la taille par défaut - en utilisant le constructeur qui prend un int
-        leftBox = new GrilleController(new Grille("grilleTest.json"), gridSize, 0.2, this);
+        leftBox = new GrilleController(new Grille("grilleClassic"+currentlevel+".json"), gridSize, 0.2, this);
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
@@ -364,9 +366,12 @@ public class SceneJeu extends BorderPane {
         
         // Ajouter la boîte de victoire au centre
         this.centerPane.getChildren().add(victoryBox);
+
+        // Remise à zéro de la grille
+        leftBox.getGrille().clear();
         
         // Déverrouiller le niveau suivant si nécessaire
-        // ButtonFactory.unlockLevel(currentLevel + 1);
+        ButtonFactory.unlockLevel(currentlevel + 1);
         
         // Mise à jour du score dans BoxFactory si le temps est meilleur
         // Cette partie est à implémenter selon votre logique de sauvegarde des scores

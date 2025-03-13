@@ -269,7 +269,7 @@ public class Grille {
             Path filePath = userDir.resolve(this.name + "_progress.json");
             File fichierJSON = new File(filePath.toString());
 
-            this.pileUndo = objectMapper.readValue(fichierJSON, new TypeReference<Stack<Action>>(){});   
+            this.pileUndo = objectMapper.readValue(fichierJSON, new TypeReference<Stack<Action>>(){});
             
             for(Action action : this.pileUndo){
                 Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
@@ -304,7 +304,7 @@ public class Grille {
     }
 
     public String getResourcePath(String fichier){
-        return this.getClass().getClassLoader().getResource(fichier).getPath();
+        return this.getClass().getClassLoader().getResource("grilles/"+fichier).getPath();
     }
 
     public void retablirEtatValide(){
