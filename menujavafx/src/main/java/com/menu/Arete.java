@@ -48,7 +48,7 @@ public class Arete extends Case {
         Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
         this.grille.getPileUndo().push(action);
         this.grille.getPileRedo().clear();
-        this.grille.sauvegarderProgress();
+        this.grille.sauvegarderProgression();
     }
 
     /**

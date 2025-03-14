@@ -5,6 +5,10 @@ import java.util.Stack;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,17 +28,24 @@ public class Grille {
     protected Stack<Action> pileRedo;   // Pile des actions annulées
     protected List<Coordonnee> aretesGrilleResolue;   // Liste des coordonnées des arêtes de la grille résolue
 
-    public Grille(String fichier) {
+    protected SceneJeu sceneJeu;
+    protected Timeline timer;   // Chronomètre
+    protected TempsSauvegarde tempsSauvegarde;// Temps de la partie en cours et meilleur temps
+
+    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    
+
+
+    public Grille(String fichier, SceneJeu sceneJeu) {
         try {
             // Charger le JSON
 
             this.name = fichier.split("\\.")[0];
+            this.sceneJeu = sceneJeu;
 
-            ObjectMapper objectMapper = new ObjectMapper();
+            File fichierJSON = new File(getResourceFilePath(fichier));
 
-            File fichierJSON = new File(getResourcePath(fichier));
-
-            GrilleJson grilleJson = objectMapper.readValue(fichierJSON, GrilleJson.class);
+            GrilleJson grilleJson = OBJECT_MAPPER.readValue(fichierJSON, GrilleJson.class);
 
             // Affectation des dimensions spécifiées à la grille
             this.nbLignes = grilleJson.getLigne() * 2 + 1;
@@ -54,11 +65,18 @@ public class Grille {
             // Appliquer les modifications des cases chiffres
             this.ajouterChiffres(grilleJson.getAjoutChiffres());
             this.ajouterAretesGrilleResolue(grilleJson.getAretesGrilleResolue());
-
-            this.pileUndo = new Stack<Action>();
-            this.pileRedo = new Stack<Action>();
             
-            this.chargerProgression();
+            this.charger();
+
+            this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                this.tempsSauvegarde.incrementerTemps();
+                sceneJeu.setTemps(this.tempsSauvegarde.getTemps());
+                this.sauvegarderTemps();
+            }));
+            this.timer.setCycleCount(Timeline.INDEFINITE);
+
+            
+
 
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
@@ -255,26 +273,37 @@ public class Grille {
         }
         this.pileUndo.clear();
         this.pileRedo.clear();
-        this.sauvegarderProgress();
+        this.sauvegarderProgression();
     }
 
-    public void chargerProgression(){
+    public void charger(){
         try{
             // Charger le JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            //concatener le nom du fichier à l'url
+            File fichierProgression = new File(getSauvegardePath("progress"));
+            File fichierTemps = new File(getSauvegardePath("time"));
 
-            Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
-            try {Files.createDirectories(userDir);} catch (Exception e) { e.printStackTrace(); }
-            Path filePath = userDir.resolve(this.name + "_progress.json");
-            File fichierJSON = new File(filePath.toString());
+            this.pileUndo = new Stack<Action>();
+            this.pileRedo = new Stack<Action>();
 
-            this.pileUndo = objectMapper.readValue(fichierJSON, new TypeReference<Stack<Action>>(){});
+            if (!fichierProgression.exists()) {
+                return;
+            }
+
+            if (!fichierTemps.exists()) {
+                this.tempsSauvegarde = new TempsSauvegarde(0,0);
+                return;
+            }
+
+            this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
+            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
+            
             
             for(Action action : this.pileUndo){
                 Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
                 a.setEtat(action.getEtat());
             }
+
+            sceneJeu.setTemps(tempsSauvegarde.getTemps());
         }
         catch (Exception e)
         {
@@ -282,34 +311,89 @@ public class Grille {
         }
 
     }
-        
 
-    public void sauvegarderProgress(){
-        // Charger le JSON
-        ObjectMapper objectMapper = new ObjectMapper();
-        //concatener le nom du fichier à l'url
-
-        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
-        try {Files.createDirectories(userDir);} catch (Exception e) { e.printStackTrace(); }
-        Path filePath = userDir.resolve(this.name + "_progress.json");
-        File fichierJSON = new File(filePath.toString());
-
+    public void sauvegarderProgression(){
         try{
-            objectMapper.writeValue(fichierJSON, this.pileUndo);
+            File fichierProgression = new File(getSauvegardePath("progress"));
+            OBJECT_MAPPER.writeValue(fichierProgression, this.pileUndo);
         }
-        catch (Exception e)
-        {
+        catch (Exception e){
             System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
         }
     }
 
-    public String getResourcePath(String fichier){
+    public void sauvegarderTemps(){
+        try{
+            File fichierTemps = new File(getSauvegardePath("time"));
+            OBJECT_MAPPER.writeValue(fichierTemps, this.tempsSauvegarde);
+        }
+        catch (Exception e){
+            System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
+        }
+    }
+
+    public void updateMeilleurTemps(){
+        if(tempsSauvegarde.getTemps() < tempsSauvegarde.getMeilleurTemps() || tempsSauvegarde.getMeilleurTemps() == 0){
+            tempsSauvegarde.setMeilleurTemps(tempsSauvegarde.getTemps());
+        }
+    }
+
+    public String getResourceFilePath(String fichier){
         return this.getClass().getClassLoader().getResource("grilles/"+fichier).getPath();
     }
+
+    public String getSauvegardePath(String type){
+        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        // verifier que le dossier existe, sinon le créer
+        if(!Files.exists(userDir)){
+            try {
+                Files.createDirectory(userDir);
+            } catch (IOException e) {
+                System.out.println("Erreur lors de la création du dossier de sauvegarde : " + e.getMessage());
+            }
+        }
+        Path filePath = userDir.resolve(this.name + "_" + type + ".json");
+        return filePath.toString();
+    }
+
+    public static String getSettingsPath(){
+        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        // verifier que le dossier existe, sinon le créer
+        if(!Files.exists(userDir)){
+            try {
+                Files.createDirectory(userDir);
+            } catch (IOException e) {
+                System.out.println("Erreur lors de la création du dossier de sauvegarde : " + e.getMessage());
+            }
+        }
+        Path filePath = userDir.resolve("settings.json");
+        return filePath.toString();
+    } 
 
     public void retablirEtatValide(){
         while(this.check() > 0){
             this.undo();
         }
+    }
+
+
+    public void runTimer() {
+        timer.play();
+    }
+
+
+    public void stopTimer() {
+        timer.stop();
+    }
+
+
+    public void resetTimer() {
+        this.tempsSauvegarde.setTemps(0);
+        if (sceneJeu != null) sceneJeu.setTemps(0);
+    }
+
+
+    public void setSceneJeu(SceneJeu sceneJeu) {
+        this.sceneJeu = sceneJeu;
     }
 }

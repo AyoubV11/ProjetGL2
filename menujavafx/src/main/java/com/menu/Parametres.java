@@ -100,7 +100,7 @@ public class Parametres extends BorderPane {
         // Créer un bouton de retour animé cohérent avec le style du jeu
         Button returnButton = ButtonFactory.createAnimatedButton("RETOUR");
         returnButton.setPrefWidth(200);
-        returnButton.setOnAction(e -> paramStage.close());
+        returnButton.setOnAction(e -> {paramStage.close(); sceneJeu.runTimer();});
         
         // Créer un bouton pour revenir au menu principal
         Button mainMenuButton = ButtonFactory.createAnimatedButton("MENU PRINCIPAL");
@@ -108,6 +108,7 @@ public class Parametres extends BorderPane {
         mainMenuButton.setOnAction(e -> {
             // Fermer la fenêtre des paramètres
             paramStage.close();
+
             
             // Revenir au menu principal
             try {

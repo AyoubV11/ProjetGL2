@@ -135,6 +135,8 @@ public class AreteView extends Button {
             boolean resultat = this.arete.getGrille().resolue();
             if (resultat) {
                 /* Victoire */
+                this.arete.grille.updateMeilleurTemps();
+                this.arete.grille.sauvegarderProgression();
                 this.scene.victoryScreen();
             }
         }

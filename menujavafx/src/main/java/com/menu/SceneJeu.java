@@ -26,6 +26,7 @@ public class SceneJeu extends BorderPane {
     private Stage primaryStage;
     private Stage paramStage;
     private GrilleController leftBox; 
+    private Grille grille;
     private StackPane centerPane; 
     private HBox boxes; 
     private HBox topBar;
@@ -41,6 +42,22 @@ public class SceneJeu extends BorderPane {
         this.currentlevel = niveau;
         setupInterface();
     }
+
+    public void setTemps(int seconds) {
+        timeLabel.setText("TEMPS : " + formatTime(seconds));
+    }
+
+    public void setMeilleurTemps(int seconds) {
+        bestTimeLabel.setText("MEILLEUR TEMPS : " + formatTime(seconds));
+    }
+
+    private String formatTime(int totalSeconds) {
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int secs = totalSeconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
+    }
+        
 
     private void setupInterface() {
         topBar = new HBox(20);
@@ -70,15 +87,11 @@ public class SceneJeu extends BorderPane {
         VBox timeGroup = new VBox(timeLabel);
         timeGroup.setAlignment(Pos.CENTER);
         
-        // Initialiser et démarrer le chronomètre
-        chrono = new Chrono(timeLabel);
-        
         // Définir la visibilité APRÈS avoir ajouté le label à son parent
         boolean showTimer = GameSettings.getInstance().isShowTimer();
         timeLabel.setVisible(showTimer);
         timeGroup.setVisible(showTimer);
         
-        chrono.start();
 
         topBar.getChildren().addAll(
             restartButton, helpButton, validateButton,
@@ -89,12 +102,6 @@ public class SceneJeu extends BorderPane {
         // Création du label meilleur temps
         VBox bestScoreGroup = new VBox();
         bestScoreGroup.setAlignment(Pos.CENTER);
-        if (meilleurTempsExiste("../menujavafx/src/main/resources/sauvegarde/temps.json")) {
-            String meilleurTemps = chargerMeilleurTemps("../menujavafx/src/main/resources/sauvegarde/temps.json");
-            bestTimeLabel = new Label("MEILLEUR TEMPS : " + meilleurTemps);
-            bestTimeLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-            bestScoreGroup.getChildren().add(bestTimeLabel);
-        }
 
         if (!bestScoreGroup.getChildren().isEmpty()) {
             topBar.getChildren().add(bestScoreGroup);
@@ -106,7 +113,9 @@ public class SceneJeu extends BorderPane {
         centerPane.setPadding(new Insets(20));
 
         // Initialiser la grille avec la taille par défaut - en utilisant le constructeur qui prend un int
-        leftBox = new GrilleController(new Grille("grilleClassic"+currentlevel+".json"), gridSize, 0.2, this);
+        grille = new Grille("grilleClassic"+currentlevel+".json", this);
+        grille.setSceneJeu(this);
+        leftBox = new GrilleController(grille, gridSize, 0.2, this);
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
@@ -128,38 +137,29 @@ public class SceneJeu extends BorderPane {
         centerPane.getChildren().add(boxes);
         this.setCenter(centerPane);
 
-        leftArrow.setOnAction(e -> {leftBox.getGrille().undo(); leftBox.update();});
-        rightArrow.setOnAction(e -> {leftBox.getGrille().redo(); leftBox.update();});
-        restartButton.setOnAction(e -> {leftBox.getGrille().clear(); leftBox.update();});
+        leftArrow.setOnAction(e -> {grille.undo(); leftBox.update();});
+        rightArrow.setOnAction(e -> {grille.redo(); leftBox.update();});
+        restartButton.setOnAction(e -> {grille.clear(); leftBox.update();});
 
         validateButton.setOnAction(e -> {
             System.out.println("Validation de la grille");
-            boolean resultat = leftBox.getGrille().resolue();
-            if (resultat) {
+            if (grille.resolue()) {
                 System.out.println("-Grille résolue");
-                chrono.stop();
-                String tempsFinal = chrono.getTemps(); 
-                sauvegarderTemps(tempsFinal);
-                chrono.start();
-
-                // 🔄 Mettre à jour le label du meilleur temps
-                if (bestTimeLabel != null) {
-                    String nouveauMeilleurTemps = chargerMeilleurTemps("../menujavafx/src/main/resources/sauvegarde/temps.json");
-                    bestTimeLabel.setText("MEILLEUR TEMPS : " + nouveauMeilleurTemps);
-                }
             } else {
                 System.out.println("-Grille non résolue");
             }
 
-            int erreurs = leftBox.getGrille().check();
+            int erreurs = grille.check();
             System.out.println("--" + erreurs + " aretes incorrectes");
-            leftBox.getGrille().retablirEtatValide();
+            grille.retablirEtatValide();
             leftBox.update();
         });
 
         settingButton.setOnAction(e -> {
             openSettings();
         }); 
+
+        runTimer();
     }
 
     private VBox createLabelOnly(String labelText) {
@@ -172,8 +172,8 @@ public class SceneJeu extends BorderPane {
     }
 
     private void openSettings() {
-        // Arrêter le chronomètre pendant l'affichage des paramètres
-        chrono.stop();
+        // Arrêter le chronomètre
+        grille.stopTimer();
         
         // Appliquer un effet de flou sur le contenu du jeu
         this.setEffect(new javafx.scene.effect.GaussianBlur(10));
@@ -195,11 +195,6 @@ public class SceneJeu extends BorderPane {
             // Créer le contenu du menu des paramètres avec référence à la fenêtre principale ET la scène de jeu
             Parametres parametresScene = new Parametres(paramStage, primaryStage, this); // Passer 'this' pour référencer la SceneJeu actuelle
             
-            // Ajouter un gestionnaire pour reprendre le chronomètre quand le menu est fermé
-            paramStage.setOnHidden(e -> {
-                chrono.start();
-                this.setEffect(null); // Enlever l'effet de flou quand on ferme la fenêtre
-            });
             
             Scene paramScene = new Scene(parametresScene, 400, 400);
             paramScene.setFill(Color.TRANSPARENT);
@@ -207,13 +202,11 @@ public class SceneJeu extends BorderPane {
         } else {
             // Mettre à jour la référence à la scène de jeu si la fenêtre existe déjà
             ((Parametres)paramStage.getScene().getRoot()).sceneJeu = this;
-            
-            // S'assurer que l'effet de flou est supprimé à la fermeture
-            paramStage.setOnHidden(e -> {
-                chrono.start();
-                this.setEffect(null);
-            });
         }
+
+        paramStage.setOnHidden(e -> {
+            this.setEffect(null); // Enlever l'effet de flou quand on ferme la fenêtre
+        });
         
         // Afficher le menu des paramètres
         paramStage.show();
@@ -227,6 +220,8 @@ public class SceneJeu extends BorderPane {
         
         // Mettre à jour la visibilité du label
         timeLabel.setVisible(showTimer);
+
+        
         
         // Récupérer la barre du haut
         HBox topBar = (HBox) this.getTop();
@@ -271,7 +266,7 @@ public class SceneJeu extends BorderPane {
             // Remettre les actions sur les boutons
             validateButton.setOnAction(e -> {
                 System.out.println("Validation de la grille");
-                boolean resultat = leftBox.getGrille().resolue();
+                boolean resultat = grille.resolue();
                 if (resultat) {
                     System.out.println("Grille correcte");
                 } else {
@@ -279,9 +274,9 @@ public class SceneJeu extends BorderPane {
                 }
             });
     
-            leftArrow.setOnAction(e -> {leftBox.getGrille().undo(); leftBox.update();});
-            rightArrow.setOnAction(e -> {leftBox.getGrille().redo(); leftBox.update();});
-            restartButton.setOnAction(e -> {leftBox.getGrille().clear(); leftBox.update();});
+            leftArrow.setOnAction(e -> {grille.undo(); leftBox.update();});
+            rightArrow.setOnAction(e -> {grille.redo(); leftBox.update();});
+            restartButton.setOnAction(e -> {grille.clear(); leftBox.update();});
 
             settingButton.setOnAction(e -> {
                 openSettings();
@@ -292,44 +287,12 @@ public class SceneJeu extends BorderPane {
         this.requestLayout();
     }
 
-    private void sauvegarderTemps(String temps) {
-        TempsSauvegarde t = new TempsSauvegarde(temps);
-        Gson gson = new Gson();
-
-        try (FileWriter writer = new FileWriter("../menujavafx/src/main/resources/sauvegarde/temps.json")) {
-            gson.toJson(t, writer);
-            System.out.println("Temps sauvegardé !");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean meilleurTempsExiste(String cheminFichier) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
-            Gson gson = new Gson();
-            TempsSauvegarde t = gson.fromJson(reader, TempsSauvegarde.class);
-            return t != null && t.getTemps() != null && !t.getTemps().isEmpty();
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    public static String chargerMeilleurTemps(String cheminFichier) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(cheminFichier))) {
-            Gson gson = new Gson();
-            TempsSauvegarde t = gson.fromJson(reader, TempsSauvegarde.class);
-            return t != null && t.getTemps() != null ? t.getTemps() : "00:00:00";
-        } catch (IOException e) {
-            return "00:00:00";
-        }
-        
-        // Ne pas réinitialiser le chronomètre
-        // chrono.reset(); - Cette ligne est commentée pour conserver le temps
-    }
 
     public void victoryScreen() {
         // Arrêt du chronomètre
-        this.chrono.stop();
+        grille.stopTimer();
+        // //attendre une demi seconde pour voir la grille résolue
+        // try {Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
         
         // Créer une boîte stylisée pour l'affichage de la victoire
         VBox victoryBox = BoxFactory.createStyledBox(400, 300);
@@ -367,13 +330,23 @@ public class SceneJeu extends BorderPane {
         // Ajouter la boîte de victoire au centre
         this.centerPane.getChildren().add(victoryBox);
 
-        // Remise à zéro de la grille
-        leftBox.getGrille().clear();
+        // // Remise à zéro de la grille
+        // grille.clear();
+
+
         
         // Déverrouiller le niveau suivant si nécessaire
         ButtonFactory.unlockLevel(currentlevel + 1);
         
         // Mise à jour du score dans BoxFactory si le temps est meilleur
         // Cette partie est à implémenter selon votre logique de sauvegarde des scores
+    }
+
+    public void runTimer() {
+        grille.runTimer();
+    }
+
+    public void stopTimer() {
+        grille.stopTimer();
     }
 }
