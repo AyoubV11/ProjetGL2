@@ -1,12 +1,5 @@
 package com.menu;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,7 +23,6 @@ public class SceneJeu extends BorderPane {
     private StackPane centerPane; 
     private HBox boxes; 
     private HBox topBar;
-    private Chrono chrono;
     private Label timeLabel;
     private Label bestTimeLabel; // 💡 Ajout du label meilleur temps
     private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
@@ -158,6 +150,10 @@ public class SceneJeu extends BorderPane {
         settingButton.setOnAction(e -> {
             openSettings();
         }); 
+
+        aideButton.setOnAction(e -> {
+            grille.aide();
+        });
 
         runTimer();
     }
@@ -331,7 +327,7 @@ public class SceneJeu extends BorderPane {
         this.centerPane.getChildren().add(victoryBox);
 
         // // Remise à zéro de la grille
-        // grille.clear();
+        grille.clear();
 
 
         

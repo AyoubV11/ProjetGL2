@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 public class Grille {
     public static final String SAVE_FOLDER = "sauvegarde";
@@ -33,6 +34,8 @@ public class Grille {
     protected TempsSauvegarde tempsSauvegarde;// Temps de la partie en cours et meilleur temps
 
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    protected ArrayList<Technique> techniques = new ArrayList<Technique>();
     
 
 
@@ -75,8 +78,7 @@ public class Grille {
             }));
             this.timer.setCycleCount(Timeline.INDEFINITE);
 
-            
-
+            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this));  
 
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
@@ -395,5 +397,14 @@ public class Grille {
 
     public void setSceneJeu(SceneJeu sceneJeu) {
         this.sceneJeu = sceneJeu;
+    }
+
+    public void aide() {
+        for(Technique t : techniques) {
+            if(t.applicable()) {
+                t.afficherAide();
+                break;
+            }
+        }
     }
 }

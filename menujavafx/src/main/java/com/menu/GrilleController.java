@@ -33,9 +33,6 @@ public class GrilleController extends GridPane {
         this.largeurInterstice = 100 * proportionInterstice  / (this.nbColonnes / 2 + 1);
         this.largeurChiffre = 100 * (1.0 - proportionInterstice) / (this.nbColonnes / 2); 
 
-        System.out.println("largeurInterstice : " + largeurInterstice);
-        System.out.println("largeurChiffre : " + largeurChiffre);
-
         // ajouter sizeH et sizeV à la taille de la fenêtre et empecher de changer la taille de la fenêtre
         this.setPrefSize(sizeH, sizeV);
         this.setMaxSize(sizeH, sizeV);

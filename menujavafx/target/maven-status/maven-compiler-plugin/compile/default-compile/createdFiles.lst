@@ -3,8 +3,8 @@ com/menu/GridComponent.class
 com/menu/Grille$3.class
 com/menu/EnumEtat.class
 com/menu/Arete.class
-com/menu/GrilleJson.class
 com/menu/GrilleController.class
+com/menu/GrilleJson.class
 com/menu/ButtonFactory.class
 com/menu/Case.class
 com/menu/PointView.class
@@ -18,8 +18,8 @@ com/menu/Menu.class
 com/menu/MenuBoxComponent.class
 com/menu/BoxFactory.class
 com/menu/BalooFont.class
-com/menu/Parametres.class
 com/menu/SceneJeu.class
+com/menu/Parametres.class
 com/menu/Chiffre.class
 com/menu/Point.class
 com/menu/TempsSauvegarde.class

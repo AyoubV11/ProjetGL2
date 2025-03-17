@@ -80,4 +80,56 @@ public class Chiffre extends Case {
         if(this.chiffre == -1) return "   ";
         else return " " + this.chiffre + " ";
     }
+
+    public Chiffre getChiffreGauche() {
+        try {
+            return (Chiffre)grille.getCase(ligne, colonne-2);
+        }
+        catch (IndexOutOfBoundsException e) {
+            return new Chiffre(-1, -1, grille);
+        }
+    }
+
+    public Chiffre getChiffreHaut() {
+        try {
+            return (Chiffre)grille.getCase(ligne-2, colonne);
+        }
+        catch (IndexOutOfBoundsException e) {
+            return new Chiffre(-1, -1, grille);
+        }
+    }
+
+    public Chiffre getChiffreDroit() {
+        try {
+            return (Chiffre)grille.getCase(ligne, colonne+2);
+        }
+        catch (IndexOutOfBoundsException e) {
+            return new Chiffre(-1, -1, grille);
+        }
+    }
+
+    public Chiffre getChiffreBas() {
+        try {
+            return (Chiffre)grille.getCase(ligne+2, colonne);
+        }
+        catch (IndexOutOfBoundsException e) {
+            return new Chiffre(-1, -1, grille);
+        }
+    }
+
+    public Chiffre getChiffreHautGauche() {
+        return getChiffreHaut().getChiffreGauche();
+    }
+
+    public Chiffre getChiffreHautDroit() {
+        return getChiffreHaut().getChiffreDroit();
+    }
+
+    public Chiffre getChiffreBasGauche() {
+        return getChiffreBas().getChiffreGauche();
+    }
+
+    public Chiffre getChiffreBasDroit() {
+        return getChiffreBas().getChiffreDroit();
+    }
 }
