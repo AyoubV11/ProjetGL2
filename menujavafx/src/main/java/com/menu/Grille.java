@@ -78,7 +78,7 @@ public class Grille {
             }));
             this.timer.setCycleCount(Timeline.INDEFINITE);
 
-            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this));  
+            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this),new TechniqueDeux3Diagonal(this));  
 
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
