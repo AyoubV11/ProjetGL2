@@ -10,7 +10,7 @@ public class TechniqueDeux3Diagonal implements Technique {
     }
 
     public void afficherAide() {
-        System.out.println("Technique 0 diagonal 3 applicable");
+        System.out.println("Technique deux 3 diagonal applicable");
     }
 
     public boolean applicable() {
