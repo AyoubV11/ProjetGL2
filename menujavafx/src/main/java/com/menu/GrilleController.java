@@ -17,23 +17,22 @@ public class GrilleController extends GridPane {
     private int nbColonnes;
     private double largeurInterstice;
     private double largeurChiffre; 
+    private SceneJeu scene;
 
     private static final double DEFAULT_PROPORTION_INTERSTICE = 0.2;
 
-    public GrilleController(Grille grille, int sizeH, int sizeV, double proportionInterstice){
+    public GrilleController(Grille grille, int sizeH, int sizeV, double proportionInterstice, SceneJeu scene){
         this.grille = grille;
         this.listAreteView = new ArrayList<AreteView>();
         this.setGridLinesVisible(false);
         this.setStyle("-fx-background-color: transparent;");
+        this.scene = scene ;
         
         this.nbLignes = grille.getNbLignes();
         this.nbColonnes = grille.getNbColonnes();
 
         this.largeurInterstice = 100 * proportionInterstice  / (this.nbColonnes / 2 + 1);
         this.largeurChiffre = 100 * (1.0 - proportionInterstice) / (this.nbColonnes / 2); 
-
-        System.out.println("largeurInterstice : " + largeurInterstice);
-        System.out.println("largeurChiffre : " + largeurChiffre);
 
         // ajouter sizeH et sizeV à la taille de la fenêtre et empecher de changer la taille de la fenêtre
         this.setPrefSize(sizeH, sizeV);
@@ -68,7 +67,7 @@ public class GrilleController extends GridPane {
         Iterator<Arete> aretes = grille.iteratorAretes();
         while(aretes.hasNext()){
             Arete a = aretes.next();
-            AreteView av = new AreteView(a);
+            AreteView av = new AreteView(a, this.scene);
             this.add(av, a.getColonne(), a.getLigne());
             this.listAreteView.add(av);
         }
@@ -85,16 +84,16 @@ public class GrilleController extends GridPane {
         
     }
 
-    public GrilleController(Grille grille, int sizeH, int sizeV){
-        this(grille, sizeH, sizeV, DEFAULT_PROPORTION_INTERSTICE);
+    public GrilleController(Grille grille, int sizeH, int sizeV, SceneJeu scene){
+        this(grille, sizeH, sizeV, DEFAULT_PROPORTION_INTERSTICE, scene);
     }
 
-    public GrilleController(Grille grille, int size, double proportionInterstice){
-        this(grille, size, size, proportionInterstice);
+    public GrilleController(Grille grille, int size, double proportionInterstice, SceneJeu scene){
+        this(grille, size, size, proportionInterstice, scene);
     }
 
-    public GrilleController(Grille grille, int size){
-        this(grille, size, size, DEFAULT_PROPORTION_INTERSTICE);
+    public GrilleController(Grille grille, int size, SceneJeu scene){
+        this(grille, size, size, DEFAULT_PROPORTION_INTERSTICE, scene);
     }
 
 
@@ -105,6 +104,21 @@ public class GrilleController extends GridPane {
                 av.gererClic(event);
             }
         });
+    }
+
+    /**
+     * Retourne la vue d'arête correspondant à l'arête du modèle donnée
+     * 
+     * @param arete L'arête du modèle à rechercher
+     * @return La vue correspondante ou null si non trouvée
+     */
+    public AreteView getAreteView(Arete arete) {
+        for (AreteView areteView : listAreteView) {
+            if (areteView.getArete() == arete) {
+                return areteView;
+            }
+        }
+        return null;
     }
 
     public double getLargeurInterstice(){

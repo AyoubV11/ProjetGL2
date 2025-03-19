@@ -16,8 +16,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
 import javafx.application.HostServices;
-import java.awt.Desktop;
-import java.net.URI;
+
 
 
 public class GridComponent {

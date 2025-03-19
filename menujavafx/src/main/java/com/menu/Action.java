@@ -1,5 +1,9 @@
 package com.menu;
 
+/**
+ * Représente une action dans le jeu Slitherlink, avec ses coordonnées et ses états.
+ * Cette classe stocke les informations relatives à une action spécifique sur la grille de jeu.
+ */
 public class Action {
     protected int ligne;   // Coordonnée X de l'action
     protected int colonne;   // Coordonnée Y de l'action
