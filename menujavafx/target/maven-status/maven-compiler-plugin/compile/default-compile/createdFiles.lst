@@ -3,12 +3,12 @@ com/menu/GridComponent.class
 com/menu/Grille$3.class
 com/menu/EnumEtat.class
 com/menu/Arete.class
-com/menu/GrilleJson.class
 com/menu/GrilleController.class
+com/menu/GrilleJson.class
 com/menu/ButtonFactory.class
 com/menu/Case.class
-com/menu/PointView.class
 com/menu/Chrono.class
+com/menu/PointView.class
 com/menu/Grille.class
 com/menu/Grille$2.class
 com/menu/AjoutChiffre.class
@@ -32,7 +32,7 @@ com/menu/Grille$4.class
 com/menu/GameSettings.class
 com/menu/TechniqueAutour0.class
 com/menu/Technique.class
-com/menu/Technique0Adjacent3.class
 com/menu/Grille$1.class
+com/menu/Technique0Adjacent3.class
 com/menu/Coordonnee.class
 com/menu/ChiffreView.class
