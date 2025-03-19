@@ -68,7 +68,7 @@ public class AreteView extends Button {
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.setStyle("-fx-background-color: transparent;");
         this.setOnMousePressed(event -> {this.gererClic(event);});
-<<<<<<< HEAD
+
         //
         this.setOnMouseEntered(e-> {
             if(this.arete.getEtat() == EnumEtat.VIDE){
@@ -82,12 +82,9 @@ public class AreteView extends Button {
                 this.iv.setVisible(false);
             }
         });
-
-        //
-        
-=======
->>>>>>> 3b82fa5da182c0d5e12820d511c55fa83fca41b8
     }
+
+  
 
     /**
      * Récupère l'arête du modèle associée à cette vue.
