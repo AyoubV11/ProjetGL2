@@ -329,6 +329,16 @@ public class SceneJeu extends BorderPane {
         // // Remise à zéro de la grille
         grille.clear();
 
+        BoxFactory.majListeBits(this.currentlevel -1, 1);
+
+        int time = this.grille.tempsSauvegarde.getTemps();
+        if(time<=3){
+            BoxFactory.majListeBits(this.currentlevel-1, time);
+        }
+        
+
+
+
 
         
         // Déverrouiller le niveau suivant si nécessaire

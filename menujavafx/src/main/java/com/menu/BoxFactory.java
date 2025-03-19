@@ -32,17 +32,26 @@ public class BoxFactory {
     /** 
      * Met à jour le nombre d'étoiles d'un niveau
      * @param indice le i-ème niveau
-     * @param nbEtoile l'étoile obtenue
+     * @param numEtoile l'étoile obtenue
      */
-    public static void majListeBits(int indice, int nbEtoile){
+    public static void majListeBits(int indice, int numEtoile){
         
         //tester les etoiles actuellement débloquées sur le niveau, et ajouter le bon score si c'est possible
         switch(listeBits[indice]){
-            case 0: 
-        }
-
-        if(listeBits[indice] + Math.pow(2,nbEtoile) <=7){
-            listeBits[indice] += Math.pow(2,nbEtoile);
+            case 0: listeBits[indice] = 1;break;
+            case 1: if(numEtoile != 1){
+               listeBits[indice]+= (int)Math.pow(2,numEtoile-1);
+            }
+            break;
+            case 3: if(numEtoile == 3){
+                listeBits[indice]=7;
+            }
+            break;
+            case 5: if(numEtoile == 2){
+                listeBits[indice]=7;
+            }
+            break;
+            default: break;
         }
         
     }
