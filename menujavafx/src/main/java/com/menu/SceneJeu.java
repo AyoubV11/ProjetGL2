@@ -289,28 +289,16 @@ public class SceneJeu extends BorderPane {
         grille.stopTimer();
         // //attendre une demi seconde pour voir la grille résolue
         // try {Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
+
+        BoxFactory.majListeBits(this.currentlevel -1, 1);
+
+        int time = this.grille.tempsSauvegarde.getTemps();
+        if(time<=180){
+            BoxFactory.majListeBits(this.currentlevel-1, 3);
+        }
         
         // Créer une boîte stylisée pour l'affichage de la victoire
-        VBox victoryBox = BoxFactory.createStyledBox(400, 300);
-        victoryBox.setSpacing(30);
-        
-        // Texte de victoire stylisé avec la police Baloo
-        Label victoryText = new Label("VICTOIRE !");
-        victoryText.setFont(BalooFont.setBalooSized(48));
-        
-        String chronoText = this.timeLabel.getText().replace("TEMPS : ", "");
-        Label timeLabel = new Label("Temps : " + chronoText);
-        timeLabel.setFont(BalooFont.setBalooSized(24));
-        
-        // Créer un bouton pour retourner au menu
-        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
-        retourMenuButton.setPrefWidth(200);
-        retourMenuButton.setOnAction(e -> {
-            this.menu.showMenu();
-        });
-        
-        // Ajouter les éléments à la boîte de victoire
-        victoryBox.getChildren().addAll(victoryText, timeLabel, retourMenuButton);
+        VBox victoryBox = BoxFactory.createVictoryBox(this, this.currentlevel, "/star_completed.png","/star_uncompleted.png");
         
         // Appliquer un effet de flou sur le contenu du jeu
         this.topBar.setEffect(new GaussianBlur(10));
@@ -329,7 +317,6 @@ public class SceneJeu extends BorderPane {
         // // Remise à zéro de la grille
         grille.clear();
 
-
         
         // Déverrouiller le niveau suivant si nécessaire
         ButtonFactory.unlockLevel(currentlevel + 1);
@@ -344,5 +331,13 @@ public class SceneJeu extends BorderPane {
 
     public void stopTimer() {
         grille.stopTimer();
+    }
+
+    public Label getTimeLabel(){
+        return this.timeLabel;
+    }
+
+    public Menu getMenu(){
+        return this.menu;
     }
 }

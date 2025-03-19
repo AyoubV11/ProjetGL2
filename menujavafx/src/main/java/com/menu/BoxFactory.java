@@ -11,10 +11,35 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
+
 public class BoxFactory {
+
+    private static final String FILE_PATH = ".nb_Etoiles.json";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static int listeBits[] = new int[12];
 
+
+    public static void sauvegarderEtoiles() {
+        try {
+            objectMapper.writeValue(new File(FILE_PATH), listeBits);
+            System.out.println("Etoiles sauvegardées dans " + FILE_PATH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void chargerEtoiles() {
+        try {
+            listeBits=objectMapper.readValue(new File(FILE_PATH), int[].class);
+        } catch (IOException e) {
+            initialiserListe();
+        }
+    }
+    
 
     /**
      * Charge les étoiles obtenues dans chaque niveau
@@ -32,18 +57,29 @@ public class BoxFactory {
     /** 
      * Met à jour le nombre d'étoiles d'un niveau
      * @param indice le i-ème niveau
-     * @param nbEtoile l'étoile obtenue
+     * @param numEtoile l'étoile obtenue
      */
-    public static void majListeBits(int indice, int nbEtoile){
+    public static void majListeBits(int indice, int numEtoile){
         
         //tester les etoiles actuellement débloquées sur le niveau, et ajouter le bon score si c'est possible
         switch(listeBits[indice]){
-            case 0: 
+            case 0: listeBits[indice] = 1;break;
+            case 1: if(numEtoile != 1){
+               listeBits[indice]+= (int)Math.pow(2,numEtoile-1);
+            }
+            break;
+            case 3: if(numEtoile == 3){
+                listeBits[indice]=7;
+            }
+            break;
+            case 5: if(numEtoile == 2){
+                listeBits[indice]=7;
+            }
+            break;
+            default: break;
         }
 
-        if(listeBits[indice] + Math.pow(2,nbEtoile) <=7){
-            listeBits[indice] += Math.pow(2,nbEtoile);
-        }
+        BoxFactory.sauvegarderEtoiles();
         
     }
     
@@ -206,6 +242,50 @@ public class BoxFactory {
         star.setFitWidth(100);
         star.setFitHeight(100);
         return star;
+    }
+
+    public static VBox createVictoryBox(SceneJeu scene, int niveau, String pathCompleted, String pathUncompleted){
+        VBox victoryBox = BoxFactory.createStyledBox(450, 450);
+        victoryBox.setSpacing(30);
+
+        HBox starsBox = new HBox(30);
+        switch(listeBits[niveau-1]){
+            case 0: starsBox.getChildren().addAll(createStar(pathUncompleted),createStar(pathUncompleted),createStar(pathUncompleted));
+                    break;
+            case 1: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathUncompleted),createStar(pathUncompleted));
+                    break;
+            case 3: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathCompleted),createStar(pathUncompleted));
+                    break;
+            case 5: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathUncompleted),createStar(pathCompleted));
+                    break;
+            case 7: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathCompleted),createStar(pathCompleted));
+                    break;
+        }
+        starsBox.setAlignment(Pos.CENTER);
+
+        HBox descriptionBox = new HBox(30,createDescription("Finir le niveau"),createDescription("Moins de 2 aides"),createDescription("Moins de 3min"));
+        descriptionBox.setAlignment(Pos.CENTER);
+        
+        // Texte de victoire stylisé avec la police Baloo
+        Label victoryText = new Label("VICTOIRE !");
+        victoryText.setFont(BalooFont.setBalooSized(48));
+        
+        String chronoText = scene.getTimeLabel().getText().replace("TEMPS : ", "");
+        Label timeLabel = new Label("Temps : " + chronoText);
+        timeLabel.setFont(BalooFont.setBalooSized(24));
+        
+        // Créer un bouton pour retourner au menu
+        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
+        retourMenuButton.setPrefWidth(200);
+        retourMenuButton.setOnAction(e -> {
+            scene.getMenu().showMenu();
+        });
+
+        
+        // Ajouter les éléments à la boîte de victoire
+        victoryBox.getChildren().addAll(victoryText,starsBox, descriptionBox, timeLabel, retourMenuButton);
+
+        return victoryBox;
     }
 
 }
