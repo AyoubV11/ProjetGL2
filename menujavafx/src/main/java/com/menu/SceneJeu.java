@@ -332,14 +332,9 @@ public class SceneJeu extends BorderPane {
         BoxFactory.majListeBits(this.currentlevel -1, 1);
 
         int time = this.grille.tempsSauvegarde.getTemps();
-        if(time<=3){
-            BoxFactory.majListeBits(this.currentlevel-1, time);
+        if(time<=180){
+            BoxFactory.majListeBits(this.currentlevel-1, 3);
         }
-        
-
-
-
-
         
         // Déverrouiller le niveau suivant si nécessaire
         ButtonFactory.unlockLevel(currentlevel + 1);

@@ -11,10 +11,35 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
+
 public class BoxFactory {
+
+    private static final String FILE_PATH = ".nb_Etoiles.json";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static int listeBits[] = new int[12];
 
+
+    public static void sauvegarderEtoiles() {
+        try {
+            objectMapper.writeValue(new File(FILE_PATH), listeBits);
+            System.out.println("Etoiles sauvegardées dans " + FILE_PATH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void chargerEtoiles() {
+        try {
+            listeBits=objectMapper.readValue(new File(FILE_PATH), int[].class);
+        } catch (IOException e) {
+            initialiserListe();
+        }
+    }
+    
 
     /**
      * Charge les étoiles obtenues dans chaque niveau
@@ -53,6 +78,8 @@ public class BoxFactory {
             break;
             default: break;
         }
+
+        BoxFactory.sauvegarderEtoiles();
         
     }
     
