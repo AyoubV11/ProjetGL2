@@ -4,14 +4,10 @@ import java.util.Stack;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-<<<<<<< HEAD
 import javafx.scene.paint.Color;
-=======
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
->>>>>>> 3b82fa5da182c0d5e12820d511c55fa83fca41b8
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +36,7 @@ public class Grille {
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     protected ArrayList<Technique> techniques = new ArrayList<Technique>();
+
     
 
 
@@ -382,10 +379,8 @@ public class Grille {
         }
     }
 
-<<<<<<< HEAD
+
    
-    
-=======
 
     public void runTimer() {
         timer.play();
@@ -415,5 +410,7 @@ public class Grille {
             }
         }
     }
->>>>>>> 3b82fa5da182c0d5e12820d511c55fa83fca41b8
 }
+
+
+
