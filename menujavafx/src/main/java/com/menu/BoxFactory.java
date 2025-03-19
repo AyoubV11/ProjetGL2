@@ -244,4 +244,48 @@ public class BoxFactory {
         return star;
     }
 
+    public static VBox createVictoryBox(SceneJeu scene, int niveau, String pathCompleted, String pathUncompleted){
+        VBox victoryBox = BoxFactory.createStyledBox(450, 450);
+        victoryBox.setSpacing(30);
+
+        HBox starsBox = new HBox(30);
+        switch(listeBits[niveau-1]){
+            case 0: starsBox.getChildren().addAll(createStar(pathUncompleted),createStar(pathUncompleted),createStar(pathUncompleted));
+                    break;
+            case 1: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathUncompleted),createStar(pathUncompleted));
+                    break;
+            case 3: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathCompleted),createStar(pathUncompleted));
+                    break;
+            case 5: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathUncompleted),createStar(pathCompleted));
+                    break;
+            case 7: starsBox.getChildren().addAll(createStar(pathCompleted),createStar(pathCompleted),createStar(pathCompleted));
+                    break;
+        }
+        starsBox.setAlignment(Pos.CENTER);
+
+        HBox descriptionBox = new HBox(30,createDescription("Finir le niveau"),createDescription("Moins de 2 aides"),createDescription("Moins de 3min"));
+        descriptionBox.setAlignment(Pos.CENTER);
+        
+        // Texte de victoire stylisé avec la police Baloo
+        Label victoryText = new Label("VICTOIRE !");
+        victoryText.setFont(BalooFont.setBalooSized(48));
+        
+        String chronoText = scene.getTimeLabel().getText().replace("TEMPS : ", "");
+        Label timeLabel = new Label("Temps : " + chronoText);
+        timeLabel.setFont(BalooFont.setBalooSized(24));
+        
+        // Créer un bouton pour retourner au menu
+        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
+        retourMenuButton.setPrefWidth(200);
+        retourMenuButton.setOnAction(e -> {
+            scene.getMenu().showMenu();
+        });
+
+        
+        // Ajouter les éléments à la boîte de victoire
+        victoryBox.getChildren().addAll(victoryText,starsBox, descriptionBox, timeLabel, retourMenuButton);
+
+        return victoryBox;
+    }
+
 }
