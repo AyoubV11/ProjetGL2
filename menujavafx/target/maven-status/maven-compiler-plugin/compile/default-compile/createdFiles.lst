@@ -7,8 +7,8 @@ com/menu/GrilleController.class
 com/menu/GrilleJson.class
 com/menu/ButtonFactory.class
 com/menu/Case.class
-com/menu/Chrono.class
 com/menu/PointView.class
+com/menu/Chrono.class
 com/menu/Grille.class
 com/menu/SlitherlinkGrid.class
 com/menu/Grille$2.class
