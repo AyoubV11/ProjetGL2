@@ -13,11 +13,35 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
+
 public class ButtonFactory {
 
-    private static int unlockedLevel = 1;  // Le dernier niveau actuellement débloqué, peut être mis à jour dynamiquement
+    private static final String FILE_PATH = ".nb_Niveau_Debloque.json";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    private static int unlockedLevel = 1;
+
+    public static void sauvegarderNiveaux() {
+        try {
+            objectMapper.writeValue(new File(FILE_PATH), unlockedLevel);
+            System.out.println("Niveaux sauvegardées dans " + FILE_PATH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void chargerNiveaux() {
+        try {
+            unlockedLevel=objectMapper.readValue(new File(FILE_PATH), int.class);
+        } catch (IOException e) {
+            unlockedLevel=1;
+        }
+    }
     
+
     
     /** 
      * Crée un bouton contenant un texte blanc sur fond noir, qui grossit quand on clique dessus et qui s'éclaircit lorsque la souris passe dessus.
@@ -140,6 +164,8 @@ public class ButtonFactory {
         if (level > unlockedLevel) {
             unlockedLevel = level;
         }
+
+        ButtonFactory.sauvegarderNiveaux();
     }
 
     /**
