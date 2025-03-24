@@ -2,11 +2,10 @@ package com.menu;
 
 import java.util.*;
 
-public class TechniqueDeux3Diagonal implements Technique {
-    private Grille g;
+public class TechniqueDeux3Diagonal extends Technique {
 
     public TechniqueDeux3Diagonal(Grille g) {
-        this.g = g;
+        super(g);
     }
 
     public void afficherAide() {

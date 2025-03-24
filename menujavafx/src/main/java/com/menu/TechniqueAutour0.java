@@ -2,11 +2,10 @@ package com.menu;
 
 import java.util.*;
 
-public class TechniqueAutour0 implements Technique {
-    private Grille g;
+public class TechniqueAutour0 extends Technique {
 
     public TechniqueAutour0(Grille g) {
-        this.g = g;
+        super(g);
     }
 
     public void afficherAide() {

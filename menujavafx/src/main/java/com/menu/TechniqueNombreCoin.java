@@ -2,11 +2,10 @@ package com.menu;
 
 import java.util.Iterator;
 
-public class TechniqueNombreCoin implements Technique {
-    private Grille g;
+public class TechniqueNombreCoin extends Technique {
 
     public TechniqueNombreCoin(Grille g){
-        this.g = g;
+        super(g);
     }
 
     public void afficherAide() {

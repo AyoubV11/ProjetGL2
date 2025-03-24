@@ -27,12 +27,17 @@ public class SceneJeu extends BorderPane {
     private Label bestTimeLabel; // 💡 Ajout du label meilleur temps
     private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
     private int currentlevel;
+    private VBox rightBox;
 
     public SceneJeu(Stage stage, Menu menu, int niveau) {
         this.menu = menu;
         this.primaryStage = stage;
         this.currentlevel = niveau;
         setupInterface();
+    }
+
+    public VBox getRightBox(){
+        return this.rightBox;
     }
 
     public void setTemps(int seconds) {
@@ -57,20 +62,13 @@ public class SceneJeu extends BorderPane {
         topBar.setAlignment(Pos.CENTER);
 
         // Utilisation de ButtonFactory avec des symboles textuels alternatifs
-        Button restartButton = ButtonFactory.createAnimatedButton("R");  // R pour Restart/Recommencer
-        Button helpButton = ButtonFactory.createAnimatedButton("?");
-        Button validateButton = ButtonFactory.createAnimatedButton("V");  // V pour Valider
-        Button leftArrow = ButtonFactory.createAnimatedButton("<");      // < au lieu de ←
-        Button rightArrow = ButtonFactory.createAnimatedButton(">");     // > au lieu de →
-        Button settingButton = ButtonFactory.createAnimatedButton("P");  // P pour Paramètres
+        Button restartButton = ButtonFactory.createAnimatedButton("Reset");  // R pour Restart/Recommencer
+        Button helpButton = ButtonFactory.createAnimatedButton("Aide");
+        Button validateButton = ButtonFactory.createAnimatedButton("Valider");  // V pour Valider
+        Button leftArrow = ButtonFactory.createAnimatedButton("<-");      // < au lieu de ←
+        Button rightArrow = ButtonFactory.createAnimatedButton("->");     // > au lieu de →
+        Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");  // P pour Paramètres
         
-        // Ajuster la taille des boutons pour qu'ils soient plus compacts
-        restartButton.setPrefSize(40, 40);
-        helpButton.setPrefSize(40, 40);
-        validateButton.setPrefSize(40, 40);
-        leftArrow.setPrefSize(40, 40);
-        rightArrow.setPrefSize(40, 40);
-        settingButton.setPrefSize(40, 40);
 
         timeLabel = new Label("TEMPS : 00:00:00");
         timeLabel.setFont(BalooFont.setBalooSized(16));
@@ -111,17 +109,13 @@ public class SceneJeu extends BorderPane {
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
-        VBox rightBox = new VBox(10);
+        rightBox = new VBox(10);
         rightBox.setPadding(new Insets(10));
         rightBox.setPrefSize(150, 300);
         rightBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
         rightBox.setAlignment(Pos.TOP_CENTER);
         
         // Ajout de boutons dans le panneau de droite
-        Button aideButton = ButtonFactory.createAnimatedButton("AIDE");
-        aideButton.setPrefWidth(120);
-        
-        rightBox.getChildren().addAll(aideButton);
 
         boxes = new HBox(50, leftBox, rightBox); 
         boxes.setAlignment(Pos.CENTER);
@@ -151,7 +145,7 @@ public class SceneJeu extends BorderPane {
             openSettings();
         }); 
 
-        aideButton.setOnAction(e -> {
+        helpButton.setOnAction(e -> {
             grille.aide();
         });
 
@@ -226,20 +220,12 @@ public class SceneJeu extends BorderPane {
             topBar.getChildren().clear();
             
             // Recréer les boutons
-            Button restartButton = ButtonFactory.createAnimatedButton("R");
-            Button helpButton = ButtonFactory.createAnimatedButton("?");
-            Button validateButton = ButtonFactory.createAnimatedButton("V");
-            Button leftArrow = ButtonFactory.createAnimatedButton("<");
-            Button rightArrow = ButtonFactory.createAnimatedButton(">");
-            Button settingButton = ButtonFactory.createAnimatedButton("P");
-            
-            // Ajuster la taille des boutons
-            restartButton.setPrefSize(40, 40);
-            helpButton.setPrefSize(40, 40);
-            validateButton.setPrefSize(40, 40);
-            leftArrow.setPrefSize(40, 40);
-            rightArrow.setPrefSize(40, 40);
-            settingButton.setPrefSize(40, 40);
+            Button restartButton = ButtonFactory.createAnimatedButton("Reset");
+            Button helpButton = ButtonFactory.createAnimatedButton("Aide");
+            Button validateButton = ButtonFactory.createAnimatedButton("Valider");
+            Button leftArrow = ButtonFactory.createAnimatedButton("<-");
+            Button rightArrow = ButtonFactory.createAnimatedButton("->");
+            Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");
             
             // Recréer le groupe pour le chronomètre
             VBox timeGroup = new VBox(timeLabel);
