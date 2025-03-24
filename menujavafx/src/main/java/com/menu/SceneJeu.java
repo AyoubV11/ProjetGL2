@@ -36,6 +36,16 @@ public class SceneJeu extends BorderPane {
         setupInterface();
     }
 
+    public Stage getPrimaryStage(){
+        return this.primaryStage;
+    }
+
+    public void setRightBox(VBox newBox){
+        this.boxes.getChildren().clear();
+        this.rightBox=newBox;
+        this.boxes.getChildren().addAll(this.leftBox,this.rightBox);
+    }
+
     public VBox getRightBox(){
         return this.rightBox;
     }
@@ -109,11 +119,7 @@ public class SceneJeu extends BorderPane {
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
-        rightBox = new VBox(10);
-        rightBox.setPadding(new Insets(10));
-        rightBox.setPrefSize(150, 300);
-        rightBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
-        rightBox.setAlignment(Pos.TOP_CENTER);
+        rightBox = BoxFactory.createHelpButtonBox(grille.getListeAides(), primaryStage, grille);
         
         // Ajout de boutons dans le panneau de droite
 
@@ -273,15 +279,22 @@ public class SceneJeu extends BorderPane {
     public void victoryScreen() {
         // Arrêt du chronomètre
         grille.stopTimer();
+        grille.initialiserAides();
+        grille.sauvegarderAides();
         // //attendre une demi seconde pour voir la grille résolue
         // try {Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
 
         BoxFactory.majListeBits(this.currentlevel -1, 1);
 
+        if(grille.nbAides()<=2){
+            BoxFactory.majListeBits(this.currentlevel-1, 2);
+        }
         int time = this.grille.tempsSauvegarde.getTemps();
         if(time<=180){
             BoxFactory.majListeBits(this.currentlevel-1, 3);
         }
+
+       
         
         // Créer une boîte stylisée pour l'affichage de la victoire
         VBox victoryBox = BoxFactory.createVictoryBox(this, this.currentlevel, "/star_completed.png","/star_uncompleted.png");

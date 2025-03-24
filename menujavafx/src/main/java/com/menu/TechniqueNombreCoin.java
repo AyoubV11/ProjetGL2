@@ -2,14 +2,14 @@ package com.menu;
 
 import java.util.Iterator;
 
-public class TechniqueNombreCoin extends Technique {
-
+public class TechniqueNombreCoin implements Technique {
+    private Grille g;
     public TechniqueNombreCoin(Grille g){
         this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique nombre dans les coins applicable");
+    public String afficherAide() {
+        return("Technique nombre dans les coins applicable");
     }
 
     public boolean applicable() {

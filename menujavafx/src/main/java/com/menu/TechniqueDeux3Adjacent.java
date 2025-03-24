@@ -8,8 +8,8 @@ public class TechniqueDeux3Adjacent implements Technique {
         this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique deux 3 adjacent applicable");
+    public String afficherAide() {
+        return("Technique deux 3 adjacent applicable");
     }
 
     public boolean applicable() {

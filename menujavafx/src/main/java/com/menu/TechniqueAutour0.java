@@ -3,14 +3,13 @@ package com.menu;
 import java.util.*;
 
 public class TechniqueAutour0 implements Technique {
-    private Grille g; 
-
+    private Grille g;
     public TechniqueAutour0(Grille g) {
         this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique ligne autour 0 applicable");
+    public String afficherAide() {
+        return("Technique ligne autour 0 applicable");
     }
 
     public boolean applicable() {

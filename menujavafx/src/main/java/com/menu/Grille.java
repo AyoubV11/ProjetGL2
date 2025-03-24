@@ -36,10 +36,13 @@ public class Grille {
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     protected ArrayList<Technique> techniques = new ArrayList<Technique>();
+
+    private boolean[] listeAides = new boolean[12]; 
     
 
 
     public Grille(String fichier, SceneJeu sceneJeu) {
+        this.initialiserAides();
         try {
             // Charger le JSON
 
@@ -84,6 +87,25 @@ public class Grille {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
         }
     }
+
+    public void initialiserAides(){
+        int i;
+        for (i=0;i<12;i++){
+            listeAides[i]=false;
+        }
+    }
+
+    public int nbAides(){
+        int nb=0;
+        int i;
+        for (i=0;i<12;i++){
+            if(listeAides[i]){
+                nb++;
+            }
+        }
+        return nb;
+    }
+
     public Stack<Action> getPileUndo(){
         return this.pileUndo;
     }
@@ -306,6 +328,7 @@ public class Grille {
             }
 
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
+            this.chargerAides();
         }
         catch (Exception e)
         {
@@ -399,12 +422,46 @@ public class Grille {
         this.sceneJeu = sceneJeu;
     }
 
+    private void chargerAides(){
+        try{
+            File fichierAides = new File(getSauvegardePath("aides"));
+            if (!fichierAides.exists()) {
+                this.initialiserAides();
+                return;
+            }
+
+            this.listeAides = OBJECT_MAPPER.readValue(fichierAides, boolean[].class);
+
+        } catch (Exception e ) {
+            System.out.println("Erreur lors du chargement des aides");
+            this.initialiserAides();
+        }
+    }
+
+    public void sauvegarderAides(){
+        try{
+            File fichierAides = new File(getSauvegardePath("aides"));
+            OBJECT_MAPPER.writeValue(fichierAides, this.listeAides);
+        } catch (Exception e){
+            System.out.println("Erreur lors de la sauvegarde des aides");
+        }
+    }
+
+    public boolean[] getListeAides(){
+        return this.listeAides;
+    }
+
+
     public void aide() {
+        int i=0;
         for(Technique t : techniques) {
-            if(t.applicable()) {
-                t.afficherAide();
+            if(t.applicable() && !listeAides[i]) {
+                listeAides[i]=true;
+                this.sauvegarderAides();
+                sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
                 break;
             }
+            i++;
         }
     }
 }

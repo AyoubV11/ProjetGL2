@@ -8,8 +8,8 @@ public class TechniqueContraintes3 implements Technique {
         this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique contraintes 3 applicable");
+    public String afficherAide() {
+        return("Technique contraintes 3 applicable");
     }
 
     public boolean applicable() {
