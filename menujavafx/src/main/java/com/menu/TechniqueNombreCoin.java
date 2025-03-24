@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class TechniqueNombreCoin extends Technique {
 
     public TechniqueNombreCoin(Grille g){
-        super(g);
+        this.g=g;
     }
 
     public void afficherAide() {
