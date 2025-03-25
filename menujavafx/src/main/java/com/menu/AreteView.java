@@ -1,10 +1,12 @@
 package com.menu;
 
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -44,6 +46,11 @@ public class AreteView extends Button {
      * 
      * @param arete L'arête du modèle à associer à cette vue
      */
+
+     private static final double DEFAULT_OPACITY = 1.0;
+     private static final double CURSOR_OPACITY = 0.4;
+     //
+     private static final ColorAdjust TEINTE_TATONNEMENT = new ColorAdjust(-0.1, 0, 0, 0);
     public AreteView(Arete arete, SceneJeu scene){
         super();
         this.arete = arete;
@@ -87,13 +94,13 @@ public class AreteView extends Button {
         if(!croix){
             this.arete.setTrait(croix);
             this.iv.setImage(imTrait);
-            this.iv.setOpacity(1);
+            this.iv.setOpacity(DEFAULT_OPACITY);
             this.iv.setVisible(true);
         }
         else{
             if(this.arete.setTrait(croix)) {
                 this.iv.setImage(imTrait);
-                this.iv.setOpacity(1);
+                this.iv.setOpacity(DEFAULT_OPACITY);
                 this.iv.setVisible(true);
             }
             else {
@@ -108,7 +115,7 @@ public class AreteView extends Button {
     public void setCroix(){
         this.arete.setCroix();
         this.iv.setImage(imCroix);
-        this.iv.setOpacity(1);
+        this.iv.setOpacity(DEFAULT_OPACITY);
         this.iv.setVisible(true);
     }
 
@@ -123,7 +130,16 @@ public class AreteView extends Button {
     public void setTransparent(){
         this.iv.setImage(imTrait);
         //changer opacité
-        this.iv.setOpacity(0.4);
+        this.iv.setOpacity(CURSOR_OPACITY);
+        this.iv.setVisible(true);
+    }
+
+    public void setTatonnement(){
+        this.iv.setImage(imTrait);
+        this.iv.setOpacity(CURSOR_OPACITY);
+        //changer la teinture de l'image
+        this.iv.setEffect(TEINTE_TATONNEMENT);
+
         this.iv.setVisible(true);
     }
 

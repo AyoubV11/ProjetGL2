@@ -271,7 +271,7 @@ public class SceneJeu extends BorderPane {
             });
         }
         
-        // Force le rafraîchissement de la disposition
+        // Force le rafraîchissement de la disposition!
         this.requestLayout();
     }
 

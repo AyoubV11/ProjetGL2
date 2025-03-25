@@ -35,17 +35,19 @@ public class Grille {
 
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    protected ArrayList<Technique> techniques = new ArrayList<Technique>();
+    protected ArrayList<Technique> techniques;
 
-    private boolean[] listeAides = new boolean[12]; 
+    private boolean[] listeAides;
     
-
+    private boolean modeTatonnement;
+    private int nbActionsTatonnement;
 
     public Grille(String fichier, SceneJeu sceneJeu) {
         this.initialiserAides();
         try {
             // Charger le JSON
-
+            this.modeTatonnement = false;
+            this.nbActionsTatonnement = 0;
             this.name = fichier.split("\\.")[0];
             this.sceneJeu = sceneJeu;
 
@@ -89,6 +91,8 @@ public class Grille {
     }
 
     public void initialiserAides(){
+        this.listeAides = new boolean[12];
+        this.techniques = new ArrayList<Technique>();
         int i;
         for (i=0;i<12;i++){
             listeAides[i]=false;
@@ -463,5 +467,22 @@ public class Grille {
             }
             i++;
         }
+    }
+
+
+    public void activerTatonnement(){
+        modeTatonnement = true;
+    }
+
+    public boolean enModeTatonnement(){
+        return modeTatonnement;
+    }
+
+    public void annulerTatonnement(){
+        modeTatonnement = false;
+    }
+
+    public void validerTatonnement(){
+        modeTatonnement = false;
     }
 }
