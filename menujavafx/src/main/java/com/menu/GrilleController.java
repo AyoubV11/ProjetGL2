@@ -103,6 +103,11 @@ public class GrilleController extends GridPane {
                 av.gererClic(event);
             }
         });
+        this.setOnMouseMoved(event -> {
+            for(AreteView av : this.listAreteView){
+                av.gererHover(event);
+            }
+        });
     }
 
     /**

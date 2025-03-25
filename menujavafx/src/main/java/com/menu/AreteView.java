@@ -86,14 +86,15 @@ public class AreteView extends Button {
     public void setTrait(Boolean croix){
         if(!croix){
             this.arete.setTrait(croix);
-            this.iv.setVisible(true);
             this.iv.setImage(imTrait);
+            this.iv.setOpacity(1);
             this.iv.setVisible(true);
         }
         else{
             if(this.arete.setTrait(croix)) {
-                this.iv.setVisible(true);
                 this.iv.setImage(imTrait);
+                this.iv.setOpacity(1);
+                this.iv.setVisible(true);
             }
             else {
                 this.setCroix();
@@ -107,6 +108,7 @@ public class AreteView extends Button {
     public void setCroix(){
         this.arete.setCroix();
         this.iv.setImage(imCroix);
+        this.iv.setOpacity(1);
         this.iv.setVisible(true);
     }
 
@@ -118,6 +120,13 @@ public class AreteView extends Button {
         this.iv.setVisible(false);
     }
 
+    public void setTransparent(){
+        this.iv.setImage(imTrait);
+        //changer opacité
+        this.iv.setOpacity(0.4);
+        this.iv.setVisible(true);
+    }
+
     /**
      * Gère l'événement de clic sur l'arête.
      * 
@@ -125,7 +134,6 @@ public class AreteView extends Button {
      */
     public void gererClic(MouseEvent event){
         if (this.isCurseurProche(event)){
-            // Gère les clics gauche et droit
             if (event.getButton() == MouseButton.PRIMARY)
                 this.clicGauche(GameSettings.getInstance().isAutoCroix());
             else if (event.getButton() == MouseButton.SECONDARY)
@@ -135,10 +143,17 @@ public class AreteView extends Button {
             boolean resultat = this.arete.getGrille().resolue();
             if (resultat) {
                 /* Victoire */
-                this.arete.grille.updateMeilleurTemps();
-                this.arete.grille.sauvegarderProgression();
                 this.scene.victoryScreen();
             }
+        }
+    }
+
+    public void gererHover(MouseEvent event){
+        if (this.isCurseurProche(event) && this.arete.getEtat() == EnumEtat.VIDE){
+            this.setTransparent();
+        }
+        else{
+            this.update();
         }
     }
 

@@ -279,6 +279,8 @@ public class SceneJeu extends BorderPane {
     public void victoryScreen() {
         // Arrêt du chronomètre
         grille.stopTimer();
+        grille.updateMeilleurTemps();
+
         grille.initialiserAides();
         grille.sauvegarderAides();
         // //attendre une demi seconde pour voir la grille résolue
@@ -322,6 +324,11 @@ public class SceneJeu extends BorderPane {
         
         // Mise à jour du score dans BoxFactory si le temps est meilleur
         // Cette partie est à implémenter selon votre logique de sauvegarde des scores
+
+
+        grille.resetTimer();
+        grille.sauvegarderTemps();
+        grille.sauvegarderProgression();
     }
 
     public void runTimer() {
