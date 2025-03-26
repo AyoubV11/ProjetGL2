@@ -310,6 +310,8 @@ public class BoxFactory {
         horizontalbox.setMaxWidth(500);
         horizontalbox.setPadding(new Insets(10));
         ImageView technique_image = new ImageView(new Image("/images_techniques/technique_image_" + i + ".png"));
+        technique_image.setFitWidth(200);
+        technique_image.setFitHeight(200);
 
         Label texteAide = new Label(t.afficherAide());
         texteAide.setWrapText(true);
