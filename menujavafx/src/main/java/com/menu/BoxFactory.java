@@ -293,7 +293,7 @@ public class BoxFactory {
         return victoryBox;
     }
 
-    private static void showTechnique(int i, Stage primaryStage, Technique t){
+    public static void showTechnique(int i, Stage primaryStage, Technique t){
         techStage = new Stage();
         techStage.initModality(Modality.APPLICATION_MODAL);
         techStage.initOwner(primaryStage);

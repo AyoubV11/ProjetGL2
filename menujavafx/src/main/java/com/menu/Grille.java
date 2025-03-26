@@ -1,12 +1,11 @@
 package com.menu;
 
-import java.util.Stack;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -14,8 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.List;
 import java.util.*;
 
 public class Grille {
@@ -457,12 +454,15 @@ public class Grille {
 
 
     public void aide() {
-        int i=0;
+        int i=1;
         for(Technique t : techniques) {
-            if(t.applicable() && !listeAides[i]) {
-                listeAides[i]=true;
-                this.sauvegarderAides();
-                sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
+            if(t.applicable()) {
+                BoxFactory.showTechnique(i,  sceneJeu.getPrimaryStage(),t);
+                if (!listeAides[i-1]){
+                    listeAides[i-1]=true;
+                    this.sauvegarderAides();
+                    sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
+                }
                 break;
             }
             i++;
