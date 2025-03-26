@@ -15,10 +15,10 @@
         {"ligne": 4, "colonne": 3, "chiffre": 3}
     ],
     "aretesGrilleResolue" : [
-        {"ligne": 0, "colonne": 0},
         {"ligne": 0, "colonne": 1},
-        {"ligne": 0, "colonne": 2},
+        {"ligne": 0, "colonne": 3},
         {"ligne": 0, "colonne": 5},
+        {"ligne": 0, "colonne": 9},
 
         {"ligne": 1, "colonne": 0},
         {"ligne": 1, "colonne": 6},
