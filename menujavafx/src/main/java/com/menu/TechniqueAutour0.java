@@ -9,7 +9,7 @@ public class TechniqueAutour0 implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique ligne autour 0 applicable");
+        return("Technique ligne autour 0 applicable : \nAucun zéro ne doit avoir de trait autour ou en direction de lui !");
     }
 
     public boolean applicable() {
