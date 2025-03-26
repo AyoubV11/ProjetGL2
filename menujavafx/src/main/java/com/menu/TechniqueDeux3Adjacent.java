@@ -4,13 +4,12 @@ import java.util.*;
 
 public class TechniqueDeux3Adjacent implements Technique {
     private Grille g;
-
     public TechniqueDeux3Adjacent(Grille g) {
-        this.g = g;
+        this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique deux 3 adjacent applicable");
+    public String afficherAide() {
+        return("Technique deux 3 adjacent applicable");
     }
 
     public boolean applicable() {

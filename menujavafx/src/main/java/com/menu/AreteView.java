@@ -1,10 +1,12 @@
 package com.menu;
 
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -44,6 +46,11 @@ public class AreteView extends Button {
      * 
      * @param arete L'arête du modèle à associer à cette vue
      */
+
+     private static final double DEFAULT_OPACITY = 1.0;
+     private static final double CURSOR_OPACITY = 0.4;
+     //
+     private static final ColorAdjust TEINTE_TATONNEMENT = new ColorAdjust(-0.1, 0, 0, 0);
     public AreteView(Arete arete, SceneJeu scene){
         super();
         this.arete = arete;
@@ -102,14 +109,15 @@ public class AreteView extends Button {
     public void setTrait(Boolean croix){
         if(!croix){
             this.arete.setTrait(croix);
-            this.iv.setVisible(true);
             this.iv.setImage(imTrait);
+            this.iv.setOpacity(DEFAULT_OPACITY);
             this.iv.setVisible(true);
         }
         else{
             if(this.arete.setTrait(croix)) {
-                this.iv.setVisible(true);
                 this.iv.setImage(imTrait);
+                this.iv.setOpacity(DEFAULT_OPACITY);
+                this.iv.setVisible(true);
             }
             else {
                 this.setCroix();
@@ -123,6 +131,7 @@ public class AreteView extends Button {
     public void setCroix(){
         this.arete.setCroix();
         this.iv.setImage(imCroix);
+        this.iv.setOpacity(DEFAULT_OPACITY);
         this.iv.setVisible(true);
     }
 
@@ -134,6 +143,22 @@ public class AreteView extends Button {
         this.iv.setVisible(false);
     }
 
+    public void setTransparent(){
+        this.iv.setImage(imTrait);
+        //changer opacité
+        this.iv.setOpacity(CURSOR_OPACITY);
+        this.iv.setVisible(true);
+    }
+
+    public void setTatonnement(){
+        this.iv.setImage(imTrait);
+        this.iv.setOpacity(CURSOR_OPACITY);
+        //changer la teinture de l'image
+        this.iv.setEffect(TEINTE_TATONNEMENT);
+
+        this.iv.setVisible(true);
+    }
+
     /**
      * Gère l'événement de clic sur l'arête.
      * 
@@ -141,7 +166,6 @@ public class AreteView extends Button {
      */
     public void gererClic(MouseEvent event){
         if (this.isCurseurProche(event)){
-            // Gère les clics gauche et droit
             if (event.getButton() == MouseButton.PRIMARY)
                 this.clicGauche(GameSettings.getInstance().isAutoCroix());
             else if (event.getButton() == MouseButton.SECONDARY)
@@ -151,10 +175,17 @@ public class AreteView extends Button {
             boolean resultat = this.arete.getGrille().resolue();
             if (resultat) {
                 /* Victoire */
-                this.arete.grille.updateMeilleurTemps();
-                this.arete.grille.sauvegarderProgression();
                 this.scene.victoryScreen();
             }
+        }
+    }
+
+    public void gererHover(MouseEvent event){
+        if (this.isCurseurProche(event) && this.arete.getEtat() == EnumEtat.VIDE){
+            this.setTransparent();
+        }
+        else{
+            this.update();
         }
     }
 

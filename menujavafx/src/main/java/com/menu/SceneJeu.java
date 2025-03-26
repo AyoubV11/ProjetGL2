@@ -27,12 +27,27 @@ public class SceneJeu extends BorderPane {
     private Label bestTimeLabel; // 💡 Ajout du label meilleur temps
     private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
     private int currentlevel;
+    private VBox rightBox;
 
     public SceneJeu(Stage stage, Menu menu, int niveau) {
         this.menu = menu;
         this.primaryStage = stage;
         this.currentlevel = niveau;
         setupInterface();
+    }
+
+    public Stage getPrimaryStage(){
+        return this.primaryStage;
+    }
+
+    public void setRightBox(VBox newBox){
+        this.boxes.getChildren().clear();
+        this.rightBox=newBox;
+        this.boxes.getChildren().addAll(this.leftBox,this.rightBox);
+    }
+
+    public VBox getRightBox(){
+        return this.rightBox;
     }
 
     public void setTemps(int seconds) {
@@ -57,20 +72,13 @@ public class SceneJeu extends BorderPane {
         topBar.setAlignment(Pos.CENTER);
 
         // Utilisation de ButtonFactory avec des symboles textuels alternatifs
-        Button restartButton = ButtonFactory.createAnimatedButton("R");  // R pour Restart/Recommencer
-        Button helpButton = ButtonFactory.createAnimatedButton("?");
-        Button validateButton = ButtonFactory.createAnimatedButton("V");  // V pour Valider
-        Button leftArrow = ButtonFactory.createAnimatedButton("<");      // < au lieu de ←
-        Button rightArrow = ButtonFactory.createAnimatedButton(">");     // > au lieu de →
-        Button settingButton = ButtonFactory.createAnimatedButton("P");  // P pour Paramètres
+        Button restartButton = ButtonFactory.createAnimatedButton("Reset");  // R pour Restart/Recommencer
+        Button helpButton = ButtonFactory.createAnimatedButton("Aide");
+        Button validateButton = ButtonFactory.createAnimatedButton("Valider");  // V pour Valider
+        Button leftArrow = ButtonFactory.createAnimatedButton("<-");      // < au lieu de ←
+        Button rightArrow = ButtonFactory.createAnimatedButton("->");     // > au lieu de →
+        Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");  // P pour Paramètres
         
-        // Ajuster la taille des boutons pour qu'ils soient plus compacts
-        restartButton.setPrefSize(40, 40);
-        helpButton.setPrefSize(40, 40);
-        validateButton.setPrefSize(40, 40);
-        leftArrow.setPrefSize(40, 40);
-        rightArrow.setPrefSize(40, 40);
-        settingButton.setPrefSize(40, 40);
 
         timeLabel = new Label("TEMPS : 00:00:00");
         timeLabel.setFont(BalooFont.setBalooSized(16));
@@ -111,17 +119,9 @@ public class SceneJeu extends BorderPane {
         leftBox.setPrefSize(gridSize, gridSize);
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
-        VBox rightBox = new VBox(10);
-        rightBox.setPadding(new Insets(10));
-        rightBox.setPrefSize(150, 300);
-        rightBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
-        rightBox.setAlignment(Pos.TOP_CENTER);
+        rightBox = BoxFactory.createHelpButtonBox(grille.getListeAides(), primaryStage, grille);
         
         // Ajout de boutons dans le panneau de droite
-        Button aideButton = ButtonFactory.createAnimatedButton("AIDE");
-        aideButton.setPrefWidth(120);
-        
-        rightBox.getChildren().addAll(aideButton);
 
         boxes = new HBox(50, leftBox, rightBox); 
         boxes.setAlignment(Pos.CENTER);
@@ -151,7 +151,7 @@ public class SceneJeu extends BorderPane {
             openSettings();
         }); 
 
-        aideButton.setOnAction(e -> {
+        helpButton.setOnAction(e -> {
             grille.aide();
         });
 
@@ -226,20 +226,12 @@ public class SceneJeu extends BorderPane {
             topBar.getChildren().clear();
             
             // Recréer les boutons
-            Button restartButton = ButtonFactory.createAnimatedButton("R");
-            Button helpButton = ButtonFactory.createAnimatedButton("?");
-            Button validateButton = ButtonFactory.createAnimatedButton("V");
-            Button leftArrow = ButtonFactory.createAnimatedButton("<");
-            Button rightArrow = ButtonFactory.createAnimatedButton(">");
-            Button settingButton = ButtonFactory.createAnimatedButton("P");
-            
-            // Ajuster la taille des boutons
-            restartButton.setPrefSize(40, 40);
-            helpButton.setPrefSize(40, 40);
-            validateButton.setPrefSize(40, 40);
-            leftArrow.setPrefSize(40, 40);
-            rightArrow.setPrefSize(40, 40);
-            settingButton.setPrefSize(40, 40);
+            Button restartButton = ButtonFactory.createAnimatedButton("Reset");
+            Button helpButton = ButtonFactory.createAnimatedButton("Aide");
+            Button validateButton = ButtonFactory.createAnimatedButton("Valider");
+            Button leftArrow = ButtonFactory.createAnimatedButton("<-");
+            Button rightArrow = ButtonFactory.createAnimatedButton("->");
+            Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");
             
             // Recréer le groupe pour le chronomètre
             VBox timeGroup = new VBox(timeLabel);
@@ -279,7 +271,7 @@ public class SceneJeu extends BorderPane {
             });
         }
         
-        // Force le rafraîchissement de la disposition
+        // Force le rafraîchissement de la disposition!
         this.requestLayout();
     }
 
@@ -287,30 +279,27 @@ public class SceneJeu extends BorderPane {
     public void victoryScreen() {
         // Arrêt du chronomètre
         grille.stopTimer();
+        grille.updateMeilleurTemps();
+
+        grille.initialiserAides();
+        grille.sauvegarderAides();
         // //attendre une demi seconde pour voir la grille résolue
         // try {Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
+
+        BoxFactory.majListeBits(this.currentlevel -1, 1);
+
+        if(grille.nbAides()<=2){
+            BoxFactory.majListeBits(this.currentlevel-1, 2);
+        }
+        int time = this.grille.tempsSauvegarde.getTemps();
+        if(time<=180){
+            BoxFactory.majListeBits(this.currentlevel-1, 3);
+        }
+
+       
         
         // Créer une boîte stylisée pour l'affichage de la victoire
-        VBox victoryBox = BoxFactory.createStyledBox(400, 300);
-        victoryBox.setSpacing(30);
-        
-        // Texte de victoire stylisé avec la police Baloo
-        Label victoryText = new Label("VICTOIRE !");
-        victoryText.setFont(BalooFont.setBalooSized(48));
-        
-        String chronoText = this.timeLabel.getText().replace("TEMPS : ", "");
-        Label timeLabel = new Label("Temps : " + chronoText);
-        timeLabel.setFont(BalooFont.setBalooSized(24));
-        
-        // Créer un bouton pour retourner au menu
-        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
-        retourMenuButton.setPrefWidth(200);
-        retourMenuButton.setOnAction(e -> {
-            this.menu.showMenu();
-        });
-        
-        // Ajouter les éléments à la boîte de victoire
-        victoryBox.getChildren().addAll(victoryText, timeLabel, retourMenuButton);
+        VBox victoryBox = BoxFactory.createVictoryBox(this, this.currentlevel, "/star_completed.png","/star_uncompleted.png");
         
         // Appliquer un effet de flou sur le contenu du jeu
         this.topBar.setEffect(new GaussianBlur(10));
@@ -329,23 +318,17 @@ public class SceneJeu extends BorderPane {
         // // Remise à zéro de la grille
         grille.clear();
 
-        BoxFactory.majListeBits(this.currentlevel -1, 1);
-
-        int time = this.grille.tempsSauvegarde.getTemps();
-        if(time<=3){
-            BoxFactory.majListeBits(this.currentlevel-1, time);
-        }
-        
-
-
-
-
         
         // Déverrouiller le niveau suivant si nécessaire
         ButtonFactory.unlockLevel(currentlevel + 1);
         
         // Mise à jour du score dans BoxFactory si le temps est meilleur
         // Cette partie est à implémenter selon votre logique de sauvegarde des scores
+
+
+        grille.resetTimer();
+        grille.sauvegarderTemps();
+        grille.sauvegarderProgression();
     }
 
     public void runTimer() {
@@ -354,5 +337,13 @@ public class SceneJeu extends BorderPane {
 
     public void stopTimer() {
         grille.stopTimer();
+    }
+
+    public Label getTimeLabel(){
+        return this.timeLabel;
+    }
+
+    public Menu getMenu(){
+        return this.menu;
     }
 }

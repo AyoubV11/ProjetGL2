@@ -3,14 +3,13 @@ package com.menu;
 import java.util.*;
 
 public class TechniqueDeux3Diagonal implements Technique {
-    private Grille g;
-
+    private Grille g;   
     public TechniqueDeux3Diagonal(Grille g) {
-        this.g = g;
+        this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique deux 3 diagonal applicable");
+    public String afficherAide() {
+        return("Technique deux 3 diagonal applicable");
     }
 
     public boolean applicable() {

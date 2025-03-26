@@ -4,13 +4,12 @@ import java.util.*;
 
 public class Technique0Diagonal3 implements Technique {
     private Grille g;
-
     public Technique0Diagonal3(Grille g) {
-        this.g = g;
+        this.g=g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique 0 diagonal 3 applicable");
+    public String afficherAide() {
+        return("Technique 0 diagonal 3 applicable");
     }
 
     public boolean applicable() {

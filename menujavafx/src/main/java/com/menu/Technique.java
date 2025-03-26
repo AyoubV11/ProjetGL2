@@ -1,9 +1,6 @@
 package com.menu;
 
 public interface Technique {
-
-    public void afficherAide();
-
+    public String afficherAide();
     public boolean applicable();
-    
 }

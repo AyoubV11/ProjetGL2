@@ -26,8 +26,8 @@ public class Menu extends Application {
 
 
 
-
-        BoxFactory.initialiserListe();
+        ButtonFactory.chargerNiveaux();
+        BoxFactory.chargerEtoiles();
 
 
         stage=primaryStage;

@@ -1,12 +1,11 @@
 package com.menu;
 
-import java.util.Stack;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.paint.Color;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -14,8 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.List;
 import java.util.*;
 
 public class Grille {
@@ -35,15 +32,19 @@ public class Grille {
 
     protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    protected ArrayList<Technique> techniques = new ArrayList<Technique>();
+    protected ArrayList<Technique> techniques;
 
+    private boolean[] listeAides;
     
-
+    private boolean modeTatonnement;
+    private int nbActionsTatonnement;
 
     public Grille(String fichier, SceneJeu sceneJeu) {
+        this.initialiserAides();
         try {
             // Charger le JSON
-
+            this.modeTatonnement = false;
+            this.nbActionsTatonnement = 0;
             this.name = fichier.split("\\.")[0];
             this.sceneJeu = sceneJeu;
 
@@ -79,12 +80,33 @@ public class Grille {
             }));
             this.timer.setCycleCount(Timeline.INDEFINITE);
 
-            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this),new TechniqueDeux3Diagonal(this));  
+            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this), new TechniqueDeux3Diagonal(this), new TechniqueNombreCoin(this), new TechniqueContraintes3(this), new TechniqueBoucleSur3(this), new TechniqueBoucleSur1(this), new TechniqueAvancee6(this));  
 
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
         }
     }
+
+    public void initialiserAides(){
+        this.listeAides = new boolean[12];
+        this.techniques = new ArrayList<Technique>();
+        int i;
+        for (i=0;i<12;i++){
+            listeAides[i]=false;
+        }
+    }
+
+    public int nbAides(){
+        int nb=0;
+        int i;
+        for (i=0;i<12;i++){
+            if(listeAides[i]){
+                nb++;
+            }
+        }
+        return nb;
+    }
+
     public Stack<Action> getPileUndo(){
         return this.pileUndo;
     }
@@ -279,40 +301,42 @@ public class Grille {
         this.sauvegarderProgression();
     }
 
-    public void charger(){
-        try{
-            // Charger le JSON
+    private void chargerProgression(){
+        try {
             File fichierProgression = new File(getSauvegardePath("progress"));
-            File fichierTemps = new File(getSauvegardePath("time"));
-
             this.pileUndo = new Stack<Action>();
             this.pileRedo = new Stack<Action>();
-
             if (!fichierProgression.exists()) {
                 return;
             }
-
-            if (!fichierTemps.exists()) {
-                this.tempsSauvegarde = new TempsSauvegarde(0,0);
-                return;
-            }
-
             this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
-            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
-            
-            
             for(Action action : this.pileUndo){
                 Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
                 a.setEtat(action.getEtat());
             }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
+        }
+    }
 
+    private void chargerTemps(){
+        try{
+            File fichierTemps = new File(getSauvegardePath("time"));
+            if (!fichierTemps.exists()) {
+                this.tempsSauvegarde = new TempsSauvegarde(0,0);
+                return;
+            }
+            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
+        } catch (Exception e){
+            System.out.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
         }
-        catch (Exception e)
-        {
-            System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
-        }
+    }
 
+    public void charger(){
+        this.chargerProgression();
+        this.chargerTemps();
+        this.chargerAides();
     }
 
     public void sauvegarderProgression(){
@@ -402,13 +426,67 @@ public class Grille {
         this.sceneJeu = sceneJeu;
     }
 
+    private void chargerAides(){
+        try{
+            File fichierAides = new File(getSauvegardePath("aides"));
+            if (!fichierAides.exists()) {
+                this.initialiserAides();
+                return;
+            }
+
+            this.listeAides = OBJECT_MAPPER.readValue(fichierAides, boolean[].class);
+
+        } catch (Exception e ) {
+            System.out.println("Erreur lors du chargement des aides");
+            this.initialiserAides();
+        }
+    }
+
+    public void sauvegarderAides(){
+        try{
+            File fichierAides = new File(getSauvegardePath("aides"));
+            OBJECT_MAPPER.writeValue(fichierAides, this.listeAides);
+        } catch (Exception e){
+            System.out.println("Erreur lors de la sauvegarde des aides");
+        }
+    }
+
+    public boolean[] getListeAides(){
+        return this.listeAides;
+    }
+
+
     public void aide() {
+        int i=1;
         for(Technique t : techniques) {
             if(t.applicable()) {
-                t.afficherAide();
+                BoxFactory.showTechnique(i,  sceneJeu.getPrimaryStage(),t);
+                if (!listeAides[i-1]){
+                    listeAides[i-1]=true;
+                    this.sauvegarderAides();
+                    sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
+                }
                 break;
             }
+            i++;
         }
+    }
+
+
+    public void activerTatonnement(){
+        modeTatonnement = true;
+    }
+
+    public boolean enModeTatonnement(){
+        return modeTatonnement;
+    }
+
+    public void annulerTatonnement(){
+        modeTatonnement = false;
+    }
+
+    public void validerTatonnement(){
+        modeTatonnement = false;
     }
 }
 
