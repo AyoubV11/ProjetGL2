@@ -2,47 +2,110 @@
     "ligne": 7,
     "colonne": 7,
     "ajoutChiffres": [
-      {"ligne": 0, "colonne": 0, "chiffre": 1},
-      {"ligne": 0, "colonne": 2, "chiffre": 2},
-      {"ligne": 0, "colonne": 6, "chiffre": 3},
-      {"ligne": 1, "colonne": 1, "chiffre": 3},
-      {"ligne": 1, "colonne": 4, "chiffre": 0},
-      {"ligne": 1, "colonne": 6, "chiffre": 3},
+      {"ligne": 0, "colonne": 1, "chiffre": 2},
+      {"ligne": 0, "colonne": 2, "chiffre": 3},
+      {"ligne": 0, "colonne": 3, "chiffre": 2},
+
+      {"ligne": 1, "colonne": 5, "chiffre": 1},
+      {"ligne": 1, "colonne": 6, "chiffre": 1},
+     
+      {"ligne": 2, "colonne": 0, "chiffre": 2},
       {"ligne": 2, "colonne": 4, "chiffre": 2},
-      {"ligne": 2, "colonne": 6, "chiffre": 3},
-      {"ligne": 4, "colonne": 0, "chiffre": 3},
+      {"ligne": 2, "colonne": 5, "chiffre": 3},
+
+      {"ligne": 3, "colonne": 2, "chiffre": 3},
+      {"ligne": 3, "colonne": 3, "chiffre": 0},
+      {"ligne": 3, "colonne": 4, "chiffre": 0},
+
+
+
+
+      {"ligne": 4, "colonne": 1, "chiffre": 2},
       {"ligne": 4, "colonne": 2, "chiffre": 3},
-      {"ligne": 4, "colonne": 6, "chiffre": 2},
-      {"ligne": 5, "colonne": 0, "chiffre": 2},
-      {"ligne": 5, "colonne": 2, "chiffre": 3},
-      {"ligne": 5, "colonne": 5, "chiffre": 2},
-      {"ligne": 6, "colonne": 0, "chiffre": 2},
-      {"ligne": 6, "colonne": 4, "chiffre": 3},
-      {"ligne": 6, "colonne": 6, "chiffre": 3}
+      {"ligne": 4, "colonne": 6, "chiffre": 3},
+
+      {"ligne": 5, "colonne": 0, "chiffre": 1},
+      {"ligne": 5, "colonne": 1, "chiffre": 2},
+
+      {"ligne": 6, "colonne": 3, "chiffre": 1},
+      {"ligne": 6, "colonne": 4, "chiffre": 1},
+      {"ligne": 6, "colonne": 5, "chiffre": 0}
     ],
+
+
+
     "aretesGrilleResolue": [
-      {"ligne": 2, "colonne": 3},
-      {"ligne": 2, "colonne": 7},
-      {"ligne": 3, "colonne": 2},
-      {"ligne": 3, "colonne": 4},
-      {"ligne": 3, "colonne": 6},
+      {"ligne": 0, "colonne": 1},
+      {"ligne": 0, "colonne": 3},
+      {"ligne": 0, "colonne": 7},
+      {"ligne": 0, "colonne": 9},
+      {"ligne": 0, "colonne": 11},
+      
+
+      {"ligne": 1, "colonne": 0},
+      {"ligne": 1, "colonne": 4},
+      {"ligne": 1, "colonne": 6},
+      {"ligne": 1, "colonne": 12},
+
+
+      {"ligne": 2, "colonne": 5},
+      {"ligne": 2, "colonne": 9},
+      {"ligne": 2, "colonne": 11},
+
+
+      {"ligne": 3, "colonne": 0},
       {"ligne": 3, "colonne": 8},
+
       {"ligne": 4, "colonne": 1},
+      {"ligne": 4, "colonne": 3},
       {"ligne": 4, "colonne": 5},
       {"ligne": 4, "colonne": 9},
-      {"ligne": 5, "colonne": 0},
+      {"ligne": 4, "colonne": 13},
+    
+
+      {"ligne": 5, "colonne": 6},
       {"ligne": 5, "colonne": 10},
+      {"ligne": 5, "colonne": 12},
+      {"ligne": 5, "colonne": 14},
+
+
       {"ligne": 6, "colonne": 1},
+      {"ligne": 6, "colonne": 5},
+      {"ligne": 6, "colonne": 11},
+
+      {"ligne": 7, "colonne": 0},
       {"ligne": 7, "colonne": 2},
-      {"ligne": 7, "colonne": 10},
+      {"ligne": 7, "colonne": 4},
+      {"ligne": 7, "colonne": 14},
+
       {"ligne": 8, "colonne": 5},
-      {"ligne": 8, "colonne": 9},
+      {"ligne": 8, "colonne": 11},
+
+
+      {"ligne": 9, "colonne": 0},
       {"ligne": 9, "colonne": 2},
-      {"ligne": 9, "colonne": 4},
       {"ligne": 9, "colonne": 6},
-      {"ligne": 9, "colonne": 8},
+      {"ligne": 9, "colonne": 10},
+      {"ligne": 9, "colonne": 12},
+      {"ligne": 9, "colonne": 14},
+
       {"ligne": 10, "colonne": 3},
-      {"ligne": 10, "colonne": 7}
+      {"ligne": 10, "colonne": 5},
+      {"ligne": 10, "colonne": 13},
+
+      {"ligne": 11, "colonne": 0},
+      {"ligne": 11, "colonne": 10},
+
+      {"ligne": 12, "colonne": 3},
+      {"ligne": 12, "colonne": 5},
+      {"ligne": 12, "colonne": 7},
+      {"ligne": 12, "colonne": 9},
+
+      {"ligne": 13, "colonne": 0},
+      {"ligne": 13, "colonne": 2},
+
+      {"ligne": 14, "colonne": 1}
+
     ]
   }
   
