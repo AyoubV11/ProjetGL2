@@ -1,9 +1,9 @@
 package com.menu;
 import java.util.*;
 
-public class TechniqueAvance6 {
+public class TechniqueAvancee6 implements Technique{
     private Grille g;
-    public TechniqueAvance6(Grille g) {
+    public TechniqueAvancee6(Grille g) {
         this.g=g;
     }
 
