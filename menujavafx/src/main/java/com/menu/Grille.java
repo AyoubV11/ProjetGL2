@@ -304,41 +304,42 @@ public class Grille {
         this.sauvegarderProgression();
     }
 
-    public void charger(){
-        try{
-            // Charger le JSON
+    private void chargerProgression(){
+        try {
             File fichierProgression = new File(getSauvegardePath("progress"));
-            File fichierTemps = new File(getSauvegardePath("time"));
-
             this.pileUndo = new Stack<Action>();
             this.pileRedo = new Stack<Action>();
-
             if (!fichierProgression.exists()) {
                 return;
             }
-
-            if (!fichierTemps.exists()) {
-                this.tempsSauvegarde = new TempsSauvegarde(0,0);
-                return;
-            }
-
             this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
-            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
-            
-            
             for(Action action : this.pileUndo){
                 Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
                 a.setEtat(action.getEtat());
             }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
+        }
+    }
 
+    private void chargerTemps(){
+        try{
+            File fichierTemps = new File(getSauvegardePath("time"));
+            if (!fichierTemps.exists()) {
+                this.tempsSauvegarde = new TempsSauvegarde(0,0);
+                return;
+            }
+            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
-            this.chargerAides();
+        } catch (Exception e){
+            System.out.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
         }
-        catch (Exception e)
-        {
-            System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
-        }
+    }
 
+    public void charger(){
+        this.chargerProgression();
+        this.chargerTemps();
+        this.chargerAides();
     }
 
     public void sauvegarderProgression(){
