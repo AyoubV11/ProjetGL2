@@ -293,23 +293,30 @@ public class BoxFactory {
         return victoryBox;
     }
 
-    private static void showTechnique(int i, Stage primaryStage, Technique t){
+    public static void showTechnique(int i, Stage primaryStage, Technique t){
         techStage = new Stage();
         techStage.initModality(Modality.APPLICATION_MODAL);
         techStage.initOwner(primaryStage);
         
         // Centrer les paramètres sur la fenêtre principale
         techStage.setX(primaryStage.getX() + primaryStage.getWidth()/2 - 200);
+
         techStage.setY(primaryStage.getY() + primaryStage.getHeight()/2 - 150);
         
         // Empêcher le redimensionnement
         techStage.setResizable(false);
-        HBox horizontalbox=new HBox();
+        HBox horizontalbox=new HBox(10);
+        horizontalbox.setAlignment(Pos.CENTER);
+        horizontalbox.setMaxWidth(500);
         horizontalbox.setPadding(new Insets(10));
         ImageView technique_image = new ImageView(new Image("/images_techniques/technique_image_" + i + ".png"));
+        technique_image.setFitWidth(200);
+        technique_image.setFitHeight(200);
 
         Label texteAide = new Label(t.afficherAide());
+        texteAide.setWrapText(true);
         texteAide.setTextAlignment(TextAlignment.CENTER);
+        texteAide.setAlignment(Pos.CENTER);
         horizontalbox.getChildren().addAll(technique_image,texteAide);
 
         Scene scene = new Scene(horizontalbox);

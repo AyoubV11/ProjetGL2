@@ -1,12 +1,11 @@
 package com.menu;
 
-import java.util.Stack;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import javafx.scene.paint.Color;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -14,8 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.List;
 import java.util.*;
 
 public class Grille {
@@ -83,7 +80,7 @@ public class Grille {
             }));
             this.timer.setCycleCount(Timeline.INDEFINITE);
 
-            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this), new TechniqueDeux3Diagonal(this), new TechniqueContraintes3(this), new TechniqueNombreCoin(this));  
+            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this), new TechniqueDeux3Diagonal(this), new TechniqueNombreCoin(this), new TechniqueContraintes3(this), new TechniqueBoucleSur3(this), new TechniqueBoucleSur1(this), new TechniqueAvancee6(this));  
 
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
@@ -304,41 +301,42 @@ public class Grille {
         this.sauvegarderProgression();
     }
 
-    public void charger(){
-        try{
-            // Charger le JSON
+    private void chargerProgression(){
+        try {
             File fichierProgression = new File(getSauvegardePath("progress"));
-            File fichierTemps = new File(getSauvegardePath("time"));
-
             this.pileUndo = new Stack<Action>();
             this.pileRedo = new Stack<Action>();
-
             if (!fichierProgression.exists()) {
                 return;
             }
-
-            if (!fichierTemps.exists()) {
-                this.tempsSauvegarde = new TempsSauvegarde(0,0);
-                return;
-            }
-
             this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
-            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
-            
-            
             for(Action action : this.pileUndo){
                 Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
                 a.setEtat(action.getEtat());
             }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
+        }
+    }
 
+    private void chargerTemps(){
+        try{
+            File fichierTemps = new File(getSauvegardePath("time"));
+            if (!fichierTemps.exists()) {
+                this.tempsSauvegarde = new TempsSauvegarde(0,0);
+                return;
+            }
+            tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
-            this.chargerAides();
+        } catch (Exception e){
+            System.out.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
         }
-        catch (Exception e)
-        {
-            System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
-        }
+    }
 
+    public void charger(){
+        this.chargerProgression();
+        this.chargerTemps();
+        this.chargerAides();
     }
 
     public void sauvegarderProgression(){
@@ -406,6 +404,8 @@ public class Grille {
     }
 
 
+   
+
     public void runTimer() {
         timer.play();
     }
@@ -457,12 +457,15 @@ public class Grille {
 
 
     public void aide() {
-        int i=0;
+        int i=1;
         for(Technique t : techniques) {
-            if(t.applicable() && !listeAides[i]) {
-                listeAides[i]=true;
-                this.sauvegarderAides();
-                sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
+            if(t.applicable()) {
+                BoxFactory.showTechnique(i,  sceneJeu.getPrimaryStage(),t);
+                if (!listeAides[i-1]){
+                    listeAides[i-1]=true;
+                    this.sauvegarderAides();
+                    sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
+                }
                 break;
             }
             i++;
@@ -486,3 +489,6 @@ public class Grille {
         modeTatonnement = false;
     }
 }
+
+
+

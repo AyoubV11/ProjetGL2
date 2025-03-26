@@ -1,23 +1,55 @@
-/*package com.menu;
+package com.menu;
 
-import java.util.Iterator;
+import java.util.*;
 
-public class TechniqueBoucleSur3 implements Technique{
+public class TechniqueBoucleSur3 implements Technique {
     private Grille g;
-
+    
     public TechniqueBoucleSur3(Grille g) {
         this.g = g;
     }
 
-    public void afficherAide() {
-        System.out.println("Technique de la boucle qui arrive sur un 3 applicable");
+    public String afficherAide() {
+        return "Technique boucle 3 applicable";
     }
 
-    public boolean applicable(){
+    public boolean applicable() {
         Iterator<Chiffre> it = g.iteratorChiffres();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Chiffre c = it.next();
+            if (c.getChiffre() == 3 && checkBoucleSur3(c)) {
+                return true;
+            }
         }
+        return false;
     }
 
-}*/
+    private boolean checkBoucleSur3(Chiffre c) {
+        int[][] directions = {
+            {-2, -1}, {-1, -2}, {1, 0}, {0, 1},
+            {-1, 2}, {-2, 1}, {1, 0}, {0, -1},
+            {2, 1}, {1, 2}, {-1, 0}, {0, -1},
+            {1, -2}, {2, -1}, {-1, 0}, {0, 1},
+            {-1, -2}, {-2, -1}, {1, 0}, {0, 1},
+            {-2, 1}, {-1, 2}, {1, 0}, {0, -1},
+            {1, 2}, {2, 1}, {-1, 0}, {0, -1},
+            {2, -1}, {1, -2}, {-1, 0}, {0, 1}
+        };
+
+        for (int i = 0; i < directions.length; i += 4) {
+            try {
+                if (isTrait(c, directions[i]) &&
+                    (isTrait(c, directions[i + 1]) || !isTrait(c, directions[i + 2]) || !isTrait(c, directions[i + 3]))) {
+                    return true;
+                }
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
+        return false;
+    }
+
+    private boolean isTrait(Chiffre c, int[] d) {
+        return ((Arete) g.getCase(c.getLigne() + d[0], c.getColonne() + d[1])).getEtat() == EnumEtat.TRAIT;
+    }
+}
+
