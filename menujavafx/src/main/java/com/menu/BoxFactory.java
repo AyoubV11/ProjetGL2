@@ -332,14 +332,14 @@ public class BoxFactory {
     public static VBox createHelpButtonBox(boolean[] listeAides, Stage primaryStage, Grille grille){
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
-        box.setPrefSize(175, 300);
+        box.setPrefSize(125, 300);
         box.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
         box.setAlignment(Pos.TOP_CENTER);
         int i=1;
         for(Technique t : grille.techniques) {
             final int index=i;
             if (listeAides[i-1]){
-                Button bouton = ButtonFactory.createAnimatedButton("TECHNIQUE " + i);
+                Button bouton = ButtonFactory.createAnimatedButtonWithFontSize("TECHNIQUE " + i,13);
                 bouton.setOnAction(e -> {
                     showTechnique(index,primaryStage,t);
                 });
