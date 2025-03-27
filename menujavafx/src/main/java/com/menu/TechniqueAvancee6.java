@@ -15,36 +15,142 @@ public class TechniqueAvancee6 implements Technique{
         Iterator<Chiffre> it = g.iteratorChiffres();
         while(it.hasNext()) {
             Chiffre c = it.next();
-            if(c.getChiffre() == 0) {
+            if(c.getChiffre() == 1) {
 
-                if(c.getLigne() == 1 && c.getColonne() == 1){
-                    if(((Arete)g.getCase(c.getLigne(),c.getColonne()+3)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+1,c.getColonne()+4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+2,c.getColonne()+1)).getEtat() != EnumEtat.TRAIT) {
-                        return true;
+                /**haut droit */
+                try{
+                    if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check()){
+                        try{
+                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()){
+                                if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                                    return true;
+                                }
+                            }
+                        }catch(IndexOutOfBoundsException e){
+                            
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                                return true;
+                            }
+                        }
+                        
                     }
+                }catch(IndexOutOfBoundsException e){
                     
+                    try{
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()){
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                                return true;
+                            }
+                        }
+                    }catch(IndexOutOfBoundsException f){
+                        
+                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                            return true;
+                        }
+                    }  
                 }
 
-                if(c.getLigne() == 1 && c.getColonne() == g.getNbColonnes()-2){
-                    if(((Arete)g.getCase(c.getLigne(),c.getColonne()-3)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+1,c.getColonne()-4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+2,c.getColonne()-1)).getEtat() != EnumEtat.TRAIT) {
-                        return true;
+                /**droit bas*/
+                try{
+                    if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check()){
+                        try{
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()){
+                                if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                                    return true;
+                                }
+                            }
+                        }catch(IndexOutOfBoundsException e){
+                            
+                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                                return true;
+                            }
+                        }
+                        
                     }
+                }catch(IndexOutOfBoundsException e){
                     
+                    try{
+                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()){
+                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                                return true;
+                            }
+                        }
+                    }catch(IndexOutOfBoundsException f){
+                        
+                        if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                            return true;
+                        }
+                    }  
                 }
 
-                if(c.getLigne() == g.getNbLignes()-2 && c.getColonne() == 1){
-                    if(((Arete)g.getCase(c.getLigne(),c.getColonne()+3)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-1,c.getColonne()+4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-2,c.getColonne()+1)).getEtat() != EnumEtat.TRAIT) {
-                        return true;
+
+
+                /**bas gauche*/
+                try{
+                    if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check()){
+                        try{
+                            if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                                if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                                    return true;
+                                }
+                            }
+                        }catch(IndexOutOfBoundsException e){
+                            
+                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                                return true;
+                            }
+                        }
+                        
                     }
+                }catch(IndexOutOfBoundsException e){
                     
+                    try{
+                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                                return true;
+                            }
+                        }
+                    }catch(IndexOutOfBoundsException f){
+                        
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                            return true;
+                        }
+                    }  
                 }
 
-                if(c.getLigne() == g.getNbLignes()-2 && c.getColonne() == g.getNbColonnes()-2){
-                    if(((Arete)g.getCase(c.getLigne(),c.getColonne()-3)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-1,c.getColonne()-4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-2,c.getColonne()-1)).getEtat() != EnumEtat.TRAIT) {
-                        return true;
-                    } 
+                /**gauche haut */
+                try{
+                    if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check()){
+                        try{
+                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()){
+                                if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                                    return true;
+                                }
+                            }
+                        }catch(IndexOutOfBoundsException e){
+                            
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                                return true;
+                            }
+                        }
+                        
+                    }
+                }catch(IndexOutOfBoundsException e){
                     
+                    try{
+                        if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()){
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                                return true;
+                            }
+                        }
+                    }catch(IndexOutOfBoundsException f){
+                        
+                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                            return true;
+                        }
+                    }  
                 }
-
+                
             }
         }
 
