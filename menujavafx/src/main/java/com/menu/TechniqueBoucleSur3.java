@@ -10,7 +10,7 @@ public class TechniqueBoucleSur3 implements Technique {
     }
 
     public String afficherAide() {
-        return "Technique boucle 3 applicable";
+        return "Technique boucle 3 applicable: \n\n Dans la disposition actuelle de la grille, il y a un 3 dont deux des traits autour de lui doivent être obligatoirement placés comme sur l'image.";
     }
 
     public boolean applicable() {

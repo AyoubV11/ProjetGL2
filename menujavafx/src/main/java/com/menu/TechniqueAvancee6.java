@@ -8,7 +8,7 @@ public class TechniqueAvancee6 implements Technique{
     }
 
     public String afficherAide() {
-        return("Technique avancée 6 disponible: \n Si un 1 a une contrainte (trait non-posable) dans un de ses coins, alors il est possible de poser un trait dans la case diagonalement opposée à ce coin si ce trait respecte les contraintes comme illustré sur l'image.");
+        return("Technique avancée 6 disponible: \n\n Si un 1 a une contrainte (trait non-posable) dans un de ses coins, alors il est possible de poser un trait dans la case diagonalement opposée à ce coin si ce trait respecte les contraintes comme illustré sur l'image.");
     }
 
     public boolean applicable() {

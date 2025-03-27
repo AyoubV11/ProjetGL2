@@ -8,8 +8,9 @@ public class TechniqueDeux3Diagonal implements Technique {
         this.g=g;
     }
 
+
     public String afficherAide() {
-        return("Technique deux 3 diagonal applicable");
+        return("Technique deux 3 diagonal applicable: \n\n Si deux 3 sont en diagonale, on doit placer des traits comme sur l'image.");
     }
 
     public boolean applicable() {

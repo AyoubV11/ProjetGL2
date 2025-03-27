@@ -9,7 +9,7 @@ public class TechniqueBoucleSur1 implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique boucle 1 applicable");
+        return("Technique boucle 1 applicable: \n\n Non respect des règles correspondant au chiffre 1, avec la disposition de votre grille, si vous continuez votre chemin il y aura un chiffre 1 avec plus qu'un trait autour de lui.");
     }
 
     public boolean applicable() {

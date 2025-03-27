@@ -9,7 +9,7 @@ public class TechniqueNombreCoin implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique nombre dans les coins applicable");
+        return("Technique nombre dans les coins applicable: \n\n Vérifiez que les nombres de chaque coin de la grille ont des traits autour d'eux comme sur l'image.");
     }
 
     public boolean applicable() {

@@ -9,7 +9,7 @@ public class TechniqueContraintes3 implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique contraintes 3 applicable");
+        return("Technique contraintes 3 applicable: \n\n Un 3 a dans un de ses angles deux directions dans lesquelles il ne peut pas aller, alors il doit avoir des traits dans cet angle.");
     }
 
     public boolean applicable() {

@@ -9,7 +9,7 @@ public class Technique0Adjacent3 implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique 0 adjacent 3 applicable");
+        return("Technique 0 adjacent 3 applicable: \n\n Un 3 ayant comme voisin un 0 doit posséder les traits correspondants à ceux de l'image.");
     }
 
     public boolean applicable() {

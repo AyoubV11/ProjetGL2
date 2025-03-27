@@ -9,7 +9,7 @@ public class Technique0Diagonal3 implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique 0 diagonal 3 applicable");
+        return("Technique 0 diagonal 3 applicable: \n\n Un 3 ayant un 0 dans sa diagonale doit posséder les traits correspondants à ceux de l'image.");
     }
 
     public boolean applicable() {
