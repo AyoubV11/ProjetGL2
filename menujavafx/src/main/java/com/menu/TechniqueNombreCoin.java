@@ -105,7 +105,7 @@ public class TechniqueNombreCoin implements Technique {
                     }
                 }
                 if(c.getChiffre() == 2){
-                    if(((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).getEtat() != EnumEtat.TRAIT ) {
+                    if(((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).getEtat() != EnumEtat.TRAIT ) {
                         return true;
                     }
                 }

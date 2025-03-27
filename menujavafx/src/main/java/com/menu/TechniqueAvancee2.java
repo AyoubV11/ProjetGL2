@@ -11,7 +11,7 @@ public class TechniqueAvancee2 implements Technique {
     }
     
     public String afficherAide() {
-        return "Technique avancée 2 applicable";
+        return "Technique avancée 2 disponible: \n Si un 3 avec deux traits dans un de ses coins est à coté d'un 1, et à 2 cases d'un autre 3 perpendiculairement, alors on sait qu'un trait est posable sur l'autre 3 comme sur l'image.";
     }
     
     public boolean applicable() {
