@@ -44,7 +44,7 @@ public class SceneJeu extends BorderPane {
     public void setRightBox(VBox newBox){
         this.boxes.getChildren().clear();
         this.rightBox=newBox;
-        this.boxes.getChildren().addAll(this.leftBox,this.rightBox);
+        this.boxes.getChildren().addAll(this.tatonnementBox,this.leftBox,this.rightBox);
     }
 
     public VBox getRightBox(){
