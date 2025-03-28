@@ -362,11 +362,12 @@ public class Grille {
         try{
             File fichierTemps = new File(getSauvegardePath("time"));
             if (!fichierTemps.exists()) {
-                this.tempsSauvegarde = new TempsSauvegarde(0,0);
+                this.tempsSauvegarde = new TempsSauvegarde(0,-1);
                 return;
             }
             tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
+            sceneJeu.setMeilleurTemps(tempsSauvegarde.getMeilleurTemps());
         } catch (Exception e){
             System.out.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
         }
@@ -415,7 +416,7 @@ public class Grille {
     }
 
     public void updateMeilleurTemps(){
-        if(tempsSauvegarde.getTemps() < tempsSauvegarde.getMeilleurTemps() || tempsSauvegarde.getMeilleurTemps() == 0){
+        if(tempsSauvegarde.getTemps() < tempsSauvegarde.getMeilleurTemps() || tempsSauvegarde.getMeilleurTemps() == -1){
             tempsSauvegarde.setMeilleurTemps(tempsSauvegarde.getTemps());
         }
     }

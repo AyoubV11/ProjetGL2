@@ -55,7 +55,12 @@ public class SceneJeu extends BorderPane {
     }
 
     public void setMeilleurTemps(int seconds) {
-        bestTimeLabel.setText("MEILLEUR TEMPS : " + formatTime(seconds));
+        if(seconds == -1) {
+            bestTimeLabel.setText("MEILLEUR TEMPS : AUCUN");
+        }
+        else {
+            bestTimeLabel.setText("MEILLEUR TEMPS : " + formatTime(seconds));
+        }
     }
 
     private String formatTime(int totalSeconds) {
@@ -91,12 +96,17 @@ public class SceneJeu extends BorderPane {
         boolean showTimer = GameSettings.getInstance().isShowTimer();
         timeLabel.setVisible(showTimer);
         timeGroup.setVisible(showTimer);
+
+        // Création du label meilleur temps
+        bestTimeLabel = new Label("MEILLEUR TEMPS : AUCUN");
+        bestTimeLabel.setFont(BalooFont.setBalooSized(16));
+        VBox bestScoreGroup = new VBox(bestTimeLabel);
+        bestScoreGroup.setAlignment(Pos.CENTER);
     
-        
         if(!libre){
             topBar.getChildren().addAll(
                 restartButton, helpButton, validateButton,
-                timeGroup,
+                timeGroup, bestScoreGroup,
                 leftArrow, rightArrow, settingButton
             );
         }
@@ -105,14 +115,6 @@ public class SceneJeu extends BorderPane {
                 restartButton, helpButton, validateButton,
                 leftArrow, rightArrow, settingButton
             );
-        }
-
-        // Création du label meilleur temps
-        VBox bestScoreGroup = new VBox();
-        bestScoreGroup.setAlignment(Pos.CENTER);
-
-        if (!bestScoreGroup.getChildren().isEmpty() && !libre) {
-            topBar.getChildren().add(bestScoreGroup);
         }
 
         this.setTop(topBar);
@@ -242,43 +244,64 @@ public class SceneJeu extends BorderPane {
             Button leftArrow = ButtonFactory.createAnimatedButton("<-");
             Button rightArrow = ButtonFactory.createAnimatedButton("->");
             Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");
-            
+
             // Recréer le groupe pour le chronomètre
             VBox timeGroup = new VBox(timeLabel);
             timeGroup.setAlignment(Pos.CENTER);
             timeGroup.setVisible(showTimer);
             timeGroup.setManaged(showTimer); // Important pour que l'espace soit libéré si caché
-            
+                        
             // Recréer le meilleur temps
-            VBox bestScoreGroup = createLabelOnly("MEILLEUR TEMPS : 00:30:00");
+            VBox bestScoreGroup = new VBox(bestTimeLabel);
+            bestScoreGroup.setAlignment(Pos.CENTER);
             bestScoreGroup.setVisible(showTimer);
             bestScoreGroup.setManaged(showTimer); // Également géré par le paramètre du timer
             
             // Réajouter les éléments à la barre du haut
-            topBar.getChildren().addAll(
-                restartButton, helpButton, validateButton,
-                timeGroup, bestScoreGroup,
-                leftArrow, rightArrow, settingButton
-            );
+            if(!libre){
+                topBar.getChildren().addAll(
+                    restartButton, helpButton, validateButton,
+                    timeGroup, bestScoreGroup,
+                    leftArrow, rightArrow, settingButton
+                );
+            }
+            else{
+                topBar.getChildren().addAll(
+                    restartButton, helpButton, validateButton,
+                    leftArrow, rightArrow, settingButton
+                );
+            }
             
             // Remettre les actions sur les boutons
-            validateButton.setOnAction(e -> {
-                System.out.println("Validation de la grille");
-                boolean resultat = grille.resolue();
-                if (resultat) {
-                    System.out.println("Grille correcte");
-                } else {
-                    System.out.println("Grille incorrecte");
-                }
-            });
-    
             leftArrow.setOnAction(e -> {grille.undo(); leftBox.update();});
             rightArrow.setOnAction(e -> {grille.redo(); leftBox.update();});
-            restartButton.setOnAction(e -> {grille.clear(false); leftBox.update();});
+            restartButton.setOnAction(e -> {grille.clear(libre); leftBox.update();});
+
+            validateButton.setOnAction(e -> {
+                System.out.println("Validation de la grille");
+                if (grille.resolue()) {
+                    System.out.println("-Grille résolue");
+                } else {
+                    System.out.println("-Grille non résolue");
+                }
+
+                int erreurs = grille.check();
+                System.out.println("--" + erreurs + " aretes incorrectes");
+                grille.retablirEtatValide();
+                leftBox.update();
+            });
 
             settingButton.setOnAction(e -> {
                 openSettings(libre);
+            }); 
+
+            helpButton.setOnAction(e -> {
+                grille.aide(libre);
             });
+
+            if (!libre) {
+                runTimer();
+            }
         }
         
         // Force le rafraîchissement de la disposition!
