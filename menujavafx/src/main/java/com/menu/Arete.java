@@ -12,6 +12,7 @@ public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
     protected boolean estUneAreteDeLaGrilleResolue;
     protected boolean libre;
+    protected SoundPlayer sound = new SoundPlayer();
 
     /**
      * Constructeur de l'arête avec tous les paramètres.
@@ -75,24 +76,26 @@ public class Arete extends Case {
      * 
      * @return true si le trait peut être posé, false sinon
      */
-    public boolean setTrait(Boolean croix) {
-        if(!croix){
-            this.pushAction(EnumEtat.TRAIT);
-            this.etat = EnumEtat.TRAIT;
-            return true;
-        }
-        else{
-            if(this.check()){
-                this.pushAction(EnumEtat.TRAIT);
-                this.etat = EnumEtat.TRAIT;
-                return true;
-            }else {
-                this.pushAction(EnumEtat.CROIX);
-                this.etat = EnumEtat.CROIX;
-            }
-        }
-        return false;
+    public boolean setTrait(boolean croix) {
+    EnumEtat nouvelEtat;
+
+    if (!croix || this.check()) {
+        nouvelEtat = EnumEtat.TRAIT;
+    } else {
+        nouvelEtat = EnumEtat.CROIX;
     }
+
+    this.pushAction(nouvelEtat);
+    this.etat = nouvelEtat;
+
+    // Jouer le son uniquement si on place un trait
+    if (nouvelEtat == EnumEtat.TRAIT) {
+        sound.bruitDeClique();
+    }
+
+    return nouvelEtat == EnumEtat.TRAIT;
+}
+
 
     public List<Arete> getAretesConnectees() {
         ArrayList<Arete> aretesConnectees = new ArrayList<Arete>();
