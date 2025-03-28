@@ -10,6 +10,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,9 +49,11 @@ public class Grille {
             this.name = fichier.split("\\.")[0];
             this.sceneJeu = sceneJeu;
 
-            File fichierJSON = new File(getResourceFilePath(fichier));
-
-            GrilleJson grilleJson = OBJECT_MAPPER.readValue(fichierJSON, GrilleJson.class);
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("grilles/"+fichier);
+            if (inputStream == null) {
+                throw new IOException("Resource not found: grilles/" + fichier);
+            }
+            GrilleJson grilleJson = OBJECT_MAPPER.readValue(inputStream, GrilleJson.class);
 
             // Affectation des dimensions spécifiées à la grille
             this.nbLignes = grilleJson.getLigne() * 2 + 1;
@@ -365,8 +368,14 @@ public class Grille {
         }
     }
 
-    public String getResourceFilePath(String fichier){
-        return this.getClass().getClassLoader().getResource("grilles/"+fichier).getPath();
+    public String getResourceFilePath(String fichier)throws IOException{
+        var resourceUrl = this.getClass().getClassLoader().getResource("grilles/"+fichier);
+        if (resourceUrl == null) {
+            throw new IOException("Resource not found: grilles/" + fichier);
+        }
+        
+        // Return the URL as a string, don't convert to path
+        return resourceUrl.toString();
     }
 
     public String getSauvegardePath(String type){
