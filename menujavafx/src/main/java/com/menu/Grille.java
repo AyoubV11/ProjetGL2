@@ -367,6 +367,7 @@ public class Grille {
 
         }
     }
+    
     private void chargerProgressionLibre(){
         try {
             File fichierProgression = new File(getSauvegardePath("progress_libre"));
