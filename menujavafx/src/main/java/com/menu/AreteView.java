@@ -47,10 +47,12 @@ public class AreteView extends Button {
      * @param arete L'arête du modèle à associer à cette vue
      */
 
-     private static final double DEFAULT_OPACITY = 1.0;
-     private static final double CURSOR_OPACITY = 0.4;
-     //
-     private static final ColorAdjust TEINTE_TATONNEMENT = new ColorAdjust(-0.1, 0, 0, 0);
+    private static final double DEFAULT_OPACITY = 1.0;
+    private static final double CURSOR_OPACITY = 0.4;
+    //
+    private static final ColorAdjust TEINTE_DEFAULT = new ColorAdjust(0, 0, 0, 0);
+    private static final ColorAdjust TEINTE_TATONNEMENT = new ColorAdjust(-0.5, 0, 0, 0);
+
     public AreteView(Arete arete, SceneJeu scene){
         super();
         this.arete = arete;
@@ -93,20 +95,24 @@ public class AreteView extends Button {
     public void setTrait(Boolean croix){
         if(!croix){
             this.arete.setTrait(croix);
-            this.iv.setImage(imTrait);
-            this.iv.setOpacity(DEFAULT_OPACITY);
-            this.iv.setVisible(true);
+            this.updateToTrait();
         }
         else{
             if(this.arete.setTrait(croix)) {
-                this.iv.setImage(imTrait);
-                this.iv.setOpacity(DEFAULT_OPACITY);
-                this.iv.setVisible(true);
+                this.updateToTrait();
             }
             else {
                 this.setCroix();
             }
         }
+
+        
+    }
+
+    private void updateToTrait(){
+        this.iv.setImage(imTrait);
+        this.iv.setOpacity(DEFAULT_OPACITY);
+        this.iv.setVisible(true);
     }
 
     /**
@@ -114,6 +120,10 @@ public class AreteView extends Button {
      */
     public void setCroix(){
         this.arete.setCroix();
+        this.updateToCroix();
+    }
+
+    private void updateToCroix(){
         this.iv.setImage(imCroix);
         this.iv.setOpacity(DEFAULT_OPACITY);
         this.iv.setVisible(true);
@@ -128,17 +138,14 @@ public class AreteView extends Button {
     }
 
     public void setTransparent(){
-        this.iv.setImage(imTrait);
-        //changer opacité
+        this.updateToTrait();
         this.iv.setOpacity(CURSOR_OPACITY);
-        this.iv.setVisible(true);
     }
 
     public void setTatonnement(){
         this.iv.setImage(imTrait);
         this.iv.setOpacity(CURSOR_OPACITY);
         //changer la teinture de l'image
-        this.iv.setEffect(TEINTE_TATONNEMENT);
 
         this.iv.setVisible(true);
     }
@@ -150,10 +157,13 @@ public class AreteView extends Button {
      */
     public void gererClic(MouseEvent event){
         if (this.isCurseurProche(event)){
-            if (event.getButton() == MouseButton.PRIMARY)
+            if (event.getButton() == MouseButton.PRIMARY){
                 this.clicGauche(GameSettings.getInstance().isAutoCroix());
-            else if (event.getButton() == MouseButton.SECONDARY)
+            }
+                
+            else if (event.getButton() == MouseButton.SECONDARY){
                 this.clicDroit();
+            }
             
             // Validation de la grille
             boolean resultat = this.arete.getGrille().resolue();
@@ -162,14 +172,14 @@ public class AreteView extends Button {
                 this.scene.victoryScreen();
             }
         }
+        else{
+        }
     }
 
     public void gererHover(MouseEvent event){
+        this.update();
         if (this.isCurseurProche(event) && this.arete.getEtat() == EnumEtat.VIDE){
             this.setTransparent();
-        }
-        else{
-            this.update();
         }
     }
 
@@ -250,16 +260,35 @@ public class AreteView extends Button {
     }
 
     public void update(){
+
         if(this.arete.getEtat() == EnumEtat.TRAIT){
-            this.iv.setImage(imTrait);
-            this.iv.setVisible(true);
+            this.updateToTrait();
         }
-        else if(this.arete.getEtat() == EnumEtat.CROIX){
-            this.iv.setImage(imCroix);
-            this.iv.setVisible(true);
+        else{ 
+
+            if (this.arete.grille.enModeTatonnement()){      
+                this.setEffect(TEINTE_TATONNEMENT);      
+            }
+            else{
+                this.setEffect(TEINTE_DEFAULT);
+                System.out.println(effectProperty());
+                //supprimer l'effet
+                this.initColor();
+            }
+
+            if(this.arete.getEtat() == EnumEtat.CROIX){
+                this.updateToCroix();
+            }
+            else{
+                this.iv.setVisible(false);
+            }
         }
-        else{
-            this.iv.setVisible(false);
-        }
+        
+        
     }
+
+    public void initColor(){
+        this.setEffect(null);
+    }
+
 }

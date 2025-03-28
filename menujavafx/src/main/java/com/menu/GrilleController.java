@@ -143,4 +143,10 @@ public class GrilleController extends GridPane {
             av.update();
         }
     }
+
+    public void initColorArete(){
+        for(AreteView av : this.listAreteView){
+            av.initColor();
+        }
+    }
 }

@@ -77,7 +77,10 @@ public class SceneJeu extends BorderPane {
         Button validateButton = ButtonFactory.createAnimatedButton("Valider");  // V pour Valider
         Button leftArrow = ButtonFactory.createAnimatedButton("<-");      // < au lieu de ←
         Button rightArrow = ButtonFactory.createAnimatedButton("->");     // > au lieu de →
-        Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");  // P pour Paramètres
+        Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");  
+        Button tatonnementButton = ButtonFactory.createAnimatedButton("T");  
+        Button annulerTatonnementButton = ButtonFactory.createAnimatedButton("Annuler");  
+        Button validerTatonnementButton = ButtonFactory.createAnimatedButton("Valider");
         
 
         timeLabel = new Label("TEMPS : 00:00:00");
@@ -96,7 +99,8 @@ public class SceneJeu extends BorderPane {
         topBar.getChildren().addAll(
             restartButton, helpButton, validateButton,
             timeGroup,
-            leftArrow, rightArrow, settingButton
+            leftArrow, rightArrow, settingButton,
+            tatonnementButton, annulerTatonnementButton, validerTatonnementButton
         );
 
         // Création du label meilleur temps
@@ -153,6 +157,35 @@ public class SceneJeu extends BorderPane {
 
         helpButton.setOnAction(e -> {
             grille.aide();
+        });
+   
+        annulerTatonnementButton.setDisable(true);
+        validerTatonnementButton.setDisable(true);
+
+        tatonnementButton.setOnAction(e -> {
+            grille.activerTatonnement();
+            tatonnementButton.setDisable(true);
+            annulerTatonnementButton.setDisable(false);
+            validerTatonnementButton.setDisable(false);
+        });
+
+        annulerTatonnementButton.setOnAction(e -> {
+            grille.annulerTatonnement();
+            tatonnementButton.setDisable(false);
+            annulerTatonnementButton.setDisable(true);
+            validerTatonnementButton.setDisable(true);
+            this.leftBox.update();
+            this.leftBox.initColorArete();
+            
+        });
+
+        validerTatonnementButton.setOnAction(e -> {
+            grille.validerTatonnement();
+            tatonnementButton.setDisable(false);
+            annulerTatonnementButton.setDisable(true);
+            validerTatonnementButton.setDisable(true);
+            this.leftBox.update();
+            this.leftBox.initColorArete();
         });
 
         runTimer();

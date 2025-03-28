@@ -24,6 +24,10 @@ public class Grille {
     protected Case[][] cases;   // Cases de la grille
     protected Stack<Action> pileUndo;   // Pile des actions effectuées
     protected Stack<Action> pileRedo;   // Pile des actions annulées
+
+    protected Stack<Action> pileUndoTatonnement;   // Pile des actions effectuées
+    protected Stack<Action> pileRedoTatonnement;   // Pile des actions annulées
+
     protected List<Coordonnee> aretesGrilleResolue;   // Liste des coordonnées des arêtes de la grille résolue
 
     protected SceneJeu sceneJeu;
@@ -113,6 +117,14 @@ public class Grille {
 
     public Stack<Action> getPileRedo(){
         return this.pileRedo;
+    }
+
+    public Stack<Action> getPileUndoTatonnement(){
+        return this.pileUndoTatonnement;
+    }
+
+    public Stack<Action> getPileRedoTatonnement(){
+        return this.pileRedoTatonnement;
     }
 
     public int getNbLignes() {
@@ -271,22 +283,26 @@ public class Grille {
     }
 
     public void undo(){
-        if(!this.pileUndo.isEmpty()){
+        Stack<Action> pileUndo = modeTatonnement ? this.pileUndoTatonnement : this.pileUndo;
+        Stack<Action> pileRedo = modeTatonnement ? this.pileRedoTatonnement : this.pileRedo;
+        if(!pileUndo.isEmpty()){
             System.out.println("undo");
-            Action action = this.pileUndo.pop();
+            Action action = pileUndo.pop();
             Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
             a.setEtat(action.getEtatPrecedent());
-            this.pileRedo.push(action);
+            pileRedo.push(action);
         }
     }
 
     public void redo(){
-        if(!this.pileRedo.isEmpty()){
+        Stack<Action> pileUndo = modeTatonnement ? this.pileUndoTatonnement : this.pileUndo;
+        Stack<Action> pileRedo = modeTatonnement ? this.pileRedoTatonnement : this.pileRedo;
+        if(!pileRedo.isEmpty()){
             System.out.println("redo");
-            Action action = this.pileRedo.pop();
+            Action action = pileRedo.pop();
             Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
             a.setEtat(action.getEtat());
-            this.pileUndo.push(action);
+            pileUndo.push(action);
         }
     }
 
@@ -306,16 +322,27 @@ public class Grille {
             File fichierProgression = new File(getSauvegardePath("progress"));
             this.pileUndo = new Stack<Action>();
             this.pileRedo = new Stack<Action>();
+            this.pileUndoTatonnement = new Stack<Action>();
+            this.pileRedoTatonnement = new Stack<Action>();
             if (!fichierProgression.exists()) {
                 return;
             }
             this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
-            for(Action action : this.pileUndo){
-                Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
-                a.setEtat(action.getEtat());
-            }
+            this.chargerPile(this.pileUndo);
         } catch (Exception e) {
             System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
+        }
+    }
+
+    private void chargerPile(Stack<Action> pile){
+        Iterator<Arete> itAretes = iteratorAretes();
+        while(itAretes.hasNext()){
+            Arete a = itAretes.next();
+            a.setEtat(EnumEtat.VIDE);
+        }
+        for(Action action : pile){
+            Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
+            a.setEtat(action.getEtat());
         }
     }
 
@@ -473,6 +500,12 @@ public class Grille {
 
     public void activerTatonnement(){
         modeTatonnement = true;
+        //copier la pile undo dans la pile undo tatonnement
+        this.pileUndoTatonnement = new Stack<Action>();
+        this.pileRedoTatonnement = new Stack<Action>();
+        for(Action action : pileUndo){
+            pileUndoTatonnement.push(action);
+        }
     }
 
     public boolean enModeTatonnement(){
@@ -480,10 +513,16 @@ public class Grille {
     }
 
     public void annulerTatonnement(){
-        modeTatonnement = false;
+        modeTatonnement = false; 
+        this.chargerPile(this.pileUndo);
+        this.pileRedo.clear();
     }
 
     public void validerTatonnement(){
         modeTatonnement = false;
+        this.pileUndo = this.pileUndoTatonnement;
+        this.pileRedo = this.pileRedoTatonnement;
+        this.sauvegarderProgression();
+        // TODO : à tester
     }
 }
