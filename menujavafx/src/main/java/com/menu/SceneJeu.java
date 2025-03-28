@@ -97,12 +97,15 @@ public class SceneJeu extends BorderPane {
         boolean showTimer = GameSettings.getInstance().isShowTimer();
         timeLabel.setVisible(showTimer);
         timeGroup.setVisible(showTimer);
+        timeGroup.setManaged(showTimer);
 
         // Création du label meilleur temps
         bestTimeLabel = new Label("MEILLEUR TEMPS : AUCUN");
         bestTimeLabel.setFont(BalooFont.setBalooSized(16));
         VBox bestScoreGroup = new VBox(bestTimeLabel);
         bestScoreGroup.setAlignment(Pos.CENTER);
+        bestScoreGroup.setVisible(showTimer);
+        bestScoreGroup.setManaged(showTimer);
     
         if(!libre){
             topBar.getChildren().addAll(
@@ -227,8 +230,6 @@ public class SceneJeu extends BorderPane {
         
         // Mettre à jour la visibilité du label
         timeLabel.setVisible(showTimer);
-
-        
         
         // Récupérer la barre du haut
         HBox topBar = (HBox) this.getTop();
