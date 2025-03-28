@@ -1,5 +1,7 @@
 package com.menu;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,17 +25,23 @@ public class Menu extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
-
+        stage = primaryStage;
 
         ButtonFactory.chargerNiveaux();
         BoxFactory.chargerEtoiles();
 
+        // Vérifier si le dossier existe
+        File projectRoot = new File(System.getProperty("user.dir"));
+        File slitherLinkDir = new File(projectRoot, ".slitherlinkGroup2");
 
-        stage=primaryStage;
-
-
+        // Afficher directement le menu
         showMenu();
+
+        // Si le dossier n'existe pas, lancer la vidéo après le menu
+        if (!slitherLinkDir.exists()) {
+            IntroVideoPlayer videoPlayer = new IntroVideoPlayer(stage, this::showMenu);
+            videoPlayer.showIntroVideo();
+        }
     }
 
     /**
