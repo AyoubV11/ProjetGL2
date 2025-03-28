@@ -58,23 +58,18 @@ public class Arete extends Case {
 
     public void pushAction(EnumEtat nouvelleEtat){
         Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
-        this.grille.getPileUndo().push(action);
-        this.grille.getPileRedo().clear();
-        if(!libre){
-            this.grille.sauvegarderProgression();
-        }
-        else{
-            this.grille.sauvegarderProgressionLibre();
-        }
         if(this.grille.enModeTatonnement()){
             this.grille.getPileUndoTatonnement().push(action);
             this.grille.getPileRedoTatonnement().clear();
         }else{
             this.grille.getPileUndo().push(action);
             this.grille.getPileRedo().clear();
-            
         }
-        this.grille.sauvegarderProgression();
+        if(!libre) 
+            this.grille.sauvegarderProgressionLibre();
+        else 
+            this.grille.sauvegarderProgression();
+        
     }
 
     /**
