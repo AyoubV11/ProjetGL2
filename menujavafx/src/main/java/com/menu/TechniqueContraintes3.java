@@ -27,7 +27,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c2 = ((Arete)g.getCase(c.getLigne()+5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+4, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT;
+                        c2 = ((Arete)g.getCase(c.getLigne()+6, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+4, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c2 = false;
@@ -62,7 +62,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c7 = ((Arete)g.getCase(c.getLigne()-5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-4, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT;
+                        c7 = ((Arete)g.getCase(c.getLigne()-6, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-4, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c7 = false;
@@ -102,7 +102,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c2 = ((Arete)g.getCase(c.getLigne()+5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+4, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT;
+                        c2 = ((Arete)g.getCase(c.getLigne()+6, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+4, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c2 = false;
@@ -137,7 +137,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c7 = ((Arete)g.getCase(c.getLigne()-5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-4, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT;
+                        c7 = ((Arete)g.getCase(c.getLigne()-6, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-5, c.getColonne())).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-4, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c7 = false;
@@ -177,7 +177,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c2 = ((Arete)g.getCase(c.getLigne(), c.getColonne()+5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()+4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).getEtat() == EnumEtat.TRAIT;
+                        c2 = ((Arete)g.getCase(c.getLigne()-1, c.getColonne()+6)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne(), c.getColonne()+5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()+4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c2 = false;
@@ -212,7 +212,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c7 = ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).getEtat() == EnumEtat.TRAIT;
+                        c7 = ((Arete)g.getCase(c.getLigne()-1, c.getColonne()-6)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c7 = false;
@@ -252,7 +252,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c2 = ((Arete)g.getCase(c.getLigne(), c.getColonne()+5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()+4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).getEtat() == EnumEtat.TRAIT;
+                        c2 = ((Arete)g.getCase(c.getLigne()+1, c.getColonne()+6)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne(), c.getColonne()+5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()+4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c2 = false;
@@ -287,7 +287,7 @@ public class TechniqueContraintes3 implements Technique {
                     }
 
                     try {
-                        c7 = ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()-4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).getEtat() == EnumEtat.TRAIT;
+                        c7 = ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-6)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()-4)).getEtat() == EnumEtat.TRAIT && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).getEtat() == EnumEtat.TRAIT;
                     }
                     catch(IndexOutOfBoundsException e) {
                         c7 = false;
@@ -317,6 +317,31 @@ public class TechniqueContraintes3 implements Technique {
                     if(((c1 || c2 || c3 || c4) && c5) || ((c6 || c7 || c8 || c9) && c10)) {
                         return true;
                     }
+                }
+                else {
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() != EnumEtat.TRAIT)) {
+                            return true;
+                        }
+                    }catch(IndexOutOfBoundsException e) {}
+
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check() && (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() != EnumEtat.TRAIT)) {
+                            return true;
+                        }
+                    }catch(IndexOutOfBoundsException e) {}
+
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() != EnumEtat.TRAIT)) {
+                            return true;
+                        }
+                    }catch(IndexOutOfBoundsException e) {}
+
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check() && !((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check() && (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() != EnumEtat.TRAIT)) {
+                            return true;
+                        }
+                    }catch(IndexOutOfBoundsException e) {}
                 }
             }
         }
