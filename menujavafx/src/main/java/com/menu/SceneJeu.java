@@ -177,15 +177,6 @@ public class SceneJeu extends BorderPane {
         return this.leftBox;
     }
 
-    private VBox createLabelOnly(String labelText) {
-        Label label = new Label(labelText);
-        label.setFont(BalooFont.setBalooSized(16));
-
-        VBox vBox = new VBox(label);
-        vBox.setAlignment(Pos.CENTER);
-        return vBox;
-    }
-
     private void openSettings(boolean libre) {
         // Arrêter le chronomètre
         grille.stopTimer();

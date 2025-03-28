@@ -16,7 +16,7 @@ public class TechniqueAvancee2 implements Technique {
     
     public boolean applicable() {
         Iterator<Chiffre> it = g.iteratorChiffres();
-        boolean d;
+        boolean d=false;
         while (it.hasNext()) {
             Chiffre c = it.next();
             if (c.getChiffre() == 3) {
@@ -31,28 +31,28 @@ public class TechniqueAvancee2 implements Technique {
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-5)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             return true;
                         }
@@ -71,28 +71,28 @@ public class TechniqueAvancee2 implements Technique {
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()-5, c.getColonne()+2)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             return true;
                         }
@@ -109,28 +109,28 @@ public class TechniqueAvancee2 implements Technique {
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+5)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             return true;
                         }
@@ -148,32 +148,32 @@ public class TechniqueAvancee2 implements Technique {
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             try{
                                 if(!((Arete)g.getCase(c.getLigne()+5, c.getColonne()-2)).check()){
                                     return false;
                                 }
                             }catch(IndexOutOfBoundsException e){
-                                d=true;
+                                d=false;
                             }
                             return true;
                         }
-                        return false;
+                        return d;
 
                         
                     }
@@ -181,7 +181,7 @@ public class TechniqueAvancee2 implements Technique {
         
             }
         }
-        return false;
+        return d;
     }
     
 
