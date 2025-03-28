@@ -271,7 +271,6 @@ public class AreteView extends Button {
             }
             else{
                 this.setEffect(TEINTE_DEFAULT);
-                System.out.println(effectProperty());
                 //supprimer l'effet
                 this.initColor();
             }
