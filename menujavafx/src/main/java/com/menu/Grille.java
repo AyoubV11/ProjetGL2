@@ -370,7 +370,7 @@ public class Grille {
     }
 
     public String getSauvegardePath(String type){
-        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        Path userDir = Paths.get(System.getProperty("user.dir"), ".slitherlinkGroup2");
         // verifier que le dossier existe, sinon le créer
         if(!Files.exists(userDir)){
             try {
@@ -384,7 +384,7 @@ public class Grille {
     }
 
     public static String getSettingsPath(){
-        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        Path userDir = Paths.get(System.getProperty("user.dir"), ".slitherlinkGroup2");
         // verifier que le dossier existe, sinon le créer
         if(!Files.exists(userDir)){
             try {
