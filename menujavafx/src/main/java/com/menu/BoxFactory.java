@@ -31,7 +31,7 @@ public class BoxFactory {
     public static void sauvegarderEtoiles() {
         try {
             objectMapper.writeValue(new File(FILE_PATH), listeBits);
-            System.out.println("Etoiles sauvegardées dans " + FILE_PATH);
+            // System.out.println("Etoiles sauvegardées dans " + FILE_PATH);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,7 +135,7 @@ public class BoxFactory {
         toggle.setOnAction(e -> {
             settings.setAutoCroix(toggle.isSelected());
             toggle.setText(toggle.isSelected() ? "ON" : "OFF");
-            System.out.println("Croix auto: " + (settings.isAutoCroix() ? "Activé" : "Désactivé"));
+            // System.out.println("Croix auto: " + (settings.isAutoCroix() ? "Activé" : "Désactivé"));
         });
         
         autoCrossToggle.getChildren().addAll(autoCrossLabel, toggle);

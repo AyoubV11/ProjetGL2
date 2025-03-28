@@ -302,7 +302,7 @@ public class Grille {
         Stack<Action> pileUndo = modeTatonnement ? this.pileUndoTatonnement : this.pileUndo;
         Stack<Action> pileRedo = modeTatonnement ? this.pileRedoTatonnement : this.pileRedo;
         if(!pileUndo.isEmpty()){
-            System.out.println("undo");
+            // System.out.println("undo");
             Action action = pileUndo.pop();
             Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
             a.setEtat(action.getEtatPrecedent());
@@ -314,7 +314,7 @@ public class Grille {
         Stack<Action> pileUndo = modeTatonnement ? this.pileUndoTatonnement : this.pileUndo;
         Stack<Action> pileRedo = modeTatonnement ? this.pileRedoTatonnement : this.pileRedo;
         if(!pileRedo.isEmpty()){
-            System.out.println("redo");
+            // System.out.println("redo");
             Action action = pileRedo.pop();
             Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
             a.setEtat(action.getEtat());
@@ -351,7 +351,7 @@ public class Grille {
             this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
             this.chargerPile(this.pileUndo);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
         }
     }
 
@@ -382,7 +382,7 @@ public class Grille {
                 a.setEtat(action.getEtat());
             }
         } catch (Exception e) {
-            System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
         }
     }
 
@@ -397,7 +397,7 @@ public class Grille {
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
             sceneJeu.setMeilleurTemps(tempsSauvegarde.getMeilleurTemps());
         } catch (Exception e){
-            System.out.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
         }
     }
 
@@ -419,7 +419,7 @@ public class Grille {
             OBJECT_MAPPER.writeValue(fichierProgression, this.pileUndo);
         }
         catch (Exception e){
-            System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
+            System.err.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
         }
     }
 
@@ -429,7 +429,7 @@ public class Grille {
             OBJECT_MAPPER.writeValue(fichierProgression, this.pileUndo);
         }
         catch (Exception e){
-            System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
+            System.err.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
         }
     }
 
@@ -439,7 +439,7 @@ public class Grille {
             OBJECT_MAPPER.writeValue(fichierTemps, this.tempsSauvegarde);
         }
         catch (Exception e){
-            System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
+            System.err.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
         }
     }
 

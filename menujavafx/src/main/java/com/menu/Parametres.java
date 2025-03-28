@@ -60,7 +60,7 @@ public class Parametres extends BorderPane {
         croixAutoToggle.setOnAction(e -> {
             settings.setAutoCroix(croixAutoToggle.isSelected());
             croixAutoToggle.setText(croixAutoToggle.isSelected() ? "ON" : "OFF");
-            System.out.println("Croix auto: " + (settings.isAutoCroix() ? "Activé" : "Désactivé"));
+            // System.out.println("Croix auto: " + (settings.isAutoCroix() ? "Activé" : "Désactivé"));
         });
         
         HBox croixAutoBox = new HBox(20, croixAutoLabel, croixAutoToggle);
@@ -84,7 +84,7 @@ public class Parametres extends BorderPane {
         afficherTempsToggle.setOnAction(e -> {
             settings.setShowTimer(afficherTempsToggle.isSelected());
             afficherTempsToggle.setText(afficherTempsToggle.isSelected() ? "ON" : "OFF");
-            System.out.println("Affichage temps: " + (settings.isShowTimer() ? "Activé" : "Désactivé"));
+            // System.out.println("Affichage temps: " + (settings.isShowTimer() ? "Activé" : "Désactivé"));
             
             // Mettre à jour directement l'interface si possible
             if (sceneJeu != null) {

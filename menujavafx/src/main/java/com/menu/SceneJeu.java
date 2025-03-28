@@ -147,15 +147,16 @@ public class SceneJeu extends BorderPane {
         restartButton.setOnAction(e -> {grille.clear(libre); leftBox.update();});
 
         validateButton.setOnAction(e -> {
-            System.out.println("Validation de la grille");
-            if (grille.resolue()) {
-                System.out.println("-Grille résolue");
-            } else {
-                System.out.println("-Grille non résolue");
-            }
+            // System.out.println("Validation de la grille");
+            // if (grille.resolue()) {
+            //     System.out.println("-Grille résolue");
+            // } else {
+            //     System.out.println("-Grille non résolue");
+            // }
 
-            int erreurs = grille.check();
-            System.out.println("--" + erreurs + " aretes incorrectes");
+            // int erreurs = grille.check();
+            // System.out.println("--" + erreurs + " aretes incorrectes");
+            
             grille.retablirEtatValide();
             leftBox.update();
         });
@@ -276,15 +277,15 @@ public class SceneJeu extends BorderPane {
             restartButton.setOnAction(e -> {grille.clear(libre); leftBox.update();});
 
             validateButton.setOnAction(e -> {
-                System.out.println("Validation de la grille");
-                if (grille.resolue()) {
-                    System.out.println("-Grille résolue");
-                } else {
-                    System.out.println("-Grille non résolue");
-                }
+                // System.out.println("Validation de la grille");
+                // if (grille.resolue()) {
+                //     System.out.println("-Grille résolue");
+                // } else {
+                //     System.out.println("-Grille non résolue");
+                // }
 
-                int erreurs = grille.check();
-                System.out.println("--" + erreurs + " aretes incorrectes");
+                // int erreurs = grille.check();
+                // System.out.println("--" + erreurs + " aretes incorrectes");
                 grille.retablirEtatValide();
                 leftBox.update();
             });

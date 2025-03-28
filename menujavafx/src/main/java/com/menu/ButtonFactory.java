@@ -27,7 +27,7 @@ public class ButtonFactory {
     public static void sauvegarderNiveaux() {
         try {
             objectMapper.writeValue(new File(FILE_PATH), unlockedLevel);
-            System.out.println("Niveaux sauvegardées dans " + FILE_PATH);
+            // System.out.println("Niveaux sauvegardées dans " + FILE_PATH);
         } catch (IOException e) {
             e.printStackTrace();
         }

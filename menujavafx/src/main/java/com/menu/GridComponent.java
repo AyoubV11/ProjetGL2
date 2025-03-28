@@ -156,7 +156,7 @@ public class GridComponent {
                 hostServices.showDocument("https://www.conceptispuzzles.com/index.aspx?uri=puzzle/slitherlink/techniques");
             } catch (Exception ex) {
                 // Gérer les exceptions
-                System.out.println("Erreur lors de l'ouverture du lien: " + ex.getMessage());
+                System.err.println("Erreur lors de l'ouverture du lien: " + ex.getMessage());
             }
         });
         VBox summaryBox = new VBox(5, summaryLabel, summaryLink);
