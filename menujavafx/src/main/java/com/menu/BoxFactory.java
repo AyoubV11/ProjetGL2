@@ -385,6 +385,9 @@ public class BoxFactory {
         Button validerTatonnementButton = ButtonFactory.createAnimatedButtonWithFontSize("Confirmer",17);
 
 
+        annulerTatonnementButton.setDisable(true);
+        validerTatonnementButton.setDisable(true);
+        
         tatonnementButton.setOnAction(e -> {
             grille.activerTatonnement();
             tatonnementButton.setDisable(true);
