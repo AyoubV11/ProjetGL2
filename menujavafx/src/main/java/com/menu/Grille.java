@@ -364,7 +364,6 @@ public class Grille {
         for(Action action : pile){
             Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
             a.setEtat(action.getEtat());
-
         }
     }
     
@@ -377,6 +376,7 @@ public class Grille {
                 return;
             }
             this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
+            this.chargerPile(this.pileUndo);
             for(Action action : this.pileUndo){
                 Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
                 a.setEtat(action.getEtat());

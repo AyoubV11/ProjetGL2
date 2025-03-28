@@ -28,6 +28,7 @@ public class SceneJeu extends BorderPane {
     private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
     private int currentlevel;
     private VBox rightBox;
+    private VBox tatonnementBox;
 
     public SceneJeu(Stage stage, Menu menu, int niveau,boolean libre) {
         this.menu = menu;
@@ -83,9 +84,6 @@ public class SceneJeu extends BorderPane {
         Button leftArrow = ButtonFactory.createAnimatedButton("<-");      // < au lieu de ←
         Button rightArrow = ButtonFactory.createAnimatedButton("->");     // > au lieu de →
         Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");  
-        Button tatonnementButton = ButtonFactory.createAnimatedButton("T");  
-        Button annulerTatonnementButton = ButtonFactory.createAnimatedButton("Annuler");  
-        Button validerTatonnementButton = ButtonFactory.createAnimatedButton("Valider");
         
         
         timeLabel = new Label("TEMPS : 00:00:00");
@@ -110,15 +108,13 @@ public class SceneJeu extends BorderPane {
             topBar.getChildren().addAll(
                 restartButton, helpButton, validateButton,
                 timeGroup, bestScoreGroup,
-                leftArrow, rightArrow, settingButton,
-                tatonnementButton, annulerTatonnementButton, validerTatonnementButton
+                leftArrow, rightArrow, settingButton
             );
         }
         else{
             topBar.getChildren().addAll(
                 restartButton, helpButton, validateButton,
-                leftArrow, rightArrow, settingButton,
-                tatonnementButton, annulerTatonnementButton, validerTatonnementButton
+                leftArrow, rightArrow, settingButton
             );
         }
 
@@ -135,10 +131,12 @@ public class SceneJeu extends BorderPane {
         leftBox.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
 
         rightBox = BoxFactory.createHelpButtonBox(grille.getListeAides(), primaryStage, grille);
+
+        tatonnementBox= BoxFactory.createLeftBox(primaryStage, grille,this,validateButton);
         
         // Ajout de boutons dans le panneau de droite
 
-        boxes = new HBox(50, leftBox, rightBox); 
+        boxes = new HBox(50,tatonnementBox, leftBox, rightBox); 
         boxes.setAlignment(Pos.CENTER);
 
         centerPane.getChildren().add(boxes);
@@ -169,39 +167,14 @@ public class SceneJeu extends BorderPane {
         helpButton.setOnAction(e -> {
             grille.aide(libre);
         });
-   
-        annulerTatonnementButton.setDisable(true);
-        validerTatonnementButton.setDisable(true);
-
-        tatonnementButton.setOnAction(e -> {
-            grille.activerTatonnement();
-            tatonnementButton.setDisable(true);
-            annulerTatonnementButton.setDisable(false);
-            validerTatonnementButton.setDisable(false);
-        });
-
-        annulerTatonnementButton.setOnAction(e -> {
-            grille.annulerTatonnement();
-            tatonnementButton.setDisable(false);
-            annulerTatonnementButton.setDisable(true);
-            validerTatonnementButton.setDisable(true);
-            this.leftBox.update();
-            this.leftBox.initColorArete();
-            
-        });
-
-        validerTatonnementButton.setOnAction(e -> {
-            grille.validerTatonnement();
-            tatonnementButton.setDisable(false);
-            annulerTatonnementButton.setDisable(true);
-            validerTatonnementButton.setDisable(true);
-            this.leftBox.update();
-            this.leftBox.initColorArete();
-        });
 
         if (!libre) {
             runTimer();
         }
+    }
+
+    public GrilleController getleftBox(){
+        return this.leftBox;
     }
 
     private VBox createLabelOnly(String labelText) {

@@ -375,4 +375,48 @@ public class BoxFactory {
         return box;
     }
 
+    public static VBox createLeftBox(Stage primaryStage, Grille grille,SceneJeu jeu,Button bouton){
+        VBox box = new VBox(10);
+        box.setPadding(new Insets(10));
+        box.setPrefSize(125, 300);
+        box.setAlignment(Pos.CENTER);
+        Button tatonnementButton = ButtonFactory.createAnimatedButtonWithFontSize("Hypothèse",17);
+        Button annulerTatonnementButton = ButtonFactory.createAnimatedButtonWithFontSize("Annuler",17);
+        Button validerTatonnementButton = ButtonFactory.createAnimatedButtonWithFontSize("Confirmer",17);
+
+
+        tatonnementButton.setOnAction(e -> {
+            grille.activerTatonnement();
+            tatonnementButton.setDisable(true);
+            annulerTatonnementButton.setDisable(false);
+            bouton.setDisable(true);
+            validerTatonnementButton.setDisable(false);
+        });
+
+        annulerTatonnementButton.setOnAction(e -> {
+            grille.annulerTatonnement();
+            tatonnementButton.setDisable(false);
+            annulerTatonnementButton.setDisable(true);
+            validerTatonnementButton.setDisable(true);
+            bouton.setDisable(false);
+            jeu.getleftBox().update();
+            jeu.getleftBox().initColorArete();
+            
+        });
+
+        validerTatonnementButton.setOnAction(e -> {
+            grille.validerTatonnement();
+            tatonnementButton.setDisable(false);
+            annulerTatonnementButton.setDisable(true);
+            validerTatonnementButton.setDisable(true);
+            bouton.setDisable(false);
+            jeu.getleftBox().update();
+            jeu.getleftBox().initColorArete();
+        });
+
+        box.getChildren().addAll(tatonnementButton,annulerTatonnementButton,validerTatonnementButton);
+
+        return box;
+    }
+
 }
