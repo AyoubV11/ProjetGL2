@@ -18,7 +18,7 @@ public class Parametres extends BorderPane {
     public SceneJeu sceneJeu;
 
     
-    public Parametres(Stage paramStage, Stage mainStage, SceneJeu sceneJeu) {
+    public Parametres(Stage paramStage, Stage mainStage, SceneJeu sceneJeu,boolean libre) {
         // Stocker la référence au stage principal
         this.primaryStage = mainStage;
         this.sceneJeu = sceneJeu;
@@ -66,10 +66,12 @@ public class Parametres extends BorderPane {
         HBox croixAutoBox = new HBox(20, croixAutoLabel, croixAutoToggle);
         croixAutoBox.setAlignment(Pos.CENTER);
         
-        Label afficherTempsLabel = new Label("Afficher temps :");
+        Label afficherTempsLabel;
+        afficherTempsLabel = new Label("Afficher temps :");
         afficherTempsLabel.setFont(BalooFont.setBalooSized(18));
         
-        ToggleButton afficherTempsToggle = new ToggleButton(settings.isShowTimer() ? "ON" : "OFF");
+        ToggleButton afficherTempsToggle;
+        afficherTempsToggle = new ToggleButton(settings.isShowTimer() ? "ON" : "OFF");
         afficherTempsToggle.setFont(BalooFont.setBalooSized(18));
         afficherTempsToggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
         afficherTempsToggle.setSelected(settings.isShowTimer());
@@ -87,14 +89,15 @@ public class Parametres extends BorderPane {
             // Mettre à jour directement l'interface si possible
             if (sceneJeu != null) {
                 // Appel de la méthode de mise à jour de l'interface
-                sceneJeu.updateTimerVisibility();
+                sceneJeu.updateTimerVisibility(libre);
                 
                 // Force le rafraîchissement de l'interface pour appliquer les changements
                 sceneJeu.requestLayout();
             }
         });
         
-        HBox afficherTempsBox = new HBox(20, afficherTempsLabel, afficherTempsToggle);
+        HBox afficherTempsBox;
+        afficherTempsBox = new HBox(20, afficherTempsLabel, afficherTempsToggle);
         afficherTempsBox.setAlignment(Pos.CENTER);
         
         // Créer un bouton de retour animé cohérent avec le style du jeu
@@ -125,15 +128,25 @@ public class Parametres extends BorderPane {
         buttonsBox.setAlignment(Pos.CENTER);
         buttonsBox.getChildren().addAll(returnButton, mainMenuButton);
         
-        // Organisation des éléments
-        VBox settingsBox = BoxFactory.createStyledBox(400, 400); // Hauteur augmentée pour voir tous les éléments
-        settingsBox.getChildren().addAll(
-            title,
-            volumeBox,
-            croixAutoBox,
-            afficherTempsBox,
-            buttonsBox
-        );
+        VBox settingsBox;
+        if(!libre){
+            settingsBox = BoxFactory.createStyledBox(400, 400); // Hauteur augmentée pour voir tous les éléments
+            settingsBox.getChildren().addAll(
+                title,
+                volumeBox,
+                croixAutoBox,
+                afficherTempsBox,
+                buttonsBox
+            );
+        }else{
+            settingsBox = BoxFactory.createStyledBox(400, 400); // Hauteur augmentée pour voir tous les éléments
+            settingsBox.getChildren().addAll(
+                title,
+                volumeBox,
+                croixAutoBox,
+                buttonsBox
+            );
+        }
         
         this.setCenter(settingsBox);
         

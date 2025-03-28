@@ -1,5 +1,7 @@
 package com.menu;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,17 +25,23 @@ public class Menu extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
-
+        stage = primaryStage;
 
         ButtonFactory.chargerNiveaux();
         BoxFactory.chargerEtoiles();
 
+        // Vérifier si le dossier existe
+        File projectRoot = new File(System.getProperty("user.dir"));
+        File slitherLinkDir = new File(projectRoot, ".slitherlinkGroup2");
 
-        stage=primaryStage;
-
-
+        // Afficher directement le menu
         showMenu();
+
+        // Si le dossier n'existe pas, lancer la vidéo après le menu
+        if (!slitherLinkDir.exists()) {
+            IntroVideoPlayer videoPlayer = new IntroVideoPlayer(stage, this::showMenu);
+            videoPlayer.showIntroVideo();
+        }
     }
 
     /**
@@ -98,11 +106,19 @@ public class Menu extends Application {
         gridComponent.showTechniquesGrid();
     }
 
+    public void showFree(int nv_libre){
+        Parent gameInterface = new SceneJeu(stage, this, nv_libre,true);
+        StackPane root = setupBackground();
+        root.getChildren().add(gameInterface);
+        Scene scene2 = new Scene(root, 1006, 595);
+        stage.setScene(scene2);
+    }
+
     /**
      * Affiche le jeu.
      */
     public void showGame(int niveau) {
-        Parent gameInterface = new SceneJeu(stage, this, niveau);
+        Parent gameInterface = new SceneJeu(stage, this, niveau,false);
         StackPane root = setupBackground();
         root.getChildren().add(gameInterface);
         Scene scene2 = new Scene(root, 1006, 595);

@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 
 public class GrilleController extends GridPane {
     private Grille grille;

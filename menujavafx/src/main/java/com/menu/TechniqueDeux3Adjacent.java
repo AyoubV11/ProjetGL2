@@ -9,7 +9,7 @@ public class TechniqueDeux3Adjacent implements Technique {
     }
 
     public String afficherAide() {
-        return("Technique deux 3 adjacent applicable");
+        return("Technique deux 3 adjacent applicable: \n\n Si deux 3 sont à côté, il faut placer des traits comme sur l'image.");
     }
 
     public boolean applicable() {

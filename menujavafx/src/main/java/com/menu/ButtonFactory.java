@@ -64,6 +64,29 @@ public class ButtonFactory {
         return button;
     }
 
+    /** 
+     * Crée un bouton contenant un texte blanc sur fond noir, qui grossit quand on clique dessus et qui s'éclaircit lorsque la souris passe dessus.
+     * Avec une taille définie.
+     * @param text le texte affiché dans le bouton.
+     * @param size la taille de la police du texte.
+     * @return Button le bouton créé.
+     */
+    public static Button createAnimatedButtonWithFontSize(String text, int size) {
+        Button button = new Button(text);
+        button.setFont(BalooFont.setBalooSized(size));
+        button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+
+        // Animation au survol
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+
+        // Animation au clic
+        button.setOnMousePressed(e -> animateButton(button, 1.1));
+        button.setOnMouseReleased(e -> animateButton(button, 1.0));
+
+        return button;
+    }
+
     
     
     /** 

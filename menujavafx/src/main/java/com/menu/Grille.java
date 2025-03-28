@@ -2,7 +2,7 @@ package com.menu;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import javafx.scene.paint.Color;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
@@ -10,6 +10,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,7 +44,7 @@ public class Grille {
     private boolean modeTatonnement;
     private int nbActionsTatonnement;
 
-    public Grille(String fichier, SceneJeu sceneJeu) {
+    public Grille(String fichier, SceneJeu sceneJeu,boolean libre) {
         this.initialiserAides();
         try {
             // Charger le JSON
@@ -52,9 +53,22 @@ public class Grille {
             this.name = fichier.split("\\.")[0];
             this.sceneJeu = sceneJeu;
 
-            File fichierJSON = new File(getResourceFilePath(fichier));
+            GrilleJson grilleJson;
 
-            GrilleJson grilleJson = OBJECT_MAPPER.readValue(fichierJSON, GrilleJson.class);
+            if(!libre){
+                InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("grilles/"+fichier);
+                if (inputStream == null) {
+                    throw new IOException("Resource not found: grilles/" + fichier);
+                }
+                grilleJson = OBJECT_MAPPER.readValue(inputStream, GrilleJson.class);
+            }
+            else{
+                InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("grilles_libre/"+fichier);
+                if (inputStream == null) {
+                    throw new IOException("Resource not found: grilles/" + fichier);
+                }
+                grilleJson = OBJECT_MAPPER.readValue(inputStream, GrilleJson.class);
+            }
 
             // Affectation des dimensions spécifiées à la grille
             this.nbLignes = grilleJson.getLigne() * 2 + 1;
@@ -66,7 +80,7 @@ public class Grille {
             for(int i = 0; i < this.nbLignes; i++){
                 for(int j = 0; j < this.nbColonnes; j++){
                     if(i%2 == 0 && j%2 == 0) this.cases[i][j] = new Point(i, j, this);
-                    else if(i%2 == 0 || (i%2 == 1 && j%2 == 0)) this.cases[i][j] = new Arete(i,j,this,EnumEtat.VIDE);
+                    else if(i%2 == 0 || (i%2 == 1 && j%2 == 0)) this.cases[i][j] = new Arete(i,j,this,EnumEtat.VIDE,libre);
                     else this.cases[i][j] = new Chiffre(i, j, this);
                 }
             }
@@ -75,16 +89,18 @@ public class Grille {
             this.ajouterChiffres(grilleJson.getAjoutChiffres());
             this.ajouterAretesGrilleResolue(grilleJson.getAretesGrilleResolue());
             
-            this.charger();
+            this.charger(libre);
 
-            this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-                this.tempsSauvegarde.incrementerTemps();
-                sceneJeu.setTemps(this.tempsSauvegarde.getTemps());
-                this.sauvegarderTemps();
-            }));
-            this.timer.setCycleCount(Timeline.INDEFINITE);
+            if(!libre){
+                this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                    this.tempsSauvegarde.incrementerTemps();
+                    sceneJeu.setTemps(this.tempsSauvegarde.getTemps());
+                    this.sauvegarderTemps();
+                }));
+                this.timer.setCycleCount(Timeline.INDEFINITE);
+            }
 
-            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this), new TechniqueDeux3Diagonal(this), new TechniqueContraintes3(this), new TechniqueNombreCoin(this),new TechniqueBoucleSur3(this));  
+            Collections.addAll(techniques, new TechniqueAutour0(this), new Technique0Adjacent3(this), new Technique0Diagonal3(this), new TechniqueDeux3Adjacent(this), new TechniqueDeux3Diagonal(this), new TechniqueNombreCoin(this), new TechniqueContraintes3(this), new TechniqueBoucleSur3(this), new TechniqueBoucleSur1(this), new TechniqueAvancee6(this),new TechniqueAvancee2(this), new TechniqueAvancee5(this));  
 
         } catch (IOException e) {
             System.out.println("Erreur lors de la lecture du fichier JSON : " + e.getMessage());
@@ -306,7 +322,7 @@ public class Grille {
         }
     }
 
-    public void clear(){
+    public void clear(boolean libre){
         Iterator<Arete> itAretes = this.iteratorAretes();
         while(itAretes.hasNext()){
             Arete a = itAretes.next();
@@ -314,7 +330,12 @@ public class Grille {
         }
         this.pileUndo.clear();
         this.pileRedo.clear();
-        this.sauvegarderProgression();
+        if(!libre){
+            this.sauvegarderProgression();
+        }
+        else{
+            this.sauvegarderProgressionLibre();
+        }
     }
 
     private void chargerProgression(){
@@ -343,6 +364,24 @@ public class Grille {
         for(Action action : pile){
             Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
             a.setEtat(action.getEtat());
+
+        }
+    }
+    private void chargerProgressionLibre(){
+        try {
+            File fichierProgression = new File(getSauvegardePath("progress_libre"));
+            this.pileUndo = new Stack<Action>();
+            this.pileRedo = new Stack<Action>();
+            if (!fichierProgression.exists()) {
+                return;
+            }
+            this.pileUndo = OBJECT_MAPPER.readValue(fichierProgression, new TypeReference<Stack<Action>>(){});
+            for(Action action : this.pileUndo){
+                Arete a = (Arete) this.getCase(action.getLigne(), action.getColonne());
+                a.setEtat(action.getEtat());
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la lecture du fichier JSON de progression : " + e.getMessage());
         }
     }
 
@@ -350,25 +389,42 @@ public class Grille {
         try{
             File fichierTemps = new File(getSauvegardePath("time"));
             if (!fichierTemps.exists()) {
-                this.tempsSauvegarde = new TempsSauvegarde(0,0);
+                this.tempsSauvegarde = new TempsSauvegarde(0,-1);
                 return;
             }
             tempsSauvegarde = OBJECT_MAPPER.readValue(fichierTemps, TempsSauvegarde.class);
             sceneJeu.setTemps(tempsSauvegarde.getTemps());
+            sceneJeu.setMeilleurTemps(tempsSauvegarde.getMeilleurTemps());
         } catch (Exception e){
             System.out.println("Erreur lors de la lecture du fichier JSON de temps : " + e.getMessage());
         }
     }
 
-    public void charger(){
-        this.chargerProgression();
-        this.chargerTemps();
-        this.chargerAides();
+    public void charger(boolean libre){
+        if(!libre){
+            this.chargerProgression();
+            this.chargerTemps();
+            this.chargerAides();
+        }
+        else{
+            this.chargerProgressionLibre();
+            this.chargerAidesLibre();
+        }
     }
 
     public void sauvegarderProgression(){
         try{
             File fichierProgression = new File(getSauvegardePath("progress"));
+            OBJECT_MAPPER.writeValue(fichierProgression, this.pileUndo);
+        }
+        catch (Exception e){
+            System.out.println("Erreur lors de la sauvegarde du fichier JSON : " + e.getMessage());
+        }
+    }
+
+    public void sauvegarderProgressionLibre(){
+        try{
+            File fichierProgression = new File(getSauvegardePath("progress_libre"));
             OBJECT_MAPPER.writeValue(fichierProgression, this.pileUndo);
         }
         catch (Exception e){
@@ -387,17 +443,23 @@ public class Grille {
     }
 
     public void updateMeilleurTemps(){
-        if(tempsSauvegarde.getTemps() < tempsSauvegarde.getMeilleurTemps() || tempsSauvegarde.getMeilleurTemps() == 0){
+        if(tempsSauvegarde.getTemps() < tempsSauvegarde.getMeilleurTemps() || tempsSauvegarde.getMeilleurTemps() == -1){
             tempsSauvegarde.setMeilleurTemps(tempsSauvegarde.getTemps());
         }
     }
 
-    public String getResourceFilePath(String fichier){
-        return this.getClass().getClassLoader().getResource("grilles/"+fichier).getPath();
+    public String getResourceFilePath(String fichier)throws IOException{
+        var resourceUrl = this.getClass().getClassLoader().getResource("grilles/"+fichier);
+        if (resourceUrl == null) {
+            throw new IOException("Resource not found: grilles/" + fichier);
+        }
+        
+        // Return the URL as a string, don't convert to path
+        return resourceUrl.toString();
     }
 
     public String getSauvegardePath(String type){
-        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        Path userDir = Paths.get(System.getProperty("user.dir"), ".slitherlinkGroup2");
         // verifier que le dossier existe, sinon le créer
         if(!Files.exists(userDir)){
             try {
@@ -411,7 +473,7 @@ public class Grille {
     }
 
     public static String getSettingsPath(){
-        Path userDir = Paths.get(System.getProperty("user.home"), ".slitherlinkGroup2");
+        Path userDir = Paths.get(System.getProperty("user.dir"), ".slitherlinkGroup2");
         // verifier que le dossier existe, sinon le créer
         if(!Files.exists(userDir)){
             try {
@@ -431,13 +493,19 @@ public class Grille {
     }
 
 
+   
+
     public void runTimer() {
-        timer.play();
+        if (timer != null) {
+            timer.play();
+        }
     }
 
 
     public void stopTimer() {
-        timer.stop();
+        if (timer != null) {
+            timer.stop();
+        }
     }
 
 
@@ -467,9 +535,34 @@ public class Grille {
         }
     }
 
+    private void chargerAidesLibre(){
+        try{
+            File fichierAides = new File(getSauvegardePath("aides_libre"));
+            if (!fichierAides.exists()) {
+                this.initialiserAides();
+                return;
+            }
+
+            this.listeAides = OBJECT_MAPPER.readValue(fichierAides, boolean[].class);
+
+        } catch (Exception e ) {
+            System.out.println("Erreur lors du chargement des aides");
+            this.initialiserAides();
+        }
+    }
+
     public void sauvegarderAides(){
         try{
             File fichierAides = new File(getSauvegardePath("aides"));
+            OBJECT_MAPPER.writeValue(fichierAides, this.listeAides);
+        } catch (Exception e){
+            System.out.println("Erreur lors de la sauvegarde des aides");
+        }
+    }
+
+    public void sauvegarderAidesLibre(){
+        try{
+            File fichierAides = new File(getSauvegardePath("aides_libre"));
             OBJECT_MAPPER.writeValue(fichierAides, this.listeAides);
         } catch (Exception e){
             System.out.println("Erreur lors de la sauvegarde des aides");
@@ -481,14 +574,19 @@ public class Grille {
     }
 
 
-    public void aide() {
+    public void aide(boolean libre) {
         int i=1;
         for(Technique t : techniques) {
             if(t.applicable()) {
                 BoxFactory.showTechnique(i,  sceneJeu.getPrimaryStage(),t);
                 if (!listeAides[i-1]){
                     listeAides[i-1]=true;
-                    this.sauvegarderAides();
+                    if(!libre){
+                        this.sauvegarderAides();
+                    }
+                    else{
+                        this.sauvegarderAidesLibre();
+                    }
                     sceneJeu.setRightBox(BoxFactory.createHelpButtonBox(listeAides, sceneJeu.getPrimaryStage(), this));
                 }
                 break;
@@ -523,6 +621,8 @@ public class Grille {
         this.pileUndo = this.pileUndoTatonnement;
         this.pileRedo = this.pileRedoTatonnement;
         this.sauvegarderProgression();
-        // TODO : à tester
     }
 }
+
+
+

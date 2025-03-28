@@ -90,14 +90,23 @@ public class GridComponent {
             switch(i){
                 case 1:button = ButtonFactory.createSkullButton("Facile", 0, i, imagePath, imagePath2);
                     button.setPrefWidth(200);
+                    button.setOnAction(e -> {
+                        menu.showFree(1);
+                    });
                     gridPane.add(button, 0, i);
                     break;
                 case 2:button = ButtonFactory.createSkullButton("Moyen", 0, i, imagePath, imagePath2);
                     button.setPrefWidth(200);
+                    button.setOnAction(e -> {
+                        menu.showFree(2);
+                    });
                     gridPane.add(button, 0, i);
                     break;
                 case 3:button = ButtonFactory.createSkullButton("Difficile", 0, i, imagePath, imagePath2);
                     button.setPrefWidth(200);
+                    button.setOnAction(e -> {
+                        menu.showFree(3);
+                    });
                     gridPane.add(button, 0, i);
                     break;
             }
@@ -125,7 +134,7 @@ public class GridComponent {
             ImageView imageView = new ImageView(image);
 
             // Ajuster la taille de l'image si nécessaire
-            imageView.setFitWidth(1264*0.5);  // Ajuster la largeur de l'image
+            imageView.setFitWidth(1264*0.545);  // Ajuster la largeur de l'image
             imageView.setPreserveRatio(true); // Maintenir le ratio de l'image
 
             // Ajouter l'ImageView au VBox

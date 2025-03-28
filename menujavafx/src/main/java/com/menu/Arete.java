@@ -11,6 +11,8 @@ import java.util.List;
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
     protected boolean estUneAreteDeLaGrilleResolue;
+    protected boolean libre;
+    protected SoundPlayer sound = new SoundPlayer();
 
     /**
      * Constructeur de l'arête avec tous les paramètres.
@@ -20,10 +22,11 @@ public class Arete extends Case {
      * @param grille La grille à laquelle l'arête appartient
      * @param etat L'état initial de l'arête
      */
-    public Arete(int ligne, int colonne, Grille grille, EnumEtat etat) {
+    public Arete(int ligne, int colonne, Grille grille, EnumEtat etat,boolean libre) {
         super(ligne, colonne, grille);
         this.etat = etat;
         this.estUneAreteDeLaGrilleResolue = false;
+        this.libre=libre;
     }
 
     /**
@@ -33,6 +36,15 @@ public class Arete extends Case {
      */
     public EnumEtat getEtat() {
         return this.etat;
+    }
+
+    /**
+     * Récupère si on est dans le mode libre.
+     * 
+     * @return Fais partis d'une grille libre ou non
+     */
+    public boolean getLibre() {
+        return this.libre;
     }
     
 
@@ -46,8 +58,14 @@ public class Arete extends Case {
 
     public void pushAction(EnumEtat nouvelleEtat){
         Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
-
-        
+        this.grille.getPileUndo().push(action);
+        this.grille.getPileRedo().clear();
+        if(!libre){
+            this.grille.sauvegarderProgression();
+        }
+        else{
+            this.grille.sauvegarderProgressionLibre();
+        }
         if(this.grille.enModeTatonnement()){
             this.grille.getPileUndoTatonnement().push(action);
             this.grille.getPileRedoTatonnement().clear();
@@ -64,24 +82,26 @@ public class Arete extends Case {
      * 
      * @return true si le trait peut être posé, false sinon
      */
-    public boolean setTrait(Boolean croix) {
-        if(!croix){
-            this.pushAction(EnumEtat.TRAIT);
-            this.etat = EnumEtat.TRAIT;
-            return true;
-        }
-        else{
-            if(this.check()){
-                this.pushAction(EnumEtat.TRAIT);
-                this.etat = EnumEtat.TRAIT;
-                return true;
-            }else {
-                this.pushAction(EnumEtat.CROIX);
-                this.etat = EnumEtat.CROIX;
-            }
-        }
-        return false;
+    public boolean setTrait(boolean croix) {
+    EnumEtat nouvelEtat;
+
+    if (!croix || this.check()) {
+        nouvelEtat = EnumEtat.TRAIT;
+    } else {
+        nouvelEtat = EnumEtat.CROIX;
     }
+
+    this.pushAction(nouvelEtat);
+    this.etat = nouvelEtat;
+
+    // Jouer le son uniquement si on place un trait
+    if (nouvelEtat == EnumEtat.TRAIT) {
+        sound.bruitDeClique();
+    }
+
+    return nouvelEtat == EnumEtat.TRAIT;
+}
+
 
     public List<Arete> getAretesConnectees() {
         ArrayList<Arete> aretesConnectees = new ArrayList<Arete>();

@@ -249,6 +249,29 @@ public class BoxFactory {
         return star;
     }
 
+    public static VBox createFinishBox(SceneJeu scene,String message){
+        VBox finishBox = BoxFactory.createStyledBox(450, 250);
+        finishBox.setSpacing(30);
+
+        // Texte de victoire stylisé avec la police Baloo
+        Label finishText = new Label(message);
+        finishText.setFont(BalooFont.setBalooSized(48));
+
+        // Créer un bouton pour retourner au menu
+        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
+        retourMenuButton.setPrefWidth(200);
+        retourMenuButton.setOnAction(e -> {
+            scene.getMenu().showMenu();
+        });
+
+        // Ajouter les éléments à la boîte de victoire
+        finishBox.getChildren().addAll(finishText,retourMenuButton);
+
+        return finishBox;
+
+
+    }
+
     public static VBox createVictoryBox(SceneJeu scene, int niveau, String pathCompleted, String pathUncompleted){
         VBox victoryBox = BoxFactory.createStyledBox(450, 450);
         victoryBox.setSpacing(30);
@@ -310,6 +333,8 @@ public class BoxFactory {
         horizontalbox.setMaxWidth(500);
         horizontalbox.setPadding(new Insets(10));
         ImageView technique_image = new ImageView(new Image("/images_techniques/technique_image_" + i + ".png"));
+        technique_image.setFitWidth(200);
+        technique_image.setFitHeight(200);
 
         Label texteAide = new Label(t.afficherAide());
         texteAide.setWrapText(true);
@@ -330,14 +355,14 @@ public class BoxFactory {
     public static VBox createHelpButtonBox(boolean[] listeAides, Stage primaryStage, Grille grille){
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
-        box.setPrefSize(175, 300);
+        box.setPrefSize(125, 300);
         box.setStyle("-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: black;");
         box.setAlignment(Pos.TOP_CENTER);
         int i=1;
         for(Technique t : grille.techniques) {
             final int index=i;
             if (listeAides[i-1]){
-                Button bouton = ButtonFactory.createAnimatedButton("TECHNIQUE " + i);
+                Button bouton = ButtonFactory.createAnimatedButtonWithFontSize("TECHNIQUE " + i,13);
                 bouton.setOnAction(e -> {
                     showTechnique(index,primaryStage,t);
                 });
