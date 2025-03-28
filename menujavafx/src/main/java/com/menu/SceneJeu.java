@@ -329,8 +329,6 @@ public class SceneJeu extends BorderPane {
         grille.stopTimer();
         grille.updateMeilleurTemps();
 
-        grille.initialiserAides();
-        grille.sauvegarderAides();
         // //attendre une demi seconde pour voir la grille résolue
         // try {Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
 
@@ -339,6 +337,11 @@ public class SceneJeu extends BorderPane {
         if(grille.nbAides()<=2){
             BoxFactory.majListeBits(this.currentlevel-1, 2);
         }
+
+        // Reset Aides utilisées
+        grille.initialiserAides();
+        grille.sauvegarderAides();
+
         int time = this.grille.tempsSauvegarde.getTemps();
         if(time<=180){
             BoxFactory.majListeBits(this.currentlevel-1, 3);
