@@ -29,11 +29,11 @@ public class SceneJeu extends BorderPane {
     private int currentlevel;
     private VBox rightBox;
 
-    public SceneJeu(Stage stage, Menu menu, int niveau) {
+    public SceneJeu(Stage stage, Menu menu, int niveau,boolean libre) {
         this.menu = menu;
         this.primaryStage = stage;
         this.currentlevel = niveau;
-        setupInterface();
+        setupInterface(libre);
     }
 
     public Stage getPrimaryStage(){
@@ -66,7 +66,7 @@ public class SceneJeu extends BorderPane {
     }
         
 
-    private void setupInterface() {
+    private void setupInterface(boolean libre) {
         topBar = new HBox(20);
         topBar.setPadding(new Insets(10));
         topBar.setAlignment(Pos.CENTER);
@@ -79,10 +79,10 @@ public class SceneJeu extends BorderPane {
         Button rightArrow = ButtonFactory.createAnimatedButton("->");     // > au lieu de →
         Button settingButton = ButtonFactory.createAnimatedButton("Paramètres");  // P pour Paramètres
         
-
+        
         timeLabel = new Label("TEMPS : 00:00:00");
         timeLabel.setFont(BalooFont.setBalooSized(16));
-        
+
         // Créer le groupe pour le chronomètre
         VBox timeGroup = new VBox(timeLabel);
         timeGroup.setAlignment(Pos.CENTER);
@@ -91,19 +91,27 @@ public class SceneJeu extends BorderPane {
         boolean showTimer = GameSettings.getInstance().isShowTimer();
         timeLabel.setVisible(showTimer);
         timeGroup.setVisible(showTimer);
+    
         
-
-        topBar.getChildren().addAll(
-            restartButton, helpButton, validateButton,
-            timeGroup,
-            leftArrow, rightArrow, settingButton
-        );
+        if(!libre){
+            topBar.getChildren().addAll(
+                restartButton, helpButton, validateButton,
+                timeGroup,
+                leftArrow, rightArrow, settingButton
+            );
+        }
+        else{
+            topBar.getChildren().addAll(
+                restartButton, helpButton, validateButton,
+                leftArrow, rightArrow, settingButton
+            );
+        }
 
         // Création du label meilleur temps
         VBox bestScoreGroup = new VBox();
         bestScoreGroup.setAlignment(Pos.CENTER);
 
-        if (!bestScoreGroup.getChildren().isEmpty()) {
+        if (!bestScoreGroup.getChildren().isEmpty() && !libre) {
             topBar.getChildren().add(bestScoreGroup);
         }
 
@@ -113,7 +121,7 @@ public class SceneJeu extends BorderPane {
         centerPane.setPadding(new Insets(20));
 
         // Initialiser la grille avec la taille par défaut - en utilisant le constructeur qui prend un int
-        grille = new Grille("grilleClassic"+currentlevel+".json", this);
+        grille = new Grille("grilleClassic"+currentlevel+".json", this,libre);
         grille.setSceneJeu(this);
         leftBox = new GrilleController(grille, gridSize, 0.2, this);
         leftBox.setPrefSize(gridSize, gridSize);
@@ -131,7 +139,7 @@ public class SceneJeu extends BorderPane {
 
         leftArrow.setOnAction(e -> {grille.undo(); leftBox.update();});
         rightArrow.setOnAction(e -> {grille.redo(); leftBox.update();});
-        restartButton.setOnAction(e -> {grille.clear(); leftBox.update();});
+        restartButton.setOnAction(e -> {grille.clear(libre); leftBox.update();});
 
         validateButton.setOnAction(e -> {
             System.out.println("Validation de la grille");
@@ -148,14 +156,16 @@ public class SceneJeu extends BorderPane {
         });
 
         settingButton.setOnAction(e -> {
-            openSettings();
+            openSettings(libre);
         }); 
 
         helpButton.setOnAction(e -> {
-            grille.aide();
+            grille.aide(libre);
         });
 
-        runTimer();
+        if (!libre) {
+            runTimer();
+        }
     }
 
     private VBox createLabelOnly(String labelText) {
@@ -167,7 +177,7 @@ public class SceneJeu extends BorderPane {
         return vBox;
     }
 
-    private void openSettings() {
+    private void openSettings(boolean libre) {
         // Arrêter le chronomètre
         grille.stopTimer();
         
@@ -189,7 +199,7 @@ public class SceneJeu extends BorderPane {
             paramStage.setResizable(false);
             
             // Créer le contenu du menu des paramètres avec référence à la fenêtre principale ET la scène de jeu
-            Parametres parametresScene = new Parametres(paramStage, primaryStage, this); // Passer 'this' pour référencer la SceneJeu actuelle
+            Parametres parametresScene = new Parametres(paramStage, primaryStage, this,libre); // Passer 'this' pour référencer la SceneJeu actuelle
             
             
             Scene paramScene = new Scene(parametresScene, 400, 400);
@@ -211,7 +221,7 @@ public class SceneJeu extends BorderPane {
     /**
      * Met à jour la visibilité du chronomètre en fonction des paramètres
      */
-    public void updateTimerVisibility() {
+    public void updateTimerVisibility(boolean libre) {
         boolean showTimer = GameSettings.getInstance().isShowTimer();
         
         // Mettre à jour la visibilité du label
@@ -264,10 +274,10 @@ public class SceneJeu extends BorderPane {
     
             leftArrow.setOnAction(e -> {grille.undo(); leftBox.update();});
             rightArrow.setOnAction(e -> {grille.redo(); leftBox.update();});
-            restartButton.setOnAction(e -> {grille.clear(); leftBox.update();});
+            restartButton.setOnAction(e -> {grille.clear(false); leftBox.update();});
 
             settingButton.setOnAction(e -> {
-                openSettings();
+                openSettings(libre);
             });
         }
         
@@ -275,6 +285,21 @@ public class SceneJeu extends BorderPane {
         this.requestLayout();
     }
 
+    public void finishScreen(){
+        // Créer une boîte stylisée pour l'affichage de la victoire
+        VBox finishBox = BoxFactory.createFinishBox(this,"Partie terminée !!!");
+        
+        grille.initialiserAides();
+        grille.sauvegarderAidesLibre();
+
+        // Centrer la boîte de victoire
+        StackPane.setAlignment(finishBox, Pos.CENTER);
+        
+        // Ajouter la boîte de victoire au centre
+        this.centerPane.getChildren().add(finishBox);
+
+        grille.clear(true);
+    }
 
     public void victoryScreen() {
         // Arrêt du chronomètre
@@ -316,7 +341,7 @@ public class SceneJeu extends BorderPane {
         this.centerPane.getChildren().add(victoryBox);
 
         // // Remise à zéro de la grille
-        grille.clear();
+        grille.clear(false);
 
         
         // Déverrouiller le niveau suivant si nécessaire
@@ -328,7 +353,6 @@ public class SceneJeu extends BorderPane {
 
         grille.resetTimer();
         grille.sauvegarderTemps();
-        grille.sauvegarderProgression();
     }
 
     public void runTimer() {

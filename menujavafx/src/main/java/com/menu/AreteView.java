@@ -174,8 +174,13 @@ public class AreteView extends Button {
             // Validation de la grille
             boolean resultat = this.arete.getGrille().resolue();
             if (resultat) {
-                /* Victoire */
-                this.scene.victoryScreen();
+                if(!this.arete.getLibre()){
+                    /* Victoire */
+                    this.scene.victoryScreen();
+                }
+                else{
+                    this.scene.finishScreen();
+                }
             }
         }
     }

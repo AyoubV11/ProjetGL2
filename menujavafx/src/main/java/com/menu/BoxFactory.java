@@ -249,6 +249,29 @@ public class BoxFactory {
         return star;
     }
 
+    public static VBox createFinishBox(SceneJeu scene,String message){
+        VBox finishBox = BoxFactory.createStyledBox(450, 250);
+        finishBox.setSpacing(30);
+
+        // Texte de victoire stylisé avec la police Baloo
+        Label finishText = new Label(message);
+        finishText.setFont(BalooFont.setBalooSized(48));
+
+        // Créer un bouton pour retourner au menu
+        Button retourMenuButton = ButtonFactory.createAnimatedButton("RETOUR AU MENU");
+        retourMenuButton.setPrefWidth(200);
+        retourMenuButton.setOnAction(e -> {
+            scene.getMenu().showMenu();
+        });
+
+        // Ajouter les éléments à la boîte de victoire
+        finishBox.getChildren().addAll(finishText,retourMenuButton);
+
+        return finishBox;
+
+
+    }
+
     public static VBox createVictoryBox(SceneJeu scene, int niveau, String pathCompleted, String pathUncompleted){
         VBox victoryBox = BoxFactory.createStyledBox(450, 450);
         victoryBox.setSpacing(30);

@@ -98,11 +98,19 @@ public class Menu extends Application {
         gridComponent.showTechniquesGrid();
     }
 
+    public void showFree(int nv_libre){
+        Parent gameInterface = new SceneJeu(stage, this, nv_libre,true);
+        StackPane root = setupBackground();
+        root.getChildren().add(gameInterface);
+        Scene scene2 = new Scene(root, 1006, 595);
+        stage.setScene(scene2);
+    }
+
     /**
      * Affiche le jeu.
      */
     public void showGame(int niveau) {
-        Parent gameInterface = new SceneJeu(stage, this, niveau);
+        Parent gameInterface = new SceneJeu(stage, this, niveau,false);
         StackPane root = setupBackground();
         root.getChildren().add(gameInterface);
         Scene scene2 = new Scene(root, 1006, 595);

@@ -90,14 +90,23 @@ public class GridComponent {
             switch(i){
                 case 1:button = ButtonFactory.createSkullButton("Facile", 0, i, imagePath, imagePath2);
                     button.setPrefWidth(200);
+                    button.setOnAction(e -> {
+                        menu.showFree(1);
+                    });
                     gridPane.add(button, 0, i);
                     break;
                 case 2:button = ButtonFactory.createSkullButton("Moyen", 0, i, imagePath, imagePath2);
                     button.setPrefWidth(200);
+                    button.setOnAction(e -> {
+                        menu.showFree(2);
+                    });
                     gridPane.add(button, 0, i);
                     break;
                 case 3:button = ButtonFactory.createSkullButton("Difficile", 0, i, imagePath, imagePath2);
                     button.setPrefWidth(200);
+                    button.setOnAction(e -> {
+                        menu.showFree(3);
+                    });
                     gridPane.add(button, 0, i);
                     break;
             }

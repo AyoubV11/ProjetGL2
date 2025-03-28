@@ -11,6 +11,7 @@ import java.util.List;
 public class Arete extends Case {
     protected EnumEtat etat;   // Etat de l'arête
     protected boolean estUneAreteDeLaGrilleResolue;
+    protected boolean libre;
 
     /**
      * Constructeur de l'arête avec tous les paramètres.
@@ -20,10 +21,11 @@ public class Arete extends Case {
      * @param grille La grille à laquelle l'arête appartient
      * @param etat L'état initial de l'arête
      */
-    public Arete(int ligne, int colonne, Grille grille, EnumEtat etat) {
+    public Arete(int ligne, int colonne, Grille grille, EnumEtat etat,boolean libre) {
         super(ligne, colonne, grille);
         this.etat = etat;
         this.estUneAreteDeLaGrilleResolue = false;
+        this.libre=libre;
     }
 
     /**
@@ -33,6 +35,15 @@ public class Arete extends Case {
      */
     public EnumEtat getEtat() {
         return this.etat;
+    }
+
+    /**
+     * Récupère si on est dans le mode libre.
+     * 
+     * @return Fais partis d'une grille libre ou non
+     */
+    public boolean getLibre() {
+        return this.libre;
     }
     
 
@@ -48,7 +59,12 @@ public class Arete extends Case {
         Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
         this.grille.getPileUndo().push(action);
         this.grille.getPileRedo().clear();
-        this.grille.sauvegarderProgression();
+        if(!libre){
+            this.grille.sauvegarderProgression();
+        }
+        else{
+            this.grille.sauvegarderProgressionLibre();
+        }
         if(this.grille.enModeTatonnement()){
             // TODO
         }
