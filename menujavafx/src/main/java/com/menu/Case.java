@@ -2,6 +2,8 @@ package com.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe abstraite représentant une case générique dans la grille du jeu Slitherlink.
@@ -9,6 +11,8 @@ import java.util.List;
  * (comme les points, les chiffres et les arêtes) dans la grille de jeu.
  */
 public abstract class Case {
+    private static final Logger logger = LoggerFactory.getLogger(Case.class);
+    
     /**
      * Coordonnée de ligne de la case dans la grille.
      */
@@ -35,6 +39,7 @@ public abstract class Case {
         this.ligne = ligne;
         this.colonne = colonne;
         this.grille = grille;
+        logger.debug("Création d'une case à la position ({}, {})", ligne, colonne);
     }
 
     /**
@@ -61,7 +66,9 @@ public abstract class Case {
      * @return Le nombre d'arêtes voisines
      */
     public int getNbAretesVoisines(){
-        return this.getAretesVoisines().size();
+        int nbAretes = this.getAretesVoisines().size();
+        logger.trace("Nombre d'arêtes voisines pour la case ({}, {}): {}", this.ligne, this.colonne, nbAretes);
+        return nbAretes;
     }
 
     /**
@@ -70,6 +77,7 @@ public abstract class Case {
      * @return Une liste d'arêtes voisines qui sont dans l'état TRAIT
      */
     public List<Arete> getAretesVoisines() {
+        logger.trace("Recherche des arêtes voisines pour la case ({}, {})", this.ligne, this.colonne);
         ArrayList<Arete> aretesVoisines = new ArrayList<Arete>();
 
         int x = this.getLigne();
@@ -79,40 +87,56 @@ public abstract class Case {
         try {
             if (this.grille.caseExiste(x, y - 1)) {
                 Arete arete = (Arete) this.grille.getCase(x, y - 1);
-                if (arete.getEtat() == EnumEtat.TRAIT)
+                if (arete.getEtat() == EnumEtat.TRAIT) {
                     aretesVoisines.add(arete);
+                    logger.trace("Arête voisine à gauche ({}, {}) trouvée", x, y - 1);
+                }
             }
-        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+        } catch (ClassCastException e) {
+            logger.trace("Case à gauche ({}, {}) n'est pas une arête", x, y - 1);
+        }
 
         // Utilisation de try-catch pour éviter les ClassCastException
         try {
             if (this.grille.caseExiste(x - 1, y)) {
                 Arete arete = (Arete) this.grille.getCase(x - 1, y);
-                if (arete.getEtat() == EnumEtat.TRAIT)
+                if (arete.getEtat() == EnumEtat.TRAIT) {
                     aretesVoisines.add(arete);
+                    logger.trace("Arête voisine en haut ({}, {}) trouvée", x - 1, y);
+                }
             }
-        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+        } catch (ClassCastException e) {
+            logger.trace("Case en haut ({}, {}) n'est pas une arête", x - 1, y);
+        }
 
         // Utilisation de try-catch pour éviter les ClassCastException
         try {
             if (this.grille.caseExiste(x, y + 1)) {
                 Arete arete = (Arete) this.grille.getCase(x, y + 1);
-                if (arete.getEtat() == EnumEtat.TRAIT)
+                if (arete.getEtat() == EnumEtat.TRAIT) {
                     aretesVoisines.add(arete);
+                    logger.trace("Arête voisine à droite ({}, {}) trouvée", x, y + 1);
+                }
             }
-        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+        } catch (ClassCastException e) {
+            logger.trace("Case à droite ({}, {}) n'est pas une arête", x, y + 1);
+        }
 
         // Utilisation de try-catch pour éviter les ClassCastException
         try {
             if (this.grille.caseExiste(x + 1, y)) {
                 Arete arete = (Arete) this.grille.getCase(x + 1, y);
-                if (arete.getEtat() == EnumEtat.TRAIT)
+                if (arete.getEtat() == EnumEtat.TRAIT) {
                     aretesVoisines.add(arete);
+                    logger.trace("Arête voisine en bas ({}, {}) trouvée", x + 1, y);
+                }
             }
-        } catch (ClassCastException e) { /* Ignorer si ce n'est pas une arête */ }
+        } catch (ClassCastException e) {
+            logger.trace("Case en bas ({}, {}) n'est pas une arête", x + 1, y);
+        }
 
-
-
+        logger.trace("Total de {} arêtes voisines trouvées pour la case ({}, {})", 
+                  aretesVoisines.size(), this.ligne, this.colonne);
         return aretesVoisines;
     }
 

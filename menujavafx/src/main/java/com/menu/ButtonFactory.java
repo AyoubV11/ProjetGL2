@@ -13,35 +13,61 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Classe utilitaire pour la création et gestion des boutons et éléments d'interface utilisateur.
+ * Fournit des méthodes statiques pour créer des boutons stylisés et animés,
+ * et gère également la sauvegarde et le chargement des niveaux débloqués.
+ */
 public class ButtonFactory {
+    private static final Logger logger = LoggerFactory.getLogger(ButtonFactory.class);
 
+    /** Chemin du fichier de sauvegarde des niveaux débloqués */
     private static final String FILE_PATH = ".nb_Niveau_Debloque.json";
+    
+    /** Mapper JSON pour sérialiser/désérialiser les données des niveaux */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    /** Niveau le plus élevé débloqué par le joueur */
     private static int unlockedLevel = 1;
 
+    /**
+     * Sauvegarde le niveau le plus élevé débloqué dans un fichier JSON.
+     */
     public static void sauvegarderNiveaux() {
         try {
             objectMapper.writeValue(new File(FILE_PATH), unlockedLevel);
-            // System.out.println("Niveaux sauvegardées dans " + FILE_PATH);
+            logger.info("Niveaux sauvegardés dans {}, niveau débloqué: {}", FILE_PATH, unlockedLevel);
         } catch (IOException e) {
+            logger.error("Erreur lors de la sauvegarde des niveaux", e);
             e.printStackTrace();
         }
     }
 
+    /**
+     * Charge le niveau le plus élevé débloqué depuis un fichier JSON.
+     * Si le fichier n'existe pas, initialise à 1 (premier niveau uniquement).
+     */
     public static void chargerNiveaux() {
         try {
-            unlockedLevel=objectMapper.readValue(new File(FILE_PATH), int.class);
+            File file = new File(FILE_PATH);
+            if (file.exists()) {
+                unlockedLevel = objectMapper.readValue(file, int.class);
+                logger.info("Niveaux chargés depuis {}, niveau débloqué: {}", FILE_PATH, unlockedLevel);
+            } else {
+                unlockedLevel = 1;
+                logger.info("Fichier de niveaux non trouvé, initialisation au niveau 1");
+            }
         } catch (IOException e) {
-            unlockedLevel=1;
+            unlockedLevel = 1;
+            logger.warn("Erreur lors du chargement des niveaux, initialisation au niveau 1", e);
         }
     }
-    
-
     
     /** 
      * Crée un bouton contenant un texte blanc sur fond noir, qui grossit quand on clique dessus et qui s'éclaircit lorsque la souris passe dessus.
@@ -49,6 +75,7 @@ public class ButtonFactory {
      * @return Button le bouton créé.
      */
     public static Button createAnimatedButton(String text) {
+        logger.trace("Création d'un bouton animé: {}", text);
         Button button = new Button(text);
         button.setFont(BalooFont.setBalooSized(18));
         button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
@@ -72,6 +99,7 @@ public class ButtonFactory {
      * @return Button le bouton créé.
      */
     public static Button createAnimatedButtonWithFontSize(String text, int size) {
+        logger.trace("Création d'un bouton animé avec taille de police {}: {}", size, text);
         Button button = new Button(text);
         button.setFont(BalooFont.setBalooSized(size));
         button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
@@ -86,8 +114,6 @@ public class ButtonFactory {
 
         return button;
     }
-
-    
     
     /** 
      * Crée les boutons contenant le numéro d'une grille ainsi que 3 images de tête de mort.
@@ -101,6 +127,7 @@ public class ButtonFactory {
      * @return Button le bouton créé.
      */
     public static Button createSkullButton(String text, int level, int difficulty, String imagePath, String lockedImagePath) {
+        logger.debug("Création d'un bouton de niveau: {}, level: {}, difficulté: {}", text, level, difficulty);
         Image skullImage = new Image(imagePath);
         Image lockedImage = new Image(lockedImagePath);
         
@@ -136,9 +163,11 @@ public class ButtonFactory {
             lockedIcon.setFitHeight(20);
             lockedIcon.setOpacity(1);
             buttonStack.getChildren().add(lockedIcon);
+            logger.trace("Niveau {} verrouillé (niveau débloqué actuel: {})", level, unlockedLevel);
         } else {
             // Style pour les boutons débloqués
             button.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: black; -fx-border-radius: 15; -fx-background-radius: 15;");
+            logger.trace("Niveau {} débloqué", level);
         }
 
         button.setGraphic(buttonStack);
@@ -149,21 +178,19 @@ public class ButtonFactory {
 
         return button;
     }
-
-    
     
     /** 
      * Fonction animant un bouton de classe Button passé en paramètre. 
      * @param button le bouton à animer
      * @param scale la taille de l'agrandissement
      */
-    private static void animateButton(Button button, double scale) {
+    public static void animateButton(Button button, double scale) {
+        logger.trace("Animation d'un bouton avec échelle {}", scale);
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
         scaleTransition.setToX(scale);
         scaleTransition.setToY(scale);
         scaleTransition.play();
     }
-
     
     /** 
      * Fonction animant un bouton de classe ToggleButton passé en paramètre. 
@@ -171,21 +198,22 @@ public class ButtonFactory {
      * @param scale la taille de l'agrandissement
      */
     public static void animateButton(ToggleButton button, double scale) {
+        logger.trace("Animation d'un toggle button avec échelle {}", scale);
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
         scaleTransition.setToX(scale);
         scaleTransition.setToY(scale);
         scaleTransition.play();
     }
 
-
-
     /**
      * Fonction débloquant un niveau passé en paramètre.
      * @param level le niveau à débloquer.
      */
     public static void unlockLevel(int level) {
+        logger.debug("Tentative de déblocage du niveau {}, niveau actuel: {}", level, unlockedLevel);
         if (level > unlockedLevel) {
             unlockedLevel = level;
+            logger.info("Nouveau niveau débloqué: {}", level);
         }
 
         ButtonFactory.sauvegarderNiveaux();
@@ -199,6 +227,7 @@ public class ButtonFactory {
      * @return la HBox contenant le texte et le bouton créé.
      */
     public static HBox createToggleButton(String labelText, String offText, String onText) {
+        logger.debug("Création d'un toggle button: {}, textes [off: {}, on: {}]", labelText, offText, onText);
         Label label = new Label(labelText);
         label.setFont(BalooFont.setBalooSized(18));
         
@@ -214,7 +243,9 @@ public class ButtonFactory {
         
         // Modifier ceci pour mettre à jour correctement le texte
         toggle.setOnAction(event -> {
-            toggle.setText(toggle.isSelected() ? onText : offText);
+            boolean selected = toggle.isSelected();
+            toggle.setText(selected ? onText : offText);
+            logger.debug("Toggle button '{}' changé: {}", labelText, selected ? "activé" : "désactivé");
         });
         
         HBox box = new HBox(10, label, toggle);
@@ -229,10 +260,13 @@ public class ButtonFactory {
      * @return le Slider créé.
      */
     public static Slider createVolumeSlider(Label volumeLabel) {
+        logger.debug("Création d'un slider de volume");
         Slider slider = new Slider(0, 100, 50);
         slider.setStyle("-fx-control-inner-background: #000000; -fx-background-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" +"-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;");
-        slider.valueProperty().addListener((obs, oldVal, newVal) ->
-                volumeLabel.setText("Volume : " + newVal.intValue() + "%"));
+        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+                volumeLabel.setText("Volume : " + newVal.intValue() + "%");
+                logger.trace("Volume ajusté à {}%", newVal.intValue());
+        });
         return slider;
     }
 }

@@ -1,159 +1,209 @@
 package com.menu;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class TechniqueAvancee6 implements Technique{
+/**
+ * Implémentation d'une technique avancée qui identifie les configurations spécifiques
+ * impliquant un chiffre 1 avec une contrainte dans un coin, permettant de placer un trait
+ * dans le coin diagonalement opposé.
+ * Cette technique utilise des règles complexes pour déduire des placements de traits valides.
+ */
+public class TechniqueAvancee6 implements Technique {
+    
+    private static final Logger logger = LoggerFactory.getLogger(TechniqueAvancee6.class);
     private Grille g;
+    
+    /**
+     * Constructeur de la technique avancée 6.
+     * 
+     * @param g la grille de jeu sur laquelle appliquer la technique
+     */
     public TechniqueAvancee6(Grille g) {
-        this.g=g;
+        this.g = g;
+        logger.debug("Initialisation de la TechniqueAvancee6");
     }
 
+    /**
+     * Renvoie le message d'aide à afficher à l'utilisateur.
+     * 
+     * @return une chaîne de caractères expliquant la technique
+     */
     public String afficherAide() {
+        logger.debug("Affichage de l'aide pour la TechniqueAvancee6");
         return("Technique avancée 6 disponible: \n\n Si un 1 a une contrainte (trait non-posable) dans un de ses coins, alors il est possible de poser un trait dans la case diagonalement opposée à ce coin si ce trait respecte les contraintes comme illustré sur l'image.");
     }
 
+    /**
+     * Vérifie si la technique est applicable dans l'état actuel de la grille.
+     * Recherche les configurations où un chiffre 1 a une contrainte dans un coin,
+     * ce qui permet de placer un trait dans le coin diagonalement opposé.
+     * 
+     * @return true si la technique est applicable, false sinon
+     */
     public boolean applicable() {
+        logger.debug("Vérification de l'applicabilité de la TechniqueAvancee6");
         Iterator<Chiffre> it = g.iteratorChiffres();
         while(it.hasNext()) {
             Chiffre c = it.next();
             if(c.getChiffre() == 1) {
+                logger.trace("Examen d'un chiffre 1 en [{},{}]", c.getLigne(), c.getColonne());
 
                 /**haut droit */
-                try{
-                    if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check()){
-                        try{
-                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()){
-                                if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                try {
+                    if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check()) {
+                        logger.trace("Contrainte détectée en haut à droite (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        try {
+                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()) {
+                                logger.trace("Contrainte détectée en haut à droite (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                                if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                                    logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte en haut à droite", c.getLigne(), c.getColonne());
                                     return true;
                                 }
                             }
-                        }catch(IndexOutOfBoundsException e){
-                            
-                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                        } catch(IndexOutOfBoundsException e) {
+                            logger.trace("Hors limites pour la contrainte en haut à droite (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte en haut à droite (cas limite)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                        
                     }
-                }catch(IndexOutOfBoundsException e){
-                    
-                    try{
-                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()){
-                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                } catch(IndexOutOfBoundsException e) {
+                    logger.trace("Hors limites pour la contrainte en haut à droite (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()) {
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte en haut à droite (cas limite alternatif)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                    }catch(IndexOutOfBoundsException f){
-                        
-                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
+                    } catch(IndexOutOfBoundsException f) {
+                        logger.trace("Hors limites pour les deux contraintes en haut à droite du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-3)).check() && !((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                            logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contraintes en haut à droite (cas limite total)", c.getLigne(), c.getColonne());
                             return true;
                         }
                     }  
                 }
 
                 /**droit bas*/
-                try{
-                    if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check()){
-                        try{
-                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()){
-                                if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                try {
+                    if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check()) {
+                        logger.trace("Contrainte détectée à droite en bas (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        try {
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()) {
+                                logger.trace("Contrainte détectée à droite en bas (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                                if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()) {
+                                    logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte à droite en bas", c.getLigne(), c.getColonne());
                                     return true;
                                 }
                             }
-                        }catch(IndexOutOfBoundsException e){
-                            
-                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                        } catch(IndexOutOfBoundsException e) {
+                            logger.trace("Hors limites pour la contrainte à droite en bas (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte à droite en bas (cas limite)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                        
                     }
-                }catch(IndexOutOfBoundsException e){
-                    
-                    try{
-                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()){
-                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                } catch(IndexOutOfBoundsException e) {
+                    logger.trace("Hors limites pour la contrainte à droite en bas (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()) {
+                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte à droite en bas (cas limite alternatif)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                    }catch(IndexOutOfBoundsException f){
-                        
-                        if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()){
+                    } catch(IndexOutOfBoundsException f) {
+                        logger.trace("Hors limites pour les deux contraintes à droite en bas du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && !((Arete)g.getCase(c.getLigne()-3, c.getColonne()-2)).check()) {
+                            logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contraintes à droite en bas (cas limite total)", c.getLigne(), c.getColonne());
                             return true;
                         }
                     }  
                 }
 
-
-
                 /**bas gauche*/
-                try{
-                    if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check()){
-                        try{
-                            if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
-                                if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                try {
+                    if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check()) {
+                        logger.trace("Contrainte détectée en bas à gauche (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        try {
+                            if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                                logger.trace("Contrainte détectée en bas à gauche (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                                if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()) {
+                                    logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte en bas à gauche", c.getLigne(), c.getColonne());
                                     return true;
                                 }
                             }
-                        }catch(IndexOutOfBoundsException e){
-                            
-                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                        } catch(IndexOutOfBoundsException e) {
+                            logger.trace("Hors limites pour la contrainte en bas à gauche (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte en bas à gauche (cas limite)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                        
                     }
-                }catch(IndexOutOfBoundsException e){
-                    
-                    try{
-                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()){
-                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                } catch(IndexOutOfBoundsException e) {
+                    logger.trace("Hors limites pour la contrainte en bas à gauche (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                            if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte en bas à gauche (cas limite alternatif)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                    }catch(IndexOutOfBoundsException f){
-                        
-                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()){
+                    } catch(IndexOutOfBoundsException f) {
+                        logger.trace("Hors limites pour les deux contraintes en bas à gauche du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+3)).check()) {
+                            logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contraintes en bas à gauche (cas limite total)", c.getLigne(), c.getColonne());
                             return true;
                         }
                     }  
                 }
 
                 /**gauche haut */
-                try{
-                    if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check()){
-                        try{
-                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()){
-                                if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                try {
+                    if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check()) {
+                        logger.trace("Contrainte détectée à gauche en haut (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        try {
+                            if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()) {
+                                logger.trace("Contrainte détectée à gauche en haut (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                                if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()) {
+                                    logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte à gauche en haut", c.getLigne(), c.getColonne());
                                     return true;
                                 }
                             }
-                        }catch(IndexOutOfBoundsException e){
-                            
-                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                        } catch(IndexOutOfBoundsException e) {
+                            logger.trace("Hors limites pour la contrainte à gauche en haut (2) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte à gauche en haut (cas limite)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                        
                     }
-                }catch(IndexOutOfBoundsException e){
-                    
-                    try{
-                        if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()){
-                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                } catch(IndexOutOfBoundsException e) {
+                    logger.trace("Hors limites pour la contrainte à gauche en haut (1) du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                    try {
+                        if(!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()) {
+                            if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()) {
+                                logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contrainte à gauche en haut (cas limite alternatif)", c.getLigne(), c.getColonne());
                                 return true;
                             }
                         }
-                    }catch(IndexOutOfBoundsException f){
-                        
-                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()){
+                    } catch(IndexOutOfBoundsException f) {
+                        logger.trace("Hors limites pour les deux contraintes à gauche en haut du 1 en [{},{}]", c.getLigne(), c.getColonne());
+                        if(!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && !((Arete)g.getCase(c.getLigne()+3, c.getColonne()+2)).check()) {
+                            logger.debug("TechniqueAvancee6 applicable: 1 en [{},{}] avec contraintes à gauche en haut (cas limite total)", c.getLigne(), c.getColonne());
                             return true;
                         }
                     }  
                 }
-                
             }
         }
 
+        logger.debug("TechniqueAvancee6 non applicable");
         return false;
     }
 }

@@ -2,6 +2,8 @@ package com.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Représente une arête dans la grille du jeu Slitherlink.
@@ -9,6 +11,8 @@ import java.util.List;
  * spécifiques liées à sa position et à ses contraintes de placement.
  */
 public class Arete extends Case {
+    private static final Logger logger = LoggerFactory.getLogger(Arete.class);
+    
     /** État actuel de l'arête (VIDE, TRAIT, CROIX) */
     protected EnumEtat etat;
     
@@ -35,6 +39,8 @@ public class Arete extends Case {
         this.etat = etat;
         this.estUneAreteDeLaGrilleResolue = false;
         this.libre = libre;
+        logger.debug("Création d'une arête à la position ({}, {}) avec l'état {} et mode libre={}", 
+                   ligne, colonne, etat, libre);
     }
 
     /**
@@ -60,6 +66,7 @@ public class Arete extends Case {
      * Enregistre l'action dans l'historique pour permettre l'annulation.
      */
     public void setCroix() {
+        logger.debug("Définition d'une croix sur l'arête ({}, {})", this.ligne, this.colonne);
         this.pushAction(EnumEtat.CROIX);
         this.setEtat(EnumEtat.CROIX);
     }
@@ -72,18 +79,25 @@ public class Arete extends Case {
      * @param nouvelleEtat Le nouvel état à appliquer à l'arête
      */
     public void pushAction(EnumEtat nouvelleEtat){
+        logger.debug("Ajout d'une action dans l'historique pour l'arête ({}, {}): {} -> {}", 
+                   this.ligne, this.colonne, this.etat, nouvelleEtat);
         Action action = new Action(this.ligne, this.colonne, nouvelleEtat, etat);
         if(this.grille.enModeTatonnement()){
+            logger.trace("Mode tâtonnement: ajout à la pile undo tâtonnement et vidage de la pile redo tâtonnement");
             this.grille.getPileUndoTatonnement().push(action);
             this.grille.getPileRedoTatonnement().clear();
         }else{
+            logger.trace("Mode normal: ajout à la pile undo et vidage de la pile redo");
             this.grille.getPileUndo().push(action);
             this.grille.getPileRedo().clear();
         }
-        if(!libre) 
+        if(!libre) {
+            logger.trace("Sauvegarde de la progression");
             this.grille.sauvegarderProgression();
-        else 
+        } else {
+            logger.trace("Sauvegarde de la progression libre");
             this.grille.sauvegarderProgressionLibre();
+        }
     }
 
     /**
@@ -95,12 +109,16 @@ public class Arete extends Case {
      * @return true si le trait a été posé avec succès, false si une croix a été placée
      */
     public boolean setTrait(boolean croix) {
+        logger.debug("Tentative de définir un trait sur l'arête ({}, {}), avec croix={}", 
+                   this.ligne, this.colonne, croix);
         EnumEtat nouvelEtat;
 
         if (!croix || this.check()) {
             nouvelEtat = EnumEtat.TRAIT;
+            logger.debug("Placement d'un trait autorisé");
         } else {
             nouvelEtat = EnumEtat.CROIX;
+            logger.debug("Placement d'un trait non autorisé, remplacement par une croix");
         }
 
         this.pushAction(nouvelEtat);
@@ -108,6 +126,7 @@ public class Arete extends Case {
 
         // Jouer le son uniquement si on place un trait
         if (nouvelEtat == EnumEtat.TRAIT) {
+            logger.trace("Lecture du son de clic");
             sound.bruitDeClique();
         }
 
@@ -122,6 +141,7 @@ public class Arete extends Case {
      * @return Une liste contenant toutes les arêtes connectées à l'état TRAIT
      */
     public List<Arete> getAretesConnectees() {
+        logger.trace("Recherche des arêtes connectées à l'arête ({}, {})", this.ligne, this.colonne);
         ArrayList<Arete> aretesConnectees = new ArrayList<Arete>();
         
         // Obtenir les points voisins de cette arête
@@ -138,6 +158,7 @@ public class Arete extends Case {
             }
         }
         
+        logger.trace("Nombre d'arêtes connectées trouvées: {}", aretesConnectees.size());
         return aretesConnectees;
     }
 
@@ -146,6 +167,7 @@ public class Arete extends Case {
      * Enregistre l'action dans l'historique pour permettre l'annulation.
      */
     public void setVide() {
+        logger.debug("Définition de l'état VIDE sur l'arête ({}, {})", this.ligne, this.colonne);
         this.pushAction(EnumEtat.VIDE);
         this.setEtat(EnumEtat.VIDE);
     }
@@ -158,6 +180,8 @@ public class Arete extends Case {
      * @param etat Le nouvel état de l'arête
      */
     public void setEtat(EnumEtat etat){
+        logger.trace("Changement d'état de l'arête ({}, {}): {} -> {}", 
+                   this.ligne, this.colonne, this.etat, etat);
         this.etat = etat;
     }
 
@@ -181,10 +205,14 @@ public class Arete extends Case {
      * @return true si l'ajout d'un trait est autorisé, false sinon
      */
     public boolean estAutoriseAPoserTrait(){
+        logger.trace("Vérification des autorisations pour poser un trait sur l'arête ({}, {})", 
+                   this.ligne, this.colonne);
         // Vérifie les contraintes des points et des chiffres voisins
         boolean posePossibleSelonPoints = getPointsVoisins().stream().allMatch(point -> point.getNbAretesVoisines() < 2); 
         boolean posePossibleSelonChiffres = getChiffresVoisins().stream().noneMatch(Chiffre::matchNbAretesVoisines);
 
+        logger.trace("Pose possible selon points: {}, pose possible selon chiffres: {}", 
+                   posePossibleSelonPoints, posePossibleSelonChiffres);
         return posePossibleSelonPoints && posePossibleSelonChiffres;
     }
 
@@ -197,6 +225,7 @@ public class Arete extends Case {
      * @return Une liste des chiffres adjacents à l'arête
      */
     public List<Chiffre> getChiffresVoisins() {
+        logger.trace("Recherche des chiffres voisins de l'arête ({}, {})", this.ligne, this.colonne);
         ArrayList<Chiffre> chiffreVoisins = new ArrayList<Chiffre>();
 
         int x = this.getLigne();
@@ -216,6 +245,7 @@ public class Arete extends Case {
                 chiffreVoisins.add((Chiffre) this.grille.getCase(x, y + 1));
         }
 
+        logger.trace("Nombre de chiffres voisins trouvés: {}", chiffreVoisins.size());
         return chiffreVoisins;
     }
 
@@ -228,6 +258,7 @@ public class Arete extends Case {
      * @return Une liste des points adjacents à l'arête
      */
     public List<Point> getPointsVoisins() {
+        logger.trace("Recherche des points voisins de l'arête ({}, {})", this.ligne, this.colonne);
         ArrayList<Point> pointsVoisins = new ArrayList<Point>();
 
         int x = this.getLigne();
@@ -247,6 +278,7 @@ public class Arete extends Case {
                 pointsVoisins.add((Point) this.grille.getCase(x + 1, y));
         }
 
+        logger.trace("Nombre de points voisins trouvés: {}", pointsVoisins.size());
         return pointsVoisins;
     }
 
@@ -258,11 +290,11 @@ public class Arete extends Case {
      * @return L'orientation de l'arête (HORIZONTAL ou VERTICAL)
      */
     public EnumOrientation getOrientation(){
-        if(this.getLigne() % 2 == 0){
-            return EnumOrientation.HORIZONTAL;
-        } else {
-            return EnumOrientation.VERTICAL;
-        }
+        EnumOrientation orientation = (this.getLigne() % 2 == 0) ? 
+                                     EnumOrientation.HORIZONTAL : 
+                                     EnumOrientation.VERTICAL;
+        logger.trace("Orientation de l'arête ({}, {}): {}", this.ligne, this.colonne, orientation);
+        return orientation;
     }
 
     /**
@@ -272,14 +304,14 @@ public class Arete extends Case {
      * @return true si le placement est valide, false sinon
      */
     public boolean check(){
+        logger.trace("Vérification de la validité du placement d'un trait sur l'arête ({}, {})", 
+                   this.ligne, this.colonne);
         int ligne = this.getLigne();
         int colonne = this.getColonne();     
     
-        if(this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserTrait()){
-            return true;
-        }
-        
-        return false;
+        boolean resultat = this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserTrait();
+        logger.trace("Résultat de la vérification: {}", resultat);
+        return resultat;
     }
     
     /**
@@ -303,6 +335,7 @@ public class Arete extends Case {
      * de solution correct du puzzle.
      */
     public void devientUneAreteDeLaGrilleResolue(){
+        logger.debug("L'arête ({}, {}) devient une arête de la grille résolue", this.ligne, this.colonne);
         this.estUneAreteDeLaGrilleResolue = true;
     }
 

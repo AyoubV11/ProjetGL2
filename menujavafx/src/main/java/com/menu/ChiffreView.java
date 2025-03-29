@@ -2,12 +2,16 @@ package com.menu;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Représente la vue graphique d'un chiffre dans l'interface utilisateur du jeu Slitherlink.
  * Étend ImageView pour afficher le chiffre avec une image.
  */
 public class ChiffreView extends ImageView {
+    private static final Logger logger = LoggerFactory.getLogger(ChiffreView.class);
+    
     /**
      * Le modèle de chiffre associé à cette vue.
      */
@@ -24,15 +28,24 @@ public class ChiffreView extends ImageView {
         super();
         this.chiffre = chiffre;
         
+        logger.debug("Création d'une vue pour le chiffre à la position ({}, {}), valeur: {}", 
+                   chiffre.getLigne(), chiffre.getColonne(), chiffre.getChiffre());
+        
         // Charge l'image du chiffre si ce n'est pas une case vide
         if (!chiffre.estVide()){
-            Image image = new Image("chiffre" + chiffre.getChiffre() + ".png");
+            String imagePath = "chiffre" + chiffre.getChiffre() + ".png";
+            logger.trace("Chargement de l'image: {}", imagePath);
+            Image image = new Image(imagePath);
             this.setImage(image);   
+        } else {
+            logger.trace("Chiffre vide, aucune image chargée");
         }
         
         // Ajuste la taille de l'image en fonction de la taille de la cellule de la grille
-        this.fitWidthProperty().bind(grille.widthProperty().multiply(grille.getLargeurChiffre() / 100));
-        this.fitHeightProperty().bind(grille.heightProperty().multiply(grille.getLargeurChiffre() / 100));
+        double largeurRelative = grille.getLargeurChiffre() / 100.0;
+        logger.trace("Dimensionnement de l'image avec une largeur relative de {}", largeurRelative);
+        this.fitWidthProperty().bind(grille.widthProperty().multiply(largeurRelative));
+        this.fitHeightProperty().bind(grille.heightProperty().multiply(largeurRelative));
     }
 
     /**
