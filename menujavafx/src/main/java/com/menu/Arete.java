@@ -66,9 +66,9 @@ public class Arete extends Case {
             this.grille.getPileRedo().clear();
         }
         if(!libre) 
-            this.grille.sauvegarderProgressionLibre();
-        else 
             this.grille.sauvegarderProgression();
+        else 
+            this.grille.sauvegarderProgressionLibre();
         
     }
 
