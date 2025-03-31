@@ -52,8 +52,8 @@ public class TechniqueBoucleSur1 implements Technique {
                 logger.debug("Analyse du chiffre 1 à la position ({},{})", c.getLigne(), c.getColonne());
                 
                 try {
-                    if(((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
-                        if(((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
+                    if(((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).checkPlus() && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT) {
+                        if(((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
                            ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 1", c.getLigne(), c.getColonne());
                             return true;
@@ -64,9 +64,9 @@ public class TechniqueBoucleSur1 implements Technique {
                 }
                 
                 try {
-                    if(((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT) {
-                        if(((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
-                           ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                    if(((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).checkPlus() && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                        if(((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
+                           ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 2", c.getLigne(), c.getColonne());
                             return true;
                         }
@@ -74,9 +74,9 @@ public class TechniqueBoucleSur1 implements Technique {
                 } catch (IndexOutOfBoundsException e) {
                     logger.debug("Position hors limites pour le cas 2");
                 }
-                
+
                 try {
-                    if(((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                    if(((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).checkPlus() && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
                         if(((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
                            ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 3", c.getLigne(), c.getColonne());
@@ -86,11 +86,11 @@ public class TechniqueBoucleSur1 implements Technique {
                 } catch (IndexOutOfBoundsException e) {
                     logger.debug("Position hors limites pour le cas 3");
                 }
-                
-                try {          
-                    if(((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT) {
+
+                try {
+                    if(((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).checkPlus() && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT) {
                         if(((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
-                           ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                           ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 4", c.getLigne(), c.getColonne());
                             return true;
                         }
@@ -98,11 +98,11 @@ public class TechniqueBoucleSur1 implements Technique {
                 } catch (IndexOutOfBoundsException e) {
                     logger.debug("Position hors limites pour le cas 4");
                 }
-                
+
                 try {
-                    if(((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT) {
+                    if(((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).checkPlus() && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
                         if(((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
-                           ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                           ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 5", c.getLigne(), c.getColonne());
                             return true;
                         }
@@ -110,9 +110,9 @@ public class TechniqueBoucleSur1 implements Technique {
                 } catch (IndexOutOfBoundsException e) {
                     logger.debug("Position hors limites pour le cas 5");
                 }
-                
+
                 try {
-                    if(((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                    if(((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).checkPlus() && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT) {
                         if(((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
                            ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 6", c.getLigne(), c.getColonne());
@@ -122,11 +122,11 @@ public class TechniqueBoucleSur1 implements Technique {
                 } catch (IndexOutOfBoundsException e) {
                     logger.debug("Position hors limites pour le cas 6");
                 }
-                
+
                 try {
-                    if(((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).getEtat() == EnumEtat.TRAIT) {
-                        if(((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
-                           ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                    if(((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).checkPlus() && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                        if(((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
+                           ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 7", c.getLigne(), c.getColonne());
                             return true;
                         }
@@ -134,10 +134,10 @@ public class TechniqueBoucleSur1 implements Technique {
                 } catch (IndexOutOfBoundsException e) {
                     logger.debug("Position hors limites pour le cas 7");
                 }
-                
+
                 try {
-                    if(((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
-                        if(((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
+                    if(((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).checkPlus() && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).getEtat() == EnumEtat.TRAIT) {
+                        if(((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT || 
                            ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
                             logger.info("Violation détectée pour chiffre 1 à ({},{}) - cas 8", c.getLigne(), c.getColonne());
                             return true;

@@ -55,7 +55,8 @@ public class TechniqueAvancee2 implements Technique {
                     
                     /*voisins haut et droit */
                     if (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                        ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                        ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && 
+                        ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() != EnumEtat.TRAIT){
                         
                         logger.trace("3 en [{},{}] avec traits en haut et à droite", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -65,7 +66,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+1, c.getColonne()+2);
                                     return false;
                                 }
@@ -75,7 +76,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()-1);
                                     return false;
                                 }
@@ -85,7 +86,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()-3);
                                     return false;
                                 }
@@ -95,7 +96,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-5)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-2, c.getColonne()-5)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()-5);
                                     return false;
                                 }
@@ -112,7 +113,8 @@ public class TechniqueAvancee2 implements Technique {
 
                     /*voisins droit et bas */
                     else if (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                             ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT &&
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() != EnumEtat.TRAIT) {
                         
                         logger.trace("3 en [{},{}] avec traits à droite et en bas", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -122,7 +124,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).checkPlus()) {
+                                if (((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).checkPlus()) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()-1);
                                     return false;
                                 }
@@ -132,7 +134,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-1, c.getColonne()+2);
                                     return false;
                                 }
@@ -142,7 +144,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-3, c.getColonne()+2);
                                     return false;
                                 }
@@ -152,7 +154,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-5, c.getColonne()+2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-5, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-5, c.getColonne()+2);
                                     return false;
                                 }
@@ -169,7 +171,8 @@ public class TechniqueAvancee2 implements Technique {
                     
                     /*voisins bas et gauche */
                     else if (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT &&
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()+5)).getEtat() != EnumEtat.TRAIT) {
                         
                         logger.trace("3 en [{},{}] avec traits en bas et à gauche", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -179,7 +182,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-1, c.getColonne()-2);
                                     return false;
                                 }
@@ -189,7 +192,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()+1);
                                     return false;
                                 }
@@ -199,7 +202,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()+3);
                                     return false;
                                 }
@@ -209,7 +212,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+5)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+2, c.getColonne()+5)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()+5);
                                     return false;
                                 }
@@ -226,7 +229,8 @@ public class TechniqueAvancee2 implements Technique {
                     
                     /*voisins gauche et haut */
                     else if (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT &&
+                             ((Arete)g.getCase(c.getLigne()+5, c.getColonne())).getEtat() != EnumEtat.TRAIT) {
                         
                         logger.trace("3 en [{},{}] avec traits à gauche et en haut", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -236,7 +240,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()+1);
                                     return false;
                                 }
@@ -246,7 +250,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+1, c.getColonne()-2);
                                     return false;
                                 }
@@ -256,7 +260,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+3, c.getColonne()-2);
                                     return false;
                                 }
@@ -266,7 +270,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+5, c.getColonne()-2)).checkPlus() ) {
+                                if (((Arete)g.getCase(c.getLigne()+5, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+5, c.getColonne()-2);
                                     return false;
                                 }

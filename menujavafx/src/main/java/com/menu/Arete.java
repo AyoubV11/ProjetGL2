@@ -310,8 +310,8 @@ public class Arete extends Case {
      * Vérifie également si l'arete n'est pas un trait
      * @return true si valide, false sinon
      */
-    public boolean checkPlus(){
-        return this.check() && this.getEtat() != EnumEtat.TRAIT;
+    public boolean checkPlus() throws ArrayIndexOutOfBoundsException {
+        return (!this.check()) && this.getEtat() != EnumEtat.TRAIT;
     }
     
     /**
