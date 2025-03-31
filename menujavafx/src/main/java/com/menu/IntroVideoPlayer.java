@@ -3,6 +3,7 @@ package com.menu;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -66,10 +67,10 @@ public class IntroVideoPlayer {
 
         // Configuration de la vidéo
         mediaView.setFitWidth(1006);
-        mediaView.setFitHeight(595);
+        mediaView.setFitHeight(605);
         mediaView.setPreserveRatio(true);
         logger.debug("Configuration de la vue média: largeur={}, hauteur={}, préservation du ratio=true", 
-                    1006, 595);
+                    1006, 605);
 
         // Bouton "Skip Video"
         logger.debug("Création du bouton d'ignorement de la vidéo");
@@ -79,9 +80,33 @@ public class IntroVideoPlayer {
             mediaPlayer.stop();
             Platform.runLater(onVideoComplete);
         });
+        
+        // Bouton "Mute/Unmute"
+        logger.debug("Création du bouton muet");
+        Button muteButton = ButtonFactory.createAnimatedButton("Mute");
+        muteButton.setOnAction(e -> {
+            boolean isMuted = mediaPlayer.isMute();
+            mediaPlayer.setMute(!isMuted);
+            
+            // Changer le texte du bouton en fonction de l'état
+            if (isMuted) {
+                muteButton.setText("Mute");
+                logger.debug("Son activé");
+            } else {
+                muteButton.setText("Unmute");
+                logger.debug("Son désactivé");
+            }
+            
+            logger.info("État du son changé: {}", !isMuted ? "muet" : "actif");
+        });
+
+        // Création d'un conteneur horizontal pour les boutons
+        HBox buttonBox = new HBox(10, quitButton, muteButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        logger.debug("Conteneur de boutons créé avec bouton Skip et bouton Mute");
 
         // Layout principal
-        VBox videoLayout = new VBox(0, mediaView, quitButton);
+        VBox videoLayout = new VBox(5, mediaView, buttonBox);
         videoLayout.setAlignment(Pos.CENTER);
 
         StackPane root = new StackPane(videoLayout);
