@@ -42,6 +42,9 @@ public class BoxFactory {
     /** Fenêtre utilisée pour afficher les techniques */
     private static Stage techStage;
 
+    /** Instance de SoundPlayer pour ajuster le volume */
+    private static SoundPlayer sound = SoundPlayer.getInstance();
+
     /**
      * Sauvegarde l'état actuel des étoiles obtenues dans un fichier JSON.
      */
@@ -191,6 +194,7 @@ public class BoxFactory {
         // Mettre à jour le volume dans GameSettings
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             settings.setVolume(newVal.intValue());
+            sound.ajusteSon(volumeSlider);
             logger.debug("Volume modifié à {}%", newVal.intValue());
         });
         

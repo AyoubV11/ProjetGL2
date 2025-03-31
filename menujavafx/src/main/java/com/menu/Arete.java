@@ -23,7 +23,7 @@ public class Arete extends Case {
     protected boolean libre;
     
     /** Gestionnaire des effets sonores pour les interactions avec l'arête */
-    protected SoundPlayer sound = new SoundPlayer();
+    protected SoundPlayer sound;
 
     /**
      * Constructeur de l'arête avec tous les paramètres.
@@ -41,6 +41,8 @@ public class Arete extends Case {
         this.libre = libre;
         logger.debug("Création d'une arête à la position ({}, {}) avec l'état {} et mode libre={}", 
                    ligne, colonne, etat, libre);
+
+        this.sound = SoundPlayer.getInstance();
     }
 
     /**

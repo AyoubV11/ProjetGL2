@@ -2,6 +2,8 @@ package com.menu;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -11,7 +13,29 @@ import javafx.scene.media.MediaPlayer;
  */
 public class SoundPlayer {
     
+    private static SoundPlayer instance = null;
     private static final Logger logger = LoggerFactory.getLogger(SoundPlayer.class);
+    private MediaPlayer mediaPlayer;
+
+    /**
+     * Constructeur privé pour empêcher l'instanciation directe de la classe.
+     */
+    private SoundPlayer() {
+        // Ne rien faire
+    }
+
+    /**
+     * Méthode statique pour obtenir l'instance unique de la classe SoundPlayer.
+     * Cette méthode suit le patron de conception Singleton.
+     * 
+     * @return L'instance unique de la classe SoundPlayer
+     */
+    public static SoundPlayer getInstance() {
+        if (instance == null) {
+            instance = new SoundPlayer();
+        }
+        return instance;
+    }
 
     /**
      * Joue le son de clic lorsqu'un utilisateur interagit avec un élément de l'interface.
@@ -34,10 +58,57 @@ public class SoundPlayer {
             
             // Jouer le son
             mediaPlayer.play();
+
+            // permettre les son de se superposer
+            mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(mediaPlayer.getStartTime()));
+
             logger.debug("Lecture du son de clic réussie");
         } catch (Exception e) {
             // Gérer les erreurs (par exemple, si le fichier est manquant ou si un problème survient)
             logger.error("Erreur lors de la lecture du son: {}", e.getMessage(), e);
         }
     }
+
+    public void lanceMusic() {
+        try {
+            logger.debug("Tentative de lecture de la musique");
+            
+            String soundFile = getClass().getResource("/music/slitherlink.wav").toExternalForm();
+            Media sound = new Media(soundFile);
+            
+            mediaPlayer = new MediaPlayer(sound); // Utilisation de l'attribut global
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // 
+            mediaPlayer.play();
+            logger.debug("Lecture de la musique réussie");
+        } catch (Exception e) {
+            logger.error("Erreur lors de la lecture de la musique: {}", e.getMessage(), e);
+        }
+    }
+
+
+
+
+    public void ajusteSon(Slider slider) {
+    if (slider == null) {
+        logger.warn("Slider nul, impossible d'ajuster le volume.");
+        return;
+    }
+
+    // Vérifier que le MediaPlayer est bien initialisé
+    if (mediaPlayer != null) {
+        // Calculer la valeur du volume en fonction du slider
+        double volume = slider.getValue() / 100.0;
+        System.out.println("Lenny:"+volume);        
+        // Ajuster le volume du MediaPlayer
+        mediaPlayer.setVolume(volume);
+
+        // Log du volume ajusté pour le débogage
+        logger.debug("Volume ajusté à : {}", mediaPlayer.getVolume());
+    } else {
+        System.out.println("Echec");  
+        logger.warn("Impossible d'ajuster le volume : aucun MediaPlayer actif.");
+    }
+}
+
+ 
 }

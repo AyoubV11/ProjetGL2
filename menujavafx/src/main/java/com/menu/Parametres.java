@@ -28,6 +28,7 @@ public class Parametres extends BorderPane {
     
     /** Référence à la scène de jeu en cours */
     public SceneJeu sceneJeu;
+    private SoundPlayer sound;
 
     /**
      * Constructeur de la classe Parametres.
@@ -42,6 +43,7 @@ public class Parametres extends BorderPane {
         logger.info("Initialisation de la fenêtre des paramètres, mode libre: {}", libre);
         
         // Stocker la référence au stage principal
+        sound = SoundPlayer.getInstance();
         this.primaryStage = mainStage;
         this.sceneJeu = sceneJeu;
         
@@ -66,6 +68,7 @@ public class Parametres extends BorderPane {
             int newVolume = newVal.intValue();
             logger.debug("Volume modifié: {} -> {}", oldVal.intValue(), newVolume);
             settings.setVolume(newVolume);
+            sound.ajusteSon(volumeSlider);
         });
         
         HBox volumeBox = new HBox(20, volumeLabel, volumeSlider);
