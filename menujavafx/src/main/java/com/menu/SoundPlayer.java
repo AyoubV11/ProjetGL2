@@ -16,9 +16,16 @@ public class SoundPlayer {
     private static final Logger logger = LoggerFactory.getLogger(SoundPlayer.class);
     private static final String SON_CLIQUE = "/sound/sonclique.wav";
     private static final String MUSIC_BACKGROUND = "/sound/slitherlink.wav";
+    private static final String VICTORY_SOUND = "/sound/victory.wav";
+    private static final String CUSEUR_BOUTON_SOUND = "/sound/cuseurBouton.wav";
+    private static final String CUSEUR_BOUTON_2_SOUND = "/sound/cuseurBouton2.wav";
 
-    private static MediaPlayer sonClique = new MediaPlayer(new Media(SoundPlayer.class.getResource(SON_CLIQUE).toString()));
-    private static MediaPlayer musicBackground = new MediaPlayer(new Media(SoundPlayer.class.getResource(MUSIC_BACKGROUND).toString()));
+
+    private static MediaPlayer sonClique;
+    private static MediaPlayer musicBackground;
+    private static MediaPlayer victorySound;
+    private static MediaPlayer cuseurBouton;
+    private static MediaPlayer cuseurBouton2;
 
 
     /**
@@ -27,6 +34,14 @@ public class SoundPlayer {
     private SoundPlayer() {
         // Ne rien faire
     }
+
+    public static void init(){
+        sonClique = new MediaPlayer(new Media(SoundPlayer.class.getResource(SON_CLIQUE).toString()));
+        musicBackground = new MediaPlayer(new Media(SoundPlayer.class.getResource(MUSIC_BACKGROUND).toString()));
+        victorySound = new MediaPlayer(new Media(SoundPlayer.class.getResource(VICTORY_SOUND).toString()));
+        cuseurBouton = new MediaPlayer(new Media(SoundPlayer.class.getResource(CUSEUR_BOUTON_SOUND).toString()));
+        cuseurBouton2 = new MediaPlayer(new Media(SoundPlayer.class.getResource(CUSEUR_BOUTON_2_SOUND).toString()));
+    }  
 
     /**
      * Joue le son de clic lorsqu'un utilisateur interagit avec un élément de l'interface.
@@ -44,13 +59,24 @@ public class SoundPlayer {
         musicBackground.play();
     }
 
+    public static void victorySound() {
+        victorySound.play();
+        victorySound.seek(sonClique.getStartTime());
 
-
+    }
 
     public static void ajusteSon(Slider slider) {
         double volume = slider.getValue() / 100.0;
-        sonClique.setVolume(volume);
         musicBackground.setVolume(volume);
 
     }
+
+    public static void cuseurBouton() {
+        cuseurBouton.play();
+    }
+
+    public static void cuseurBouton2() {
+        cuseurBouton2.play();
+    }
+
 }

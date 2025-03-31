@@ -423,6 +423,7 @@ public class SceneJeu extends BorderPane {
         // Arrêt du chronomètre
         grille.stopTimer();
         grille.updateMeilleurTemps();
+        SoundPlayer.victorySound();
 
         BoxFactory.majListeBits(this.currentlevel - 1, 1);
 

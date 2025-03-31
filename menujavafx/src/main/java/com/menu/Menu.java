@@ -57,6 +57,8 @@ public class Menu extends Application {
         // Afficher directement le menu
         showMenu();
 
+        SoundPlayer.init();
+
         // Si le dossier n'existe pas, lancer la vidéo après le menu
         if (!slitherLinkDir.exists()) {
             logger.info("Première exécution détectée, lancement de la vidéo d'introduction");
