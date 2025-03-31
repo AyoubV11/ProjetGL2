@@ -17,7 +17,7 @@ public class SoundPlayer {
     private static final String SON_CLIQUE = "/sound/sonclique.wav";
     private static final String MUSIC_BACKGROUND = "/sound/slitherlink.wav";
     private static final String VICTORY_SOUND = "/sound/victory.wav";
-    private static final String CUSEUR_BOUTON_SOUND = "/sound/curseurBouton.wav";
+    private static final String CURSEUR_BOUTON_SOUND = "/sound/curseurBouton.wav";
 
 
     private static MediaPlayer sonClique;
@@ -37,17 +37,19 @@ public class SoundPlayer {
         try {
             logger.debug("Chargement des fichiers audio");
 
-            logger.debug("Chargement de sonclique.wav");
+            
             sonClique = new MediaPlayer(new Media(SoundPlayer.class.getResource(SON_CLIQUE).toString()));
+            logger.debug("sonClique.wav chargé");
 
-            logger.debug("Chargement de slitherlink.wav");
             musicBackground = new MediaPlayer(new Media(SoundPlayer.class.getResource(MUSIC_BACKGROUND).toString()));
-
-            logger.debug("Chargement de victory.wav");
+            logger.debug("slitherlink.wav chargé");
+            
             victorySound = new MediaPlayer(new Media(SoundPlayer.class.getResource(VICTORY_SOUND).toString()));
+            logger.debug("victory.wav chargé");
 
-            logger.debug("Chargement de cuseurBouton.wav");
-            curseurBouton = new MediaPlayer(new Media(SoundPlayer.class.getResource(CUSEUR_BOUTON_SOUND).toString()));
+            curseurBouton = new MediaPlayer(new Media(SoundPlayer.class.getResource(CURSEUR_BOUTON_SOUND).toString()));
+            logger.debug("curseurBouton.wav chargé");
+
         } catch (Exception e) {
             logger.error("Erreur lors du chargement des fichiers audio", e);
         }
@@ -61,7 +63,6 @@ public class SoundPlayer {
      */
     public static void bruitDeClique() {
         sonClique.play();
-        //rejouer le son
         sonClique.seek(sonClique.getStartTime());
     }
 
@@ -72,7 +73,7 @@ public class SoundPlayer {
 
     public static void victorySound() {
         victorySound.play();
-        victorySound.seek(sonClique.getStartTime());
+        victorySound.seek(victorySound.getStartTime());
 
     }
 
@@ -84,7 +85,7 @@ public class SoundPlayer {
 
     public static void curseurBouton() {
         curseurBouton.play();
-        curseurBouton.seek(sonClique.getStartTime());
+        curseurBouton.seek(curseurBouton.getStartTime());
     }
 
 }
