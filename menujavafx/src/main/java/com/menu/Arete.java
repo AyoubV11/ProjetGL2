@@ -71,6 +71,7 @@ public class Arete extends Case {
         this.setEtat(EnumEtat.CROIX);
     }
 
+
     /**
      * Enregistre une action dans l'historique des actions pour permettre l'annulation.
      * Selon le mode de jeu actuel (normal ou tâtonnement), l'action est enregistrée
@@ -312,6 +313,14 @@ public class Arete extends Case {
         boolean resultat = this.grille.caseExiste(ligne, colonne) && this.estAutoriseAPoserTrait();
         logger.trace("Résultat de la vérification: {}", resultat);
         return resultat;
+    }
+
+    /**
+     * Vérifie également si l'arete n'est pas un trait
+     * @return true si valide, false sinon
+     */
+    public boolean checkPlus(){
+        return this.check() && this.getEtat() != EnumEtat.TRAIT;
     }
     
     /**

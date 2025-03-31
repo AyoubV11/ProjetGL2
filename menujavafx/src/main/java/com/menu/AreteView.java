@@ -389,11 +389,13 @@ public class AreteView extends Button {
         if(this.arete.getEtat() == EnumEtat.TRAIT){
             this.updateToTrait();
         }
-        else{ 
-
+        else if(this.arete.getEtat() == EnumEtat.CROIX){
+                this.updateToCroix();
+        }
+        else{
             if (this.arete.grille.enModeTatonnement()){      
                 logger.trace("Application du style tâtonnement pour l'arête ({}, {})", 
-                          arete.getLigne(), arete.getColonne());
+                            arete.getLigne(), arete.getColonne());
                 this.setEffect(TEINTE_TATONNEMENT);      
             }
             else{
@@ -401,13 +403,7 @@ public class AreteView extends Button {
                 //supprimer l'effet
                 this.initColor();
             }
-
-            if(this.arete.getEtat() == EnumEtat.CROIX){
-                this.updateToCroix();
-            }
-            else{
-                this.iv.setVisible(false);
-            }
+            this.iv.setVisible(false);
         }
     }
 

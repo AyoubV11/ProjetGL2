@@ -480,6 +480,8 @@ public class BoxFactory {
         Button annulerTatonnementButton = ButtonFactory.createAnimatedButtonWithFontSize("Annuler",17);
         Button validerTatonnementButton = ButtonFactory.createAnimatedButtonWithFontSize("Confirmer",17);
 
+        validerTatonnementButton.setDisable(true);
+        annulerTatonnementButton.setDisable(true);
 
         tatonnementButton.setOnAction(e -> {
             logger.info("Activation du mode hypothèse");
