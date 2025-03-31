@@ -63,7 +63,13 @@ public class Menu extends Application {
         if (!slitherLinkDir.exists()) {
             logger.info("Première exécution détectée, lancement de la vidéo d'introduction");
             IntroVideoPlayer videoPlayer = new IntroVideoPlayer(stage, this::showMenu);
-            videoPlayer.showIntroVideo();
+            try{
+                videoPlayer.showIntroVideo();
+            } catch (Exception e) {
+                logger.error("Erreur lors de la lecture de la vidéo de tutoriel", e);
+                SoundPlayer.lanceMusic(); 
+                System.err.println("Erreur lors de la lecture de la vidéo de tutoriel");
+            }
         }
         else{
             SoundPlayer.lanceMusic(); 
