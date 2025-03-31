@@ -65,7 +65,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+1, c.getColonne()+2);
                                     return false;
                                 }
@@ -75,7 +75,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()-1);
                                     return false;
                                 }
@@ -85,7 +85,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-3)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()-3);
                                     return false;
                                 }
@@ -95,7 +95,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-5)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()-5)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()-5);
                                     return false;
                                 }
@@ -122,7 +122,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).checkPlus()) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()-1);
                                     return false;
                                 }
@@ -132,7 +132,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-1, c.getColonne()+2);
                                     return false;
                                 }
@@ -142,7 +142,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-3, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-3, c.getColonne()+2);
                                     return false;
                                 }
@@ -152,7 +152,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-5, c.getColonne()+2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-5, c.getColonne()+2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-5, c.getColonne()+2);
                                     return false;
                                 }
@@ -179,7 +179,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-1, c.getColonne()-2);
                                     return false;
                                 }
@@ -189,7 +189,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()+1);
                                     return false;
                                 }
@@ -199,7 +199,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+3)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()+3);
                                     return false;
                                 }
@@ -209,7 +209,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+5)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+2, c.getColonne()+5)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+2, c.getColonne()+5);
                                     return false;
                                 }
@@ -236,7 +236,7 @@ public class TechniqueAvancee2 implements Technique {
                             
                             // Vérification des arêtes requises
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()-2, c.getColonne()+1);
                                     return false;
                                 }
@@ -246,7 +246,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+1, c.getColonne()-2);
                                     return false;
                                 }
@@ -256,7 +256,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+3, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+3, c.getColonne()-2);
                                     return false;
                                 }
@@ -266,7 +266,7 @@ public class TechniqueAvancee2 implements Technique {
                             }
                             
                             try {
-                                if (!((Arete)g.getCase(c.getLigne()+5, c.getColonne()-2)).check()) {
+                                if (!((Arete)g.getCase(c.getLigne()+5, c.getColonne()-2)).checkPlus() ) {
                                     logger.trace("Arête non valide en [{},{}]", c.getLigne()+5, c.getColonne()-2);
                                     return false;
                                 }
