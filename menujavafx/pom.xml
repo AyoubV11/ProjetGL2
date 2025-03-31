@@ -57,6 +57,13 @@
             <version>2.10.1</version>
         </dependency>
 
+        <!-- Dépendance pour JavaFX Media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
         <!-- Dépendances pour le logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

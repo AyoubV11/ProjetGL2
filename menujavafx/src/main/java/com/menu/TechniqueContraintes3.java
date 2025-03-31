@@ -320,25 +320,25 @@ public class TechniqueContraintes3 implements Technique {
                 }
                 else {
                     try {
-                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() != EnumEtat.TRAIT)) {
+                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).check() && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()+2)).getEtat() != EnumEtat.TRAIT && !((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).check() && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()+1)).getEtat() != EnumEtat.TRAIT && (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() != EnumEtat.TRAIT)) {
                             return true;
                         }
                     }catch(IndexOutOfBoundsException e) {}
 
                     try {
-                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check() && (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() != EnumEtat.TRAIT)) {
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).check() && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()+2)).getEtat() != EnumEtat.TRAIT && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).check() && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()+1)).getEtat() != EnumEtat.TRAIT && (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() != EnumEtat.TRAIT)) {
                             return true;
                         }
                     }catch(IndexOutOfBoundsException e) {}
 
                     try {
-                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check() && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() != EnumEtat.TRAIT)) {
+                        if(!((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).check() && ((Arete)g.getCase(c.getLigne()-1, c.getColonne()-2)).getEtat() != EnumEtat.TRAIT && !((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).check() && ((Arete)g.getCase(c.getLigne()-2, c.getColonne()-1)).getEtat() != EnumEtat.TRAIT && (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() != EnumEtat.TRAIT)) {
                             return true;
                         }
                     }catch(IndexOutOfBoundsException e) {}
 
                     try {
-                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check() && !((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check() && (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() != EnumEtat.TRAIT)) {
+                        if(!((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).check() && ((Arete)g.getCase(c.getLigne()+1, c.getColonne()-2)).getEtat() != EnumEtat.TRAIT && !((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).check() && ((Arete)g.getCase(c.getLigne()+2, c.getColonne()-1)).getEtat() != EnumEtat.TRAIT && (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() != EnumEtat.TRAIT || ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() != EnumEtat.TRAIT)) {
                             return true;
                         }
                     }catch(IndexOutOfBoundsException e) {}
