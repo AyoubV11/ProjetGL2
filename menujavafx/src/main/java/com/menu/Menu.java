@@ -190,7 +190,9 @@ public class Menu extends Application {
         gridComponent = new GridComponent(this);
 
         StackPane root = setupBackground();
+
         menuBox = BoxFactory.setupMenuBox(menuBoxComponent);
+        
         content = new HBox(40, menuBox, gridComponent.getGridPane());
         content.setStyle("-fx-padding: 20;");
         content.setAlignment(Pos.CENTER);

@@ -55,7 +55,8 @@ public class TechniqueAvancee2 implements Technique {
                     
                     /*voisins haut et droit */
                     if (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                        ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                        ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT && 
+                        ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() != EnumEtat.TRAIT){
                         
                         logger.trace("3 en [{},{}] avec traits en haut et à droite", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -112,7 +113,8 @@ public class TechniqueAvancee2 implements Technique {
 
                     /*voisins droit et bas */
                     else if (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                             ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT) {
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()+1)).getEtat() == EnumEtat.TRAIT &&
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-5)).getEtat() == EnumEtat.TRAIT) {
                         
                         logger.trace("3 en [{},{}] avec traits à droite et en bas", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -169,7 +171,8 @@ public class TechniqueAvancee2 implements Technique {
                     
                     /*voisins bas et gauche */
                     else if (((Arete)g.getCase(c.getLigne()+1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT &&
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()+5)).getEtat() == EnumEtat.TRAIT) {
                         
                         logger.trace("3 en [{},{}] avec traits en bas et à gauche", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
@@ -226,7 +229,8 @@ public class TechniqueAvancee2 implements Technique {
                     
                     /*voisins gauche et haut */
                     else if (((Arete)g.getCase(c.getLigne()-1, c.getColonne())).getEtat() == EnumEtat.TRAIT && 
-                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT) {
+                             ((Arete)g.getCase(c.getLigne(), c.getColonne()-1)).getEtat() == EnumEtat.TRAIT &&
+                             ((Arete)g.getCase(c.getLigne()+5, c.getColonne())).getEtat() == EnumEtat.TRAIT) {
                         
                         logger.trace("3 en [{},{}] avec traits à gauche et en haut", c.getLigne(), c.getColonne());
                         /**vérifier si ça ne déborde pas */
