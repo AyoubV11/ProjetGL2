@@ -34,8 +34,6 @@ public class Menu extends Application {
     /** Fenêtre principale de l'application */
     private Stage stage;
 
-    private SoundPlayer sound ;
-
     /**
      * Programme principal du jeu : lancement de la fenêtre du menu.
      * Cette méthode est appelée automatiquement au démarrage de l'application.
@@ -66,7 +64,7 @@ public class Menu extends Application {
             videoPlayer.showIntroVideo();
         }
         else{
-            
+            SoundPlayer.lanceMusic(); 
         }
         
     }

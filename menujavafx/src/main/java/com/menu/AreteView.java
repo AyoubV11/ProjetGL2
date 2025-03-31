@@ -158,6 +158,7 @@ public class AreteView extends Button {
                 this.setCroix();
             }
         }
+        SoundPlayer.bruitDeClique();
     }
 
     /**

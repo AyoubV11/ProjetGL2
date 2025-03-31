@@ -75,6 +75,10 @@
         </executions>
         <configuration>
           <mainClass>com.menu.Main</mainClass>
+          <options>
+            <option>-Dfile.encoding=UTF-8</option>
+            <option>-Dsun.jnu.encoding=UTF-8</option>
+          </options>
         </configuration>
       </plugin>
     </plugins>
@@ -89,6 +93,7 @@
     </dependency>
   </dependencies>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>16</javafx.version>
   </properties>
 </project>

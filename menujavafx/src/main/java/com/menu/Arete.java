@@ -21,9 +21,6 @@ public class Arete extends Case {
     
     /** Indique si l'arête est en mode libre (sans contraintes) */
     protected boolean libre;
-    
-    /** Gestionnaire des effets sonores pour les interactions avec l'arête */
-    protected SoundPlayer sound;
 
     /**
      * Constructeur de l'arête avec tous les paramètres.
@@ -41,8 +38,6 @@ public class Arete extends Case {
         this.libre = libre;
         logger.debug("Création d'une arête à la position ({}, {}) avec l'état {} et mode libre={}", 
                    ligne, colonne, etat, libre);
-
-        this.sound = SoundPlayer.getInstance();
     }
 
     /**
@@ -126,13 +121,7 @@ public class Arete extends Case {
 
         this.pushAction(nouvelEtat);
         this.etat = nouvelEtat;
-
-        // Jouer le son uniquement si on place un trait
-        if (nouvelEtat == EnumEtat.TRAIT) {
-            logger.trace("Lecture du son de clic");
-            sound.bruitDeClique();
-        }
-
+        
         return nouvelEtat == EnumEtat.TRAIT;
     }
 

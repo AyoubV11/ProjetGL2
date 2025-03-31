@@ -122,8 +122,12 @@ public class IntroVideoPlayer {
         // Lorsque la vidéo est terminée, on affiche le menu
         mediaPlayer.setOnEndOfMedia(() -> {
             logger.info("Vidéo d'introduction terminée");
-            mediaPlayer.stop();
             Platform.runLater(onVideoComplete);
+        });
+
+        mediaPlayer.setOnStopped(() -> {
+            logger.info("Vidéo d'introduction arrêtée");
+            SoundPlayer.lanceMusic();
         });
 
         // Gestion des erreurs média

@@ -37,7 +37,6 @@ public class SceneJeu extends BorderPane {
     private int currentlevel;
     private VBox rightBox;
     private VBox tatonnementBox;
-    private SoundPlayer sound;
 
     /**
      * Constructeur de la scène de jeu.
@@ -53,8 +52,6 @@ public class SceneJeu extends BorderPane {
         this.currentlevel = niveau;
         logger.info("Initialisation de la scène de jeu pour le niveau {}, mode libre: {}", niveau, libre);
         setupInterface(libre);
-        sound = SoundPlayer.getInstance();
-        sound.lanceMusic();
     }
 
     /**
