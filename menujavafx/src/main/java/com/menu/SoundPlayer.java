@@ -17,15 +17,13 @@ public class SoundPlayer {
     private static final String SON_CLIQUE = "/sound/sonclique.wav";
     private static final String MUSIC_BACKGROUND = "/sound/slitherlink.wav";
     private static final String VICTORY_SOUND = "/sound/victory.wav";
-    private static final String CUSEUR_BOUTON_SOUND = "/sound/cuseurBouton.wav";
-    private static final String CUSEUR_BOUTON_2_SOUND = "/sound/cuseurBouton2.wav";
+    private static final String CUSEUR_BOUTON_SOUND = "/sound/curseurBouton.wav";
 
 
     private static MediaPlayer sonClique;
     private static MediaPlayer musicBackground;
     private static MediaPlayer victorySound;
-    private static MediaPlayer cuseurBouton;
-    private static MediaPlayer cuseurBouton2;
+    private static MediaPlayer curseurBouton;
 
 
     /**
@@ -36,11 +34,24 @@ public class SoundPlayer {
     }
 
     public static void init(){
-        sonClique = new MediaPlayer(new Media(SoundPlayer.class.getResource(SON_CLIQUE).toString()));
-        musicBackground = new MediaPlayer(new Media(SoundPlayer.class.getResource(MUSIC_BACKGROUND).toString()));
-        victorySound = new MediaPlayer(new Media(SoundPlayer.class.getResource(VICTORY_SOUND).toString()));
-        cuseurBouton = new MediaPlayer(new Media(SoundPlayer.class.getResource(CUSEUR_BOUTON_SOUND).toString()));
-        cuseurBouton2 = new MediaPlayer(new Media(SoundPlayer.class.getResource(CUSEUR_BOUTON_2_SOUND).toString()));
+        try {
+            logger.debug("Chargement des fichiers audio");
+
+            logger.debug("Chargement de sonclique.wav");
+            sonClique = new MediaPlayer(new Media(SoundPlayer.class.getResource(SON_CLIQUE).toString()));
+
+            logger.debug("Chargement de slitherlink.wav");
+            musicBackground = new MediaPlayer(new Media(SoundPlayer.class.getResource(MUSIC_BACKGROUND).toString()));
+
+            logger.debug("Chargement de victory.wav");
+            victorySound = new MediaPlayer(new Media(SoundPlayer.class.getResource(VICTORY_SOUND).toString()));
+
+            logger.debug("Chargement de cuseurBouton.wav");
+            curseurBouton = new MediaPlayer(new Media(SoundPlayer.class.getResource(CUSEUR_BOUTON_SOUND).toString()));
+        } catch (Exception e) {
+            logger.error("Erreur lors du chargement des fichiers audio", e);
+        }
+        
     }  
 
     /**
@@ -71,12 +82,9 @@ public class SoundPlayer {
 
     }
 
-    public static void cuseurBouton() {
-        cuseurBouton.play();
-    }
-
-    public static void cuseurBouton2() {
-        cuseurBouton2.play();
+    public static void curseurBouton() {
+        curseurBouton.play();
+        curseurBouton.seek(sonClique.getStartTime());
     }
 
 }

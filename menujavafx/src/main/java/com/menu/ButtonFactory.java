@@ -81,7 +81,10 @@ public class ButtonFactory {
         button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
 
         // Animation au survol
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        button.setOnMouseEntered(e -> {
+            button.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+            SoundPlayer.curseurBouton();
+        });
         button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
 
         // Animation au clic
@@ -105,11 +108,15 @@ public class ButtonFactory {
         button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
 
         // Animation au survol
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
-        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
-
+        button.setOnMouseEntered(e -> {
+            button.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+            SoundPlayer.curseurBouton();
+        });
+        button.setOnMouseExited(e ->
+            button.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;")
+        );
         // Animation au clic
-        button.setOnMousePressed(e -> animateButton(button, 1.1));
+        button.setOnMousePressed(e ->animateButton(button, 1.1));
         button.setOnMouseReleased(e -> animateButton(button, 1.0));
 
         return button;
@@ -136,6 +143,8 @@ public class ButtonFactory {
         content.setAlignment(javafx.geometry.Pos.CENTER);
         Text buttonText = new Text(text);
         buttonText.setFont(BalooFont.setBalooSized(17));
+
+        
         
         // Mise en place des crânes dans chaque bouton
         for (int i = 0; i < 3; i++) {
@@ -235,7 +244,10 @@ public class ButtonFactory {
         toggle.setFont(BalooFont.setBalooSized(18));
         toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
     
-        toggle.setOnMouseEntered(e -> toggle.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
+        toggle.setOnMouseEntered(e -> {
+            toggle.setStyle("-fx-background-color: #444444; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;");
+            SoundPlayer.curseurBouton();
+        });
         toggle.setOnMouseExited(e -> toggle.setStyle("-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 20; -fx-background-radius: 20;"));
     
         toggle.setOnMousePressed(e -> animateButton(toggle, 1.1));
