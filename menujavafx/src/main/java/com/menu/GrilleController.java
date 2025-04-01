@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * Fait le lien entre le modèle (Grille) et les vues (AreteView, ChiffreView, PointView).
  */
 public class GrilleController extends GridPane {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(GrilleController.class);
     
     /** Référence au modèle de grille */

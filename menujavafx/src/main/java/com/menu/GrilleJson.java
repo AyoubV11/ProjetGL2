@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
  * Contient les dimensions de la grille, les chiffres à ajouter et les arêtes de la solution.
  */
 class GrilleJson {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(GrilleJson.class);
     
     /** Nombre de lignes logiques de la grille */

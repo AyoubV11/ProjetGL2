@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
  * Un chiffre indique le nombre d'arêtes qui doivent être dessinées autour de lui.
  */
 public class Chiffre extends Case {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Chiffre.class);
     
     /**

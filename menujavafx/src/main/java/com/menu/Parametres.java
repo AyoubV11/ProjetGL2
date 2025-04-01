@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
  * le volume, l'affichage du temps, et le placement automatique des croix.
  */
 public class Parametres extends BorderPane {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Parametres.class);
     
     /** Stage principal de l'application */

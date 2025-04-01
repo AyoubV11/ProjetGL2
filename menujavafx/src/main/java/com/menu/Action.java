@@ -8,15 +8,19 @@ import org.slf4j.LoggerFactory;
  * Cette classe stocke les informations relatives à une action spécifique sur la grille de jeu.
  */
 public class Action {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Action.class);
     
-    // Coordonnées de l'action
+    /** Coordonnées de l'action */
     protected int ligne; 
-    // Coordonnée Y de l'action
+
+    /** Coordonnée Y de l'action */
     protected int colonne; 
-    // Etat de l'action  
-    protected EnumEtat etat;  
-    // Etat précédent de l'action
+
+    /** Etat de l'action */  
+    protected EnumEtat etat;
+
+    /** Etat précédent de l'action */
     protected EnumEtat etatPrecedent;   
 
     /**

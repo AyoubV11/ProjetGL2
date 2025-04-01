@@ -5,5 +5,8 @@ package com.menu;
  * Les orientations possibles sont HORIZONTAL et VERTICAL.
  */
 public enum EnumOrientation {
-    HORIZONTAL, VERTICAL;
+    /** Orientations horizontale */
+    HORIZONTAL, 
+    /** Orientations verticale */
+    VERTICAL;
 }

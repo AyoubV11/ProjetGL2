@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
  * Permet de stocker et manipuler les positions (ligne, colonne) des éléments du jeu.
  */
 public class Coordonnee {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Coordonnee.class);
     
     /** La ligne de la coordonnée */

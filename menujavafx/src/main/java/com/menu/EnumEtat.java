@@ -5,5 +5,10 @@ package com.menu;
  * Les états possibles sont VIDE, TRAIT et CROIX.
  */
 public enum EnumEtat {
-    VIDE, TRAIT, CROIX
+    /** Etat de la case: vide */
+    VIDE, 
+    /** Etat de la case: trait */
+    TRAIT, 
+    /** Etat de la case: croix */
+    CROIX
 }

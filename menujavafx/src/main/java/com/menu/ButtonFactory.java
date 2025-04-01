@@ -25,6 +25,7 @@ import java.io.IOException;
  * et gère également la sauvegarde et le chargement des niveaux débloqués.
  */
 public class ButtonFactory {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(ButtonFactory.class);
 
     /** Chemin du fichier de sauvegarde des niveaux débloqués */

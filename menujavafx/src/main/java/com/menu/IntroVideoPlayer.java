@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * Gère l'affichage, la lecture et les actions de fin de vidéo.
  */
 public class IntroVideoPlayer {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(IntroVideoPlayer.class);
     
     /** Stage principal de l'application */

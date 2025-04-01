@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Point extends Case {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Point.class);
     
     /**

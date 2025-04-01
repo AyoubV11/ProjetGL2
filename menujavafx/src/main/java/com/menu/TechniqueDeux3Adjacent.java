@@ -12,7 +12,10 @@ import org.slf4j.LoggerFactory;
  */
 public class TechniqueDeux3Adjacent implements Technique {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(TechniqueDeux3Adjacent.class);
+    
+    /** Grille de jeu sur laquelle appliquer la technique */
     private Grille g;
     
     /**

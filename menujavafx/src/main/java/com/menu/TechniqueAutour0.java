@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
  */
 public class TechniqueAutour0 implements Technique {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(TechniqueAutour0.class);
+    
+    /** Grille de jeu sur laquelle appliquer la technique */
     private Grille g;
     
     /**

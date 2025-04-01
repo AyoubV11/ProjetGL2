@@ -2,7 +2,15 @@ package com.menu;
 
 import java.util.*;
 
+/**
+ * Classe représentant la technique des contraintes 3.
+ * Cette technique permet de résoudre une grille de Slitherlink en appliquant
+ * les règles suivantes:
+ * - Si un 3 a dans un de ses angles deux directions dans lesquelles il ne peut pas aller, alors il doit avoir des traits dans cet angle.
+ */
 public class TechniqueContraintes3 implements Technique {
+
+    /** Grille de jeu sur laquelle appliquer la technique */
     private Grille g;
     /**
      * Constructeur de la classe TechniqueContraintes3

@@ -9,8 +9,13 @@ import org.slf4j.LoggerFactory;
  */
 public class TempsSauvegarde {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(TempsSauvegarde.class);
+    
+    /** Temps courant de la partie */
     private int temps;
+    
+    /** Meilleur temps réalisé */
     private int meilleurTemps;
 
     /**

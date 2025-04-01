@@ -11,7 +11,10 @@ import javafx.scene.shape.Rectangle;
  */
 public class PointView extends Rectangle {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(PointView.class);
+
+    /** Modèle de point associé à cette vue */
     private Point point;
 
     /**

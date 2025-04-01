@@ -26,9 +26,13 @@ import org.slf4j.LoggerFactory;
  * en grille pour les modes de jeu et les techniques.
  */
 public class GridComponent {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(GridComponent.class);
     
+    /** Composant de grille pour afficher les éléments */
     private GridPane gridPane;
+
+    /** Menu principal qui gère la navigation */
     private Menu menu;
 
     /**

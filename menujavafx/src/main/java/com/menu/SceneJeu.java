@@ -21,21 +21,49 @@ import javafx.stage.StageStyle;
  */
 public class SceneJeu extends BorderPane {
 
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(SceneJeu.class);
     
+    /** Menu principal */
     private Menu menu;
+
+    /** Fenêtre principale de l'application */
     private Stage primaryStage;
+
+    /** Fenêtre des paramètres */
     private Stage paramStage;
-    private GrilleController leftBox; 
+
+    /** Contrôleur de la grille */
+    private GrilleController leftBox;
+    
+    /** Grille de jeu */
     private Grille grille;
+
+    /** Panneau central de la scène */
     private StackPane centerPane; 
+
+    /** Boîtes de droite */
     private HBox boxes; 
+
+    /** Barre du haut */
     private HBox topBar;
+
+    /** Label pour le temps écoulé */
     private Label timeLabel;
-    private Label bestTimeLabel; // 💡 Ajout du label meilleur temps
-    private int gridSize = 500; // Taille par défaut de la grille (en int, pas en double)
+
+    /** Label pour le meilleur temps */
+    private Label bestTimeLabel;
+
+    /** Taille de la grille */
+    private int gridSize = 500;
+
+    /** Niveau de jeu actuel */
     private int currentlevel;
+
+    /** Boîte de droite actuelle */
     private VBox rightBox;
+
+    /** Boîte de tâtonnement */
     private VBox tatonnementBox;
 
     /**

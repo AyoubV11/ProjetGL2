@@ -28,6 +28,7 @@ import java.io.IOException;
  * et gère également la sauvegarde et le chargement des étoiles obtenues par le joueur.
  */
 public class BoxFactory {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(BoxFactory.class);
 
     /** Chemin du fichier de sauvegarde des étoiles */

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     
     /**
@@ -20,6 +21,12 @@ public class Main {
     public static void main(String[] args) {
         logger.info("Démarrage de l'application Slither Link");
         try {
+            logger.debug("Initialisation de l'application");
+            String[] javafxArgs = new String[] {
+                "--module-path", "lib/javafx-sdk-11.0.2/lib", 
+                "--add-modules", "javafx.controls,javafx.fxml",
+                "-jar", "target/menujavafx-1.0-SNAPSHOT.jar"
+            };
             logger.debug("Délégation vers Menu.main()");
             Menu.main(args);
         } catch (Exception e) {

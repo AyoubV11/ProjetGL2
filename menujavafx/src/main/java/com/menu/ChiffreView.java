@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
  * Étend ImageView pour afficher le chiffre avec une image.
  */
 public class ChiffreView extends ImageView {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(ChiffreView.class);
     
     /**

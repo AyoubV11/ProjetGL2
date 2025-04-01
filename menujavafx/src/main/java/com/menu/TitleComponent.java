@@ -11,7 +11,8 @@ import org.slf4j.LoggerFactory;
  * Permet de créer un élément Text formaté pour l'affichage du titre.
  */
 public class TitleComponent {
-    
+
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(TitleComponent.class);
 
     /**

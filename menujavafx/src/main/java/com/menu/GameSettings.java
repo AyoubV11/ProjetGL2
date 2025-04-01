@@ -9,12 +9,17 @@ import org.slf4j.LoggerFactory;
  * à l'ensemble de l'application.
  */
 public class GameSettings {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(GameSettings.class);
+
+    /** Instance unique de la classe */
     private static GameSettings instance;
-    
-    private boolean autoCroix = false; // Placement automatique des croix
-    private boolean showTimer = true;  // Affichage du chronomètre
-    private int volume = 50;          // Volume (0-100)
+    /** Placement automatique des croix */
+    private boolean autoCroix = false; 
+    /** Affichage du chronomètre */
+    private boolean showTimer = true; 
+    /** Volume du son */
+    private int volume = 50;
     
     /**
      * Constructeur privé pour le singleton.

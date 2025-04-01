@@ -18,23 +18,41 @@ import javafx.scene.media.MediaPlayer;
  */
 public class SoundPlayer {
 
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(SoundPlayer.class);
+    
+    /** Chemin vers le fichier audio de clic */
     private static final String SON_CLIQUE = "/sound/sonclique.wav";
+    
+    /** Chemin vers le fichier audio de musique de fond */
     private static final String MUSIC_BACKGROUND = "/sound/slitherlink.wav";
+    
+    /** Chemin vers le fichier audio de victoire */
     private static final String VICTORY_SOUND = "/sound/victory.wav";
+    
+    /** Chemin vers le fichier audio de curseur sur un bouton */
     private static final String CURSEUR_BOUTON_SOUND = "/sound/curseurBouton.wav";
 
+    /** Chemin vers le fichier de sauvegarde du volume */
     private static final String FILE_PATH_VOLUME = ".volume.json";
 
+    
+    /** MediaPlayer pour le son de clic */
     private static MediaPlayer sonClique;
+    
+    /** MediaPlayer pour la musique de fond */
     private static MediaPlayer musicBackground;
+    
+    /** MediaPlayer pour le son de victoire */
     private static MediaPlayer victorySound;
+    
+    /** MediaPlayer pour le son de curseur sur un bouton */
     private static MediaPlayer curseurBouton;
     
     /** Mapper JSON pour sérialiser/désérialiser les données des niveaux */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-
+    /** Volume actuel des effets sonores */
     private static double volume;
 
 
@@ -45,6 +63,9 @@ public class SoundPlayer {
         // Ne rien faire
     }
 
+    /**
+     * Initialise les fichiers audio et charge le volume actuel.
+     */
     public static void init(){
         
         try {
@@ -137,7 +158,7 @@ public class SoundPlayer {
 
     /**
      * Définit le volume des effets sonores.
-     * @param volume
+     * @param volume Le volume des effets sonores (entre 0 et 100)
     */
     public static void setVolume(int volume) {
         SoundPlayer.volume = volume;

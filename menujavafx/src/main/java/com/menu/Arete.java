@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * spécifiques liées à sa position et à ses contraintes de placement.
  */
 public class Arete extends Case {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Arete.class);
     
     /** État actuel de l'arête (VIDE, TRAIT, CROIX) */

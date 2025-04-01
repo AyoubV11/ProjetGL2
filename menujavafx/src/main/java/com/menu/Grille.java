@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * ainsi que les techniques d'aide.
  */
 public class Grille {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Grille.class);
     
     /** Dossier de sauvegarde des parties */

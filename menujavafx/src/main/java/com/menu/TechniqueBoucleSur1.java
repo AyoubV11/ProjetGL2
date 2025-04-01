@@ -12,7 +12,10 @@ import org.slf4j.LoggerFactory;
  */
 public class TechniqueBoucleSur1 implements Technique {
     
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(TechniqueBoucleSur1.class);
+    
+    /** Grille de jeu sur laquelle appliquer la technique */
     private Grille g;
     
     /**

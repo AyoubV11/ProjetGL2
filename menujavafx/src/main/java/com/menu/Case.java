@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * (comme les points, les chiffres et les arêtes) dans la grille de jeu.
  */
 public abstract class Case {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Case.class);
     
     /**

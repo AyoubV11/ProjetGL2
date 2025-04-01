@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
  * Cette classe hérite de Application pour permettre le lancement de l'application JavaFX.
  */
 public class Menu extends Application {
+
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(Menu.class);
     
     /** Composant qui gère la grille de sélection de niveaux */

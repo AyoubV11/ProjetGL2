@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * et la valeur du chiffre à ajouter.
  */
 class AjoutChiffre {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(AjoutChiffre.class);
     
     /** La ligne où le chiffre sera ajouté */

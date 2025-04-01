@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
  * de la gestion des événements associés.
  */
 public class MenuBoxComponent {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(MenuBoxComponent.class);
 
     /** Référence au menu principal pour naviguer entre les écrans */

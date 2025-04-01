@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * Gère l'affichage visuel des arêtes (traits ou croix) ainsi que les interactions utilisateur.
  */
 public class AreteView extends Button {
+    /** Logger */
     private static final Logger logger = LoggerFactory.getLogger(AreteView.class);
 
     /**
