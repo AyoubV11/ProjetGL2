@@ -46,6 +46,7 @@ public class Menu extends Application {
         stage = primaryStage;
 
         logger.debug("Chargement des niveaux et des étoiles");
+        SoundPlayer.init();
         ButtonFactory.chargerNiveaux();
         BoxFactory.chargerEtoiles();
 
@@ -56,8 +57,6 @@ public class Menu extends Application {
 
         // Afficher directement le menu
         showMenu();
-
-        SoundPlayer.init();
 
         // Si le dossier n'existe pas, lancer la vidéo après le menu
         if (!slitherLinkDir.exists()) {

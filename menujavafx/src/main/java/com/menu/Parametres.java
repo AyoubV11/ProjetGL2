@@ -65,8 +65,8 @@ public class Parametres extends BorderPane {
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             int newVolume = newVal.intValue();
             logger.debug("Volume modifié: {} -> {}", oldVal.intValue(), newVolume);
+            System.out.println("test");
             settings.setVolume(newVolume);
-            SoundPlayer.ajusteSon(volumeSlider);
         });
         
         HBox volumeBox = new HBox(20, volumeLabel, volumeSlider);

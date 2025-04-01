@@ -85,7 +85,7 @@ public class GameSettings {
      */
     public int getVolume() {
         logger.trace("Consultation du paramètre volume: {}", volume);
-        return volume;
+        return SoundPlayer.getVolume();
     }
     
     /**
@@ -97,10 +97,12 @@ public class GameSettings {
     public void setVolume(int volume) {
         logger.debug("Tentative de modification du volume: {} -> {}", this.volume, volume);
         if (volume >= 0 && volume <= 100) {
-            this.volume = volume;
+            SoundPlayer.setVolume(volume);
             logger.info("Volume modifié à {}", volume);
         } else {
             logger.warn("Tentative de définir un volume invalide: {}. La valeur doit être entre 0 et 100", volume);
         }
     }
+
+    
 }

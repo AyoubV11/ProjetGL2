@@ -28,7 +28,7 @@ public class ButtonFactory {
     private static final Logger logger = LoggerFactory.getLogger(ButtonFactory.class);
 
     /** Chemin du fichier de sauvegarde des niveaux débloqués */
-    private static final String FILE_PATH = ".nb_Niveau_Debloque.json";
+    private static final String FILE_PATH_NIVEAU = ".nb_Niveau_Debloque.json";
     
     /** Mapper JSON pour sérialiser/désérialiser les données des niveaux */
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -41,13 +41,15 @@ public class ButtonFactory {
      */
     public static void sauvegarderNiveaux() {
         try {
-            objectMapper.writeValue(new File(FILE_PATH), unlockedLevel);
-            logger.info("Niveaux sauvegardés dans {}, niveau débloqué: {}", FILE_PATH, unlockedLevel);
+            objectMapper.writeValue(new File(FILE_PATH_NIVEAU), unlockedLevel);
+            logger.info("Niveaux sauvegardés dans {}, niveau débloqué: {}", FILE_PATH_NIVEAU, unlockedLevel);
         } catch (IOException e) {
             logger.error("Erreur lors de la sauvegarde des niveaux", e);
             e.printStackTrace();
         }
     }
+
+    
 
     /**
      * Charge le niveau le plus élevé débloqué depuis un fichier JSON.
@@ -55,10 +57,10 @@ public class ButtonFactory {
      */
     public static void chargerNiveaux() {
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(FILE_PATH_NIVEAU);
             if (file.exists()) {
                 unlockedLevel = objectMapper.readValue(file, int.class);
-                logger.info("Niveaux chargés depuis {}, niveau débloqué: {}", FILE_PATH, unlockedLevel);
+                logger.info("Niveaux chargés depuis {}, niveau débloqué: {}", FILE_PATH_NIVEAU, unlockedLevel);
             } else {
                 unlockedLevel = 1;
                 logger.info("Fichier de niveaux non trouvé, initialisation au niveau 1");
@@ -273,7 +275,7 @@ public class ButtonFactory {
      */
     public static Slider createVolumeSlider(Label volumeLabel) {
         logger.debug("Création d'un slider de volume");
-        Slider slider = new Slider(0, 100, 50);
+        Slider slider = new Slider(0, 100, 0);
         slider.setStyle("-fx-control-inner-background: #000000; -fx-background-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" +"-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;");
         slider.valueProperty().addListener((obs, oldVal, newVal) -> {
                 volumeLabel.setText("Volume : " + newVal.intValue() + "%");

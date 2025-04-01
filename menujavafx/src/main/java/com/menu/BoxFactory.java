@@ -31,7 +31,7 @@ public class BoxFactory {
     private static final Logger logger = LoggerFactory.getLogger(BoxFactory.class);
 
     /** Chemin du fichier de sauvegarde des étoiles */
-    private static final String FILE_PATH = ".nb_Etoiles.json";
+    private static final String FILE_PATH_ETOILES = ".nb_Etoiles.json";
     
     /** Mapper JSON pour sérialiser/désérialiser les données des étoiles */
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -47,8 +47,8 @@ public class BoxFactory {
      */
     public static void sauvegarderEtoiles() {
         try {
-            objectMapper.writeValue(new File(FILE_PATH), listeBits);
-            logger.info("Étoiles sauvegardées dans {}", FILE_PATH);
+            objectMapper.writeValue(new File(FILE_PATH_ETOILES), listeBits);
+            logger.info("Étoiles sauvegardées dans {}", FILE_PATH_ETOILES);
         } catch (IOException e) {
             logger.error("Erreur lors de la sauvegarde des étoiles", e);
             e.printStackTrace();
@@ -61,10 +61,10 @@ public class BoxFactory {
      */
     public static void chargerEtoiles() {
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(FILE_PATH_ETOILES);
             if (file.exists()) {
                 listeBits = objectMapper.readValue(file, int[].class);
-                logger.info("Étoiles chargées depuis {}", FILE_PATH);
+                logger.info("Étoiles chargées depuis {}", FILE_PATH_ETOILES);
             } else {
                 logger.info("Fichier d'étoiles non trouvé, initialisation par défaut");
                 initialiserListe();
@@ -191,7 +191,6 @@ public class BoxFactory {
         // Mettre à jour le volume dans GameSettings
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             settings.setVolume(newVal.intValue());
-            SoundPlayer.ajusteSon(volumeSlider);
             logger.debug("Volume modifié à {}%", newVal.intValue());
         });
         
