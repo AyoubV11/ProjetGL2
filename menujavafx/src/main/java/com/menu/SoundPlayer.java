@@ -71,40 +71,40 @@ public class SoundPlayer {
 
     /**
      * Joue le son de clic lorsqu'un utilisateur interagit avec un élément de l'interface.
-     * Utilise JavaFX Media pour charger et jouer un fichier MP3.
-     * En cas d'erreur lors du chargement ou de la lecture du son, un message d'erreur est enregistré.
-     */
+    */
     public static void bruitDeClique() {
         sonClique.play();
         sonClique.seek(sonClique.getStartTime());
     }
 
+    /**
+     * Joue la musique de fond en boucle.
+     */
     public static void lanceMusic() {
         musicBackground.setCycleCount(MediaPlayer.INDEFINITE);
         musicBackground.play();
     }
 
+    /**
+     * Joue le son de victoire lorsqu'un joueur termine un niveau.
+     */
     public static void victorySound() {
         victorySound.play();
         victorySound.seek(victorySound.getStartTime());
 
     }
 
-    public static void ajusteSon(Slider slider) {
-        volume = (int)slider.getValue() / 100;
-        musicBackground.setVolume(volume);
-        sonClique.setVolume(volume);
-        victorySound.setVolume(volume);
-        curseurBouton.setVolume(volume);
-        sauvegarderVolume();
-
-    }
-
+    /**
+     * Joue le son de curseur touchant un bouton lorsqu'un utilisateur navigue dans le menu.
+     */
     public static void curseurBouton() {
         curseurBouton.play();
         curseurBouton.seek(curseurBouton.getStartTime());
     }
 
+    /**
+     * Sauvegarde le volume actuel dans un fichier JSON.
+     */
     public static void sauvegarderVolume(){
         try {
             objectMapper.writeValue(new File(FILE_PATH_VOLUME), volume);
@@ -115,6 +115,9 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Charge le volume actuel depuis un fichier JSON.
+    */
     public static void chargerVolume(){
         try {
             File file = new File(FILE_PATH_VOLUME);
@@ -132,7 +135,10 @@ public class SoundPlayer {
         }
     }
 
-    
+    /**
+     * Définit le volume des effets sonores.
+     * @param volume
+    */
     public static void setVolume(int volume) {
         SoundPlayer.volume = volume;
         musicBackground.setVolume(volume/100.0);
@@ -142,10 +148,11 @@ public class SoundPlayer {
         sauvegarderVolume();
     }
 
+    /**
+     * Obtient le volume actuel.
+     * @return Le volume actuel
+    */
     public static int getVolume() {
         return (int)volume;
     }
-
-
-
 }

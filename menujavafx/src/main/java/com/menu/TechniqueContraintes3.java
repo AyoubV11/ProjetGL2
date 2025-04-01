@@ -4,6 +4,11 @@ import java.util.*;
 
 public class TechniqueContraintes3 implements Technique {
     private Grille g;
+    /**
+     * Constructeur de la classe TechniqueContraintes3
+     * 
+     * @param g La grille sur laquelle appliquer la technique
+     */
     public TechniqueContraintes3(Grille g) {
         this.g=g;
     }
